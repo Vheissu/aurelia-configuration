@@ -35,10 +35,13 @@
   },
   "devDependencies": {
     "aurelia-tools": "^0.1.12",
+    "conventional-changelog": "^0.4.2",
+    "del": "^2.0.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.1",
     "gulp-bump": "^0.3.1",
     "gulp-jshint": "^1.11.2",
+    "gulp-yuidoc": "^0.1.2",
     "jasmine-core": "^2.3.4",
     "jshint-stylish": "^2.0.1",
     "karma": "^0.13.9",
