@@ -1,2 +1,2 @@
 # Aurelia-Configuration
-Smart configuration for your Aurelia applications.
+A smart configuration plugin and singleton service layer for your Aurelia applications.
