@@ -25,6 +25,8 @@
       "lib": "dist/amd"
     },
     "dependencies": {
+      "aurelia-event-aggregator": "github:aurelia/event-aggregator@^0.7.0",
+      "aurelia-http-client": "github:aurelia/http-client@^0.10.3",
       "core-js": "npm:core-js@^1.1.0"
     },
     "devDependencies": {
