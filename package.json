@@ -1,0 +1,56 @@
+{
+  "name": "aurelia-configuration",
+  "version": "0.1.0",
+  "description": "An Aurelia plugin for adding in configuration to your application.",
+  "keywords": [
+    "aurelia",
+    "config",
+    "configuration"
+  ],
+  "homepage": "https://github.com/Vheissu/Aurelia-Configuration",
+  "bugs": {
+    "url": "https://github.com/Vheissu/Aurelia-Configuration/issues"
+  },
+  "license": "MIT",
+  "author": "Dwayne Charrington <dwaynecharrington@gmail.com> (http://ilikekillnerds.com)",
+  "main": "dist/commonjs/index.js",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/Vheissu/Aurelia-Configuration"
+  },
+  "jspm": {
+    "main": "index",
+    "format": "amd",
+    "directories": {
+      "lib": "dist/amd"
+    },
+    "dependencies": {
+      "core-js": "npm:core-js@^1.1.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.22",
+      "babel-runtime": "npm:babel-runtime@^5.8.20",
+      "core-js": "npm:core-js@^1.1.0"
+    }
+  },
+  "devDependencies": {
+    "aurelia-tools": "^0.1.12",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.2.1",
+    "gulp-bump": "^0.3.1",
+    "gulp-jshint": "^1.11.2",
+    "jasmine-core": "^2.3.4",
+    "jshint-stylish": "^2.0.1",
+    "karma": "^0.13.9",
+    "karma-babel-preprocessor": "^5.2.2",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-jspm": "^2.0.1",
+    "object.assign": "^4.0.1",
+    "require-dir": "^0.3.0",
+    "run-sequence": "^1.1.2",
+    "vinyl-paths": "^2.0.0",
+    "yargs": "^3.23.0"
+  }
+}
