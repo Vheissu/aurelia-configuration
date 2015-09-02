@@ -4,11 +4,9 @@ A smart configuration plugin and singleton service layer for your Aurelia applic
 ## Get Started
 
 1. Install aurelia-configuration
-
 ```bash
 jspm install aurelia-configuration=github:vheissu/aurelia-configuration
 ```
-
 2. Use the plugin in your app's main.js:
 ```javascript
 export function configure(aurelia) {
@@ -20,9 +18,7 @@ export function configure(aurelia) {
     aurelia.start().then(a => a.setRoot());
 }
 ```
-
 3. Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
-
 ```javascript
 {
     name: 'Test Application',
@@ -33,7 +29,6 @@ export function configure(aurelia) {
     }
 }
 ```
-
 4. Using with your ViewModel:
 ```javascript
 import {inject} from 'aurelia-frameework';
@@ -57,7 +52,6 @@ export class ViewModel {
     }
 }
 ```
-
 
 ## Dependencies
 
