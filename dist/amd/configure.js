@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _aureliaFramework, _aureliaHttpClient, _aureliaEventAggregator) {
+define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
     'use strict';
 
     exports.__esModule = true;
@@ -74,7 +74,7 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
         };
 
         var _Configure = Configure;
-        Configure = _aureliaFramework.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
+        Configure = _aureliaDependencyInjection.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
         return Configure;
     })();
 

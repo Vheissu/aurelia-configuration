@@ -6,8 +6,7 @@ System.register(['./configure'], function (_export) {
     _export('configure', configure);
 
     function configure(aurelia, configCallback) {
-        var instance = aurelia.container.get(Configure);
-        aurelia.container.registerInstance(Configure, instance);
+        aurelia.container.registerInstance(Configure, new Configure());
     }
 
     return {

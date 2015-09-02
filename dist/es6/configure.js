@@ -1,5 +1,4 @@
-import {inject} from 'aurelia-framework';
-
+import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
