@@ -1,7 +1,7 @@
 System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
     'use strict';
 
-    var inject, HttpClient, EventAggregator, Configuration;
+    var inject, HttpClient, EventAggregator, Configure;
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
@@ -14,11 +14,11 @@ System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggr
             EventAggregator = _aureliaEventAggregator.EventAggregator;
         }],
         execute: function () {
-            Configuration = (function () {
-                function Configuration(http, ea) {
+            Configure = (function () {
+                function Configure(http, ea) {
                     var _this = this;
 
-                    _classCallCheck(this, _Configuration);
+                    _classCallCheck(this, _Configure);
 
                     this.directory = 'config';
                     this.config = 'application.json';
@@ -32,15 +32,15 @@ System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggr
                     });
                 }
 
-                Configuration.prototype.directory = function directory(path) {
+                Configure.prototype.directory = function directory(path) {
                     this.directory = path;
                 };
 
-                Configuration.prototype.file = function file(name) {
+                Configure.prototype.file = function file(name) {
                     this.config = name;
                 };
 
-                Configuration.prototype.get = function get(key) {
+                Configure.prototype.get = function get(key) {
                     if (key.indexOf('.') === -1) {
                         return this.obj[key] ? this.obj[key] : false;
                     } else {
@@ -56,7 +56,7 @@ System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggr
                     }
                 };
 
-                Configuration.prototype.set = function set(key, val) {
+                Configure.prototype.set = function set(key, val) {
                     if (key.indexOf('.') === -1) {
                         this.obj[key] = val;
                     } else {
@@ -68,11 +68,11 @@ System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggr
                     }
                 };
 
-                Configuration.prototype.getAll = function getAll() {
+                Configure.prototype.getAll = function getAll() {
                     return this.obj;
                 };
 
-                Configuration.prototype.loadConfig = function loadConfig() {
+                Configure.prototype.loadConfig = function loadConfig() {
                     var _this2 = this;
 
                     return new Promise(function (resolve, reject) {
@@ -82,12 +82,12 @@ System.register(['aurelia-framework', 'aurelia-http-client', 'aurelia-event-aggr
                     });
                 };
 
-                var _Configuration = Configuration;
-                Configuration = inject(HttpClient, EventAggregator)(Configuration) || Configuration;
-                return Configuration;
+                var _Configure = Configure;
+                Configure = inject(HttpClient, EventAggregator)(Configure) || Configure;
+                return Configure;
             })();
 
-            _export('Configuration', Configuration);
+            _export('Configure', Configure);
         }
     };
 });

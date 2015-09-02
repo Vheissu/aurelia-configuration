@@ -4,7 +4,7 @@ define(['exports', './configure'], function (exports, _configure) {
     exports.__esModule = true;
     exports.configure = configure;
 
-    function configure(aurelia) {
+    function configure(aurelia, configCallback) {
         var instance = aurelia.container.get(_configure.Configure);
         aurelia.container.registerInstance(_configure.Configure, instance);
     }

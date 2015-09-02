@@ -4,7 +4,7 @@ import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(HttpClient, EventAggregator)
-export class Configuration {
+export class Configure {
     // Location of configuration file(s)
     directory = 'config';
 

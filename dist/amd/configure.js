@@ -5,11 +5,11 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-    var Configuration = (function () {
-        function Configuration(http, ea) {
+    var Configure = (function () {
+        function Configure(http, ea) {
             var _this = this;
 
-            _classCallCheck(this, _Configuration);
+            _classCallCheck(this, _Configure);
 
             this.directory = 'config';
             this.config = 'application.json';
@@ -23,15 +23,15 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
             });
         }
 
-        Configuration.prototype.directory = function directory(path) {
+        Configure.prototype.directory = function directory(path) {
             this.directory = path;
         };
 
-        Configuration.prototype.file = function file(name) {
+        Configure.prototype.file = function file(name) {
             this.config = name;
         };
 
-        Configuration.prototype.get = function get(key) {
+        Configure.prototype.get = function get(key) {
             if (key.indexOf('.') === -1) {
                 return this.obj[key] ? this.obj[key] : false;
             } else {
@@ -47,7 +47,7 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
             }
         };
 
-        Configuration.prototype.set = function set(key, val) {
+        Configure.prototype.set = function set(key, val) {
             if (key.indexOf('.') === -1) {
                 this.obj[key] = val;
             } else {
@@ -59,11 +59,11 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
             }
         };
 
-        Configuration.prototype.getAll = function getAll() {
+        Configure.prototype.getAll = function getAll() {
             return this.obj;
         };
 
-        Configuration.prototype.loadConfig = function loadConfig() {
+        Configure.prototype.loadConfig = function loadConfig() {
             var _this2 = this;
 
             return new Promise(function (resolve, reject) {
@@ -73,10 +73,10 @@ define(['exports', 'aurelia-framework', 'aurelia-http-client', 'aurelia-event-ag
             });
         };
 
-        var _Configuration = Configuration;
-        Configuration = _aureliaFramework.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configuration) || Configuration;
-        return Configuration;
+        var _Configure = Configure;
+        Configure = _aureliaFramework.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
+        return Configure;
     })();
 
-    exports.Configuration = Configuration;
+    exports.Configure = Configure;
 });
