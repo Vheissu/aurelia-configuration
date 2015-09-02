@@ -10,7 +10,7 @@ class EventStub {
 
 }
 
-describe('the main configure.js singleton', () => {
+describe('configure.js -- ', () => {
     var config;
     var mockedHttp;
     var mockedEvent;
@@ -25,7 +25,7 @@ describe('the main configure.js singleton', () => {
         config.loadConfig();
     });
 
-    describe('Basic tests', () => {
+    describe('Basic tests: ', () => {
         it('default directory value should be set', (done) => {
             expect(config.directory).toEqual('config');
             done();
@@ -41,9 +41,51 @@ describe('the main configure.js singleton', () => {
             done();
         });
 
+        it('constructor should inject classes', (done) => {
+            expect(config.http).toBeDefined();
+            expect(config.ea).toBeDefined();
+            done();
+        });
+
         it('loadConfig method should have been called', (done) => {
             expect(config.loadConfig).toHaveBeenCalled();
             done();
         });
     });
+
+    describe('Config tests: ', () => {
+        it('change config directory', (done) => {
+            config.setDirectory('testdir');
+            setTimeout(() => {
+                expect(config.directory).toEqual('testdir');
+                done();
+            }, 0);
+        });
+
+        it('change config filename', (done) => {
+            config.setConfig('testconfig.json');
+            setTimeout(() => {
+                expect(config.config).toEqual('testconfig.json');
+                done();
+            }, 0);
+        });
+
+        it('set single config value', (done) => {
+            config.set('mykey', 'myval');
+            setTimeout(() => {
+                expect(config.get('mykey')).toEqual('myval');
+                done();
+            }, 0);
+        });
+
+        it('set namespaced config value', (done) => {
+            config.set('mykey.childkey', 'myval');
+            console.log(config.getAll());
+            setTimeout(() => {
+                expect(config.get('mykey.childkey')).toEqual('myval');
+                done();
+            }, 0);
+        });
+    });
+
 });
