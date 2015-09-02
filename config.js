@@ -1,14 +1,15 @@
 System.config({
-  baseURL: "/",
   defaultJSExtensions: true,
   transpiler: "babel",
   babelOptions: {
     "optional": [
-      "runtime",
-      "optimisation.modules.system"
+      "es7.decorators",
+      "es7.classProperties",
+      "runtime"
     ]
   },
   paths: {
+    "*": "dist/*",
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*",
     "aurelia-configuration/*": "dist/*.js"
