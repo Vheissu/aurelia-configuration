@@ -1,10 +1,4 @@
-//import {Configure} from '../src/configure';
-
-class Configure {
-    constructor(arg1, arg2) {
-        
-    }
-}
+import {Configure} from '../src/configure';
 
 class HttpStub {
     get(url) {
@@ -31,17 +25,17 @@ describe('the main configure.js singleton', () => {
 
     describe('Basic tests', () => {
         it('default directory value should be set', (done) => {
-            expect(instance.directory).toEqual('config');
+            expect(config.directory).toEqual('config');
             done();
         });
 
         it('default config file value should be set', (done) => {
-            expect(instance.config).toEqual('application.json');
+            expect(config.config).toEqual('application.json');
             done();
         });
 
         it('default config object should be empty', (done) => {
-            expect(instance.obj).toContain('{}');
+            expect(config.obj).toBeDefined();
             done();
         });
 
