@@ -21,6 +21,8 @@ describe('the main configure.js singleton', () => {
         config = new Configure(mockedHttp, mockedEvent);
 
         spyOn(config, 'loadConfig');
+
+        config.loadConfig();
     });
 
     describe('Basic tests', () => {
