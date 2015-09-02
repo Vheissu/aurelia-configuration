@@ -7,4 +7,6 @@ define(['exports', './configure'], function (exports, _configure) {
     function configure(aurelia, configCallback) {
         aurelia.container.registerInstance(_configure.Configure, _configure.Configure);
     }
+
+    exports.Configure = _configure.Configure;
 });

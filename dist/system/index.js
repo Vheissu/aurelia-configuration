@@ -13,6 +13,8 @@ System.register(['./configure'], function (_export) {
         setters: [function (_configure) {
             Configure = _configure.Configure;
         }],
-        execute: function () {}
+        execute: function () {
+            _export('Configure', Configure);
+        }
     };
 });
