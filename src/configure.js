@@ -1,9 +1,6 @@
-import {inject} from 'aurelia-framework';
-
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(HttpClient, EventAggregator)
 export class Configure {
     // Location of configuration file(s)
     directory = 'config';
@@ -13,6 +10,8 @@ export class Configure {
 
     // Configuration store object
     obj = {};
+
+    static inject = [HttpClient, EventAggregator];
 
     constructor(http, ea) {
         // Injected dependencies
