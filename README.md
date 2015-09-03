@@ -19,13 +19,13 @@ export function configure(aurelia) {
 }
 ```
 3. Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
-```javascript
+```json
 {
-    name: 'Test Application',
-    version: '1.2',
-    api: {
-        key: 'somekey',
-        endpoint: 'http://www.google.com/'
+    "name": "Test Application",
+    "version": "1.2",
+    "api": {
+        "key": "somekey",
+        "endpoint": "http://www.google.com/"
     }
 }
 ```
