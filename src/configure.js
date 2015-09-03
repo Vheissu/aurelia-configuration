@@ -22,6 +22,7 @@ export class Configure {
         CONFIG_OBJECT.set(this, {});
 
         ENVIRONMENT.set(this, 'DEFAULT');
+        ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
         CASCADE_MODE.set(this, true);
@@ -99,6 +100,16 @@ export class Configure {
      */
     get environment() {
         return ENVIRONMENT.get(this);
+    }
+
+    /**
+     * Get Environments
+     * Gets any user supplied environment mappings
+     *
+     * @returns {array}
+     */
+    get environments() {
+        return ENVIRONMENTS.get(this);
     }
 
     /**
