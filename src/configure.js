@@ -63,7 +63,7 @@ export class Configure {
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
      */
-    setCascadeMode(bool) {
+    setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
     }
 
