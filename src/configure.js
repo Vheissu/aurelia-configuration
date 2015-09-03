@@ -1,33 +1,53 @@
+import 'core-js';
+
 import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
+// Secure references that can't be changed outside of Configure singleton class
+const ENVIRONMENT = new WeakMap();
+const DIRECTORY = new WeakMap();
+const CONFIG_FILE = new WeakMap();
+const CONFIG_OBJECT = new WeakMap();
+
 @inject(HttpClient, EventAggregator)
 export class Configure {
-    // Location of configuration file(s)
-    directory = 'config';
-
-    // Configuration file name
-    config = 'application.json';
-
-    // Configuration store object
-    obj = {};
-
     constructor(http, ea) {
         // Injected dependencies
         this.http = http;
         this.ea = ea;
+
+        CONFIG_OBJECT.set(this, {});
+
+        ENVIRONMENT.set(this, 'DEFAULT');
+        DIRECTORY.set(this, 'config');
+        CONFIG_FILE.set(this, 'application.json');
     }
 
     setDirectory(path) {
-        this.directory = path;
+        DIRECTORY.set(this, path);
     }
 
     setConfig(name) {
-        this.config = name;
+        CONFIG_FILE.set(this, name);
     }
 
-    get(key) {
+    get obj() {
+        return CONFIG_OBJECT.get(this);
+    }
+
+    get environment() {
+        return ENVIRONMENT.get(this);
+    }
+
+    get directory() {
+        return DIRECTORY.get(this);
+    }
+
+    get config() {
+        return CONFIG_FILE.get(this);
+    }
+
         if (key.indexOf('.') === -1) {
             return this.obj[key] ? this.obj[key] : false;
         } else {
@@ -56,7 +76,7 @@ export class Configure {
     }
 
     setAll(obj) {
-        this.obj = obj;
+        CONFIG_OBJECT.set(this, obj);
     }
 
     getAll() {
