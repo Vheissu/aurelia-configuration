@@ -1,7 +1,16 @@
 import {Configure} from './configure';
 
 export function configure(aurelia, configCallback) {
-    aurelia.container.registerInstance(Configure, Configure);
+    var instance = aurelia.container.get(Configure);
+
+    return new Promise((resolve, reject) => {
+        instance.loadConfig().then(data => {
+            instance.setAll(data);
+            resolve();
+        });
+    }).catch(() => {
+        reject(new Error('Configuration file could not be loaded'));
+    });
 }
 
 export {Configure};

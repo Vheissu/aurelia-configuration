@@ -6,7 +6,16 @@ System.register(['./configure'], function (_export) {
     _export('configure', configure);
 
     function configure(aurelia, configCallback) {
-        aurelia.container.registerInstance(Configure, Configure);
+        var instance = aurelia.container.get(Configure);
+
+        return new Promise(function (resolve, reject) {
+            instance.loadConfig().then(function (data) {
+                instance.setAll(data);
+                resolve();
+            });
+        })['catch'](function () {
+            reject(new Error('Configuration file could not be loaded'));
+        });
     }
 
     return {

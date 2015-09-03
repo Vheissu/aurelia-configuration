@@ -4,6 +4,8 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
+require('core-js');
+
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
 var _aureliaHttpClient = require('aurelia-http-client');
@@ -12,8 +14,6 @@ var _aureliaEventAggregator = require('aurelia-event-aggregator');
 
 var Configure = (function () {
     function Configure(http, ea) {
-        var _this = this;
-
         _classCallCheck(this, _Configure);
 
         this.directory = 'config';
@@ -22,10 +22,6 @@ var Configure = (function () {
 
         this.http = http;
         this.ea = ea;
-
-        this.loadConfig().then(function (data) {
-            return _this.obj = data;
-        });
     }
 
     Configure.prototype.setDirectory = function setDirectory(path) {
@@ -64,16 +60,25 @@ var Configure = (function () {
         }
     };
 
+    Configure.prototype.setAll = function setAll(obj) {
+        this.obj = obj;
+    };
+
     Configure.prototype.getAll = function getAll() {
         return this.obj;
     };
 
     Configure.prototype.loadConfig = function loadConfig() {
-        var _this2 = this;
+        var _this = this;
 
         return new Promise(function (resolve, reject) {
-            _this2.http.get(_this2.directory + '/' + _this2.config).then(function (data) {
-                return resolve(data.response);
+            _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
+                var raw = response.response;
+                var json = JSON.parse(JSON.stringify(raw));
+
+                resolve(json);
+            })['catch'](function () {
+                return reject(new Error('Configuration file could not be found or loaded.'));
             });
         });
     };

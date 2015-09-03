@@ -1,3 +1,5 @@
+import 'core-js';
+
 import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -17,10 +19,6 @@ export class Configure {
         // Injected dependencies
         this.http = http;
         this.ea = ea;
-
-        // Load the config file and then populate obj with the response
-        this.loadConfig()
-          .then(data => this.obj = data);
     }
 
     setDirectory(path) {
@@ -59,6 +57,10 @@ export class Configure {
         }
     }
 
+    setAll(obj) {
+        this.obj = obj;
+    }
+
     getAll() {
         return this.obj;
     }
@@ -67,7 +69,13 @@ export class Configure {
         return new Promise((resolve, reject) => {
             this.http
               .get(`${this.directory}/${this.config}`)
-              .then(data => resolve(data.response));
+              .then(response => {
+                  let raw = response.response;
+                  let json = JSON.parse(JSON.stringify(raw));
+
+                  resolve(json);
+              })
+              .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
         });
     }
 }

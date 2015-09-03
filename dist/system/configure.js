@@ -1,4 +1,4 @@
-System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
+System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
     'use strict';
 
     var inject, HttpClient, EventAggregator, Configure;
@@ -6,7 +6,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
     return {
-        setters: [function (_aureliaDependencyInjection) {
+        setters: [function (_coreJs) {}, function (_aureliaDependencyInjection) {
             inject = _aureliaDependencyInjection.inject;
         }, function (_aureliaHttpClient) {
             HttpClient = _aureliaHttpClient.HttpClient;
@@ -16,8 +16,6 @@ System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia
         execute: function () {
             Configure = (function () {
                 function Configure(http, ea) {
-                    var _this = this;
-
                     _classCallCheck(this, _Configure);
 
                     this.directory = 'config';
@@ -26,10 +24,6 @@ System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia
 
                     this.http = http;
                     this.ea = ea;
-
-                    this.loadConfig().then(function (data) {
-                        return _this.obj = data;
-                    });
                 }
 
                 Configure.prototype.setDirectory = function setDirectory(path) {
@@ -68,16 +62,25 @@ System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia
                     }
                 };
 
+                Configure.prototype.setAll = function setAll(obj) {
+                    this.obj = obj;
+                };
+
                 Configure.prototype.getAll = function getAll() {
                     return this.obj;
                 };
 
                 Configure.prototype.loadConfig = function loadConfig() {
-                    var _this2 = this;
+                    var _this = this;
 
                     return new Promise(function (resolve, reject) {
-                        _this2.http.get(_this2.directory + '/' + _this2.config).then(function (data) {
-                            return resolve(data.response);
+                        _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
+                            var raw = response.response;
+                            var json = JSON.parse(JSON.stringify(raw));
+
+                            resolve(json);
+                        })['catch'](function () {
+                            return reject(new Error('Configuration file could not be found or loaded.'));
                         });
                     });
                 };

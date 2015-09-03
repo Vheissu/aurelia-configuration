@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
+define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _coreJs, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
     'use strict';
 
     exports.__esModule = true;
@@ -7,8 +7,6 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurel
 
     var Configure = (function () {
         function Configure(http, ea) {
-            var _this = this;
-
             _classCallCheck(this, _Configure);
 
             this.directory = 'config';
@@ -17,10 +15,6 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurel
 
             this.http = http;
             this.ea = ea;
-
-            this.loadConfig().then(function (data) {
-                return _this.obj = data;
-            });
         }
 
         Configure.prototype.setDirectory = function setDirectory(path) {
@@ -59,16 +53,25 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurel
             }
         };
 
+        Configure.prototype.setAll = function setAll(obj) {
+            this.obj = obj;
+        };
+
         Configure.prototype.getAll = function getAll() {
             return this.obj;
         };
 
         Configure.prototype.loadConfig = function loadConfig() {
-            var _this2 = this;
+            var _this = this;
 
             return new Promise(function (resolve, reject) {
-                _this2.http.get(_this2.directory + '/' + _this2.config).then(function (data) {
-                    return resolve(data.response);
+                _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
+                    var raw = response.response;
+                    var json = JSON.parse(JSON.stringify(raw));
+
+                    resolve(json);
+                })['catch'](function () {
+                    return reject(new Error('Configuration file could not be found or loaded.'));
                 });
             });
         };
