@@ -108,7 +108,7 @@ export function configure(aurelia) {
         .standardConfiguration()
         .developmentLogging()
         .plugin('aurelia-configuration', config => {
-            config.setDirectory('config-files'); // Will make plugin look for config files in a file called "config-files"
+            config.setDirectory('config-files'); // Will make plugin look for config files in a directory called "config-files"
             config.setConfig('mycoolconfig.json'); // Will look for mycoolconfig.json as the configuration file
         });
 
