@@ -99,6 +99,26 @@ If a value is not found inside of a configuration group, it will attempt to look
 
 If you have specified a particular environment and a config value does not exist, it will look for it further up the config file. For example if you have your environment set to "DEVELOPMENT" and you request an API key but it isn't specified and you have a value specified futher up, it will use that. The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration.
 
+#### Dynamic Environment Switching
+Manually specifying an environment might not be as efficient in all cases. In this instance you can configure the plugin to dynamically change your environment based on the current URL. Doing so requires specifying one or more domains for particular environments.
+
+```javascript
+export function configure(aurelia) {
+    aurelia.use
+        .standardConfiguration()
+        .developmentLogging()
+        .plugin('aurelia-configuration', config => {
+            config.setEnvironments([
+                'development': ['localhost', 'dev.local'],
+                'staging': ['staging.website.com', 'test.staging.website.com'],
+                'production': ['website.com']  
+            ]);
+        });
+
+    aurelia.start().then(a => a.setRoot());
+}
+```
+
 ### Changing directory and/or filename
 If you want to change the location of where your configuration files are loaded from or the name, you configure it during the bootstrapping phase within your ``main.js``.
 
