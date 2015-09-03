@@ -18,6 +18,7 @@ var ENVIRONMENT = new WeakMap();
 var DIRECTORY = new WeakMap();
 var CONFIG_FILE = new WeakMap();
 var CONFIG_OBJECT = new WeakMap();
+var CASCADE_MODE = new WeakMap();
 
 var Configure = (function () {
     function Configure(http, ea) {
@@ -31,6 +32,7 @@ var Configure = (function () {
         ENVIRONMENT.set(this, 'DEFAULT');
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
+        CASCADE_MODE.set(this, true);
     }
 
     Configure.prototype.setDirectory = function setDirectory(path) {
@@ -43,6 +45,10 @@ var Configure = (function () {
 
     Configure.prototype.setEnvironment = function setEnvironment(environment) {
         ENVIRONMENT.set(this, environment);
+    };
+
+    Configure.prototype.setCascadeMode = function setCascadeMode(bool) {
+        CASCADE_MODE.set(this, bool);
     };
 
     Configure.prototype.environmentEnabled = function environmentEnabled() {
@@ -64,7 +70,7 @@ var Configure = (function () {
             } else {
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
-                } else if (this.obj[key]) {
+                } else if (this.cascadeMode && this.obj[key]) {
                         returnVal = this.obj[key];
                     }
 
@@ -82,7 +88,7 @@ var Configure = (function () {
             } else {
                 if (this.environmentExists() && this.obj[this.environment][_parent]) {
                     returnVal = this.obj[this.environment][_parent][child];
-                } else if (this.obj[_parent]) {
+                } else if (this.cascadeMode && this.obj[_parent]) {
                     returnVal = this.obj[_parent];
                 }
 
@@ -132,6 +138,11 @@ var Configure = (function () {
         key: 'environment',
         get: function get() {
             return ENVIRONMENT.get(this);
+        }
+    }, {
+        key: 'cascadeMode',
+        get: function get() {
+            return CASCADE_MODE.get(this);
         }
     }, {
         key: 'directory',

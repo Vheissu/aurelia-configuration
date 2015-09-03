@@ -1,7 +1,7 @@
 System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
     'use strict';
 
-    var inject, HttpClient, EventAggregator, ENVIRONMENT, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, Configure;
+    var inject, HttpClient, EventAggregator, ENVIRONMENT, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, CASCADE_MODE, Configure;
 
     var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -20,6 +20,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
             DIRECTORY = new WeakMap();
             CONFIG_FILE = new WeakMap();
             CONFIG_OBJECT = new WeakMap();
+            CASCADE_MODE = new WeakMap();
 
             Configure = (function () {
                 function Configure(http, ea) {
@@ -33,6 +34,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     ENVIRONMENT.set(this, 'DEFAULT');
                     DIRECTORY.set(this, 'config');
                     CONFIG_FILE.set(this, 'application.json');
+                    CASCADE_MODE.set(this, true);
                 }
 
                 Configure.prototype.setDirectory = function setDirectory(path) {
@@ -45,6 +47,10 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
 
                 Configure.prototype.setEnvironment = function setEnvironment(environment) {
                     ENVIRONMENT.set(this, environment);
+                };
+
+                Configure.prototype.setCascadeMode = function setCascadeMode(bool) {
+                    CASCADE_MODE.set(this, bool);
                 };
 
                 Configure.prototype.environmentEnabled = function environmentEnabled() {
@@ -66,7 +72,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                         } else {
                             if (this.environmentExists() && this.obj[this.environment][key]) {
                                 returnVal = this.obj[this.environment][key];
-                            } else if (this.obj[key]) {
+                            } else if (this.cascadeMode && this.obj[key]) {
                                     returnVal = this.obj[key];
                                 }
 
@@ -84,7 +90,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                         } else {
                             if (this.environmentExists() && this.obj[this.environment][_parent]) {
                                 returnVal = this.obj[this.environment][_parent][child];
-                            } else if (this.obj[_parent]) {
+                            } else if (this.cascadeMode && this.obj[_parent]) {
                                 returnVal = this.obj[_parent];
                             }
 
@@ -134,6 +140,11 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     key: 'environment',
                     get: function get() {
                         return ENVIRONMENT.get(this);
+                    }
+                }, {
+                    key: 'cascadeMode',
+                    get: function get() {
+                        return CASCADE_MODE.get(this);
                     }
                 }, {
                     key: 'directory',
