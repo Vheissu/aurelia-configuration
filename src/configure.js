@@ -171,8 +171,17 @@ export class Configure {
         if (this.environments) {
             // Loop over supplied environments
             for (let env in this.environments) {
-                if (hostname.search(env) !== -1) {
-                    this.setEnvironment(env);
+                // Get environment hostnames
+                let hostnames = this.environments[env];
+
+                // Make sure we have hostnames
+                if (hostnames) {
+                    // Loop the hostnames
+                    for (host of hostnames) {
+                        if (hostname.search(host) !== -1) {
+                            this.setEnvironment(env);
+                        }
+                    }
                 }
             }
         }
