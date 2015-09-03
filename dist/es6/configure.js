@@ -23,11 +23,11 @@ export class Configure {
           .then(data => this.obj = data);
     }
 
-    directory(path) {
+    setDirectory(path) {
         this.directory = path;
     }
 
-    file(name) {
+    setConfig(name) {
         this.config = name;
     }
 

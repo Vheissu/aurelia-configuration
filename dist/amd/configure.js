@@ -23,11 +23,11 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurel
             });
         }
 
-        Configure.prototype.directory = function directory(path) {
+        Configure.prototype.setDirectory = function setDirectory(path) {
             this.directory = path;
         };
 
-        Configure.prototype.file = function file(name) {
+        Configure.prototype.setConfig = function setConfig(name) {
             this.config = name;
         };
 
