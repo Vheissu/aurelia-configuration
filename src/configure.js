@@ -68,18 +68,44 @@ export class Configure {
         return (typeof this.obj[this.environment] === undefined) ? false : true;
     }
     
+    get(key, defaultValue = null) {
+        // By default return the default value
+        let returnVal = defaultValue;
+
+        // Singular non-namespaced value
         if (key.indexOf('.') === -1) {
-            return this.obj[key] ? this.obj[key] : false;
+            // Using default environment
+            if (!this.environmentEnabled()) {
+                return this.obj[key] ? this.obj[key] : defaultValue;
+            } else {
+                // Value exists in environment
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                // Get default value from non-namespaced section
+                } else if (this.obj[key]) {
+                    returnVal = this.obj[key];
+                }
+
+                return returnVal;
+            }
         } else {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
 
-            if (this.obj[parent]) {
-                return this.obj[parent][child] ? this.obj[parent][child] : false;
-            }
+            if (!this.environmentEnabled()) {
+                if (this.obj[parent]) {
+                    return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
+                }
+            } else {
+                if (this.environmentExists() && this.obj[this.environment][parent]) {
+                    returnVal = this.obj[this.environment][parent][child];
+                } else if (this.obj[parent]) {
+                    returnVal = this.obj[parent];
+                }
 
-            return false;
+                return returnVal;
+            }
         }
     }
 
