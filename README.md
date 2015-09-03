@@ -6,7 +6,7 @@ A smart configuration plugin and singleton service layer for your Aurelia applic
 * Install aurelia-configuration
 
 ```bash
-jspm install aurelia-configuration=github:vheissu/aurelia-configuration
+jspm install aurelia-configuration
 ```
 
 * Use the plugin in your app's main.js:
