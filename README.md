@@ -3,13 +3,13 @@ A smart configuration plugin and singleton service layer for your Aurelia applic
 
 ## Get Started
 
-1. Install aurelia-configuration
+* Install aurelia-configuration
 
 ```bash
 jspm install aurelia-configuration=github:vheissu/aurelia-configuration
 ```
 
-2. Use the plugin in your app's main.js:
+* Use the plugin in your app's main.js:
 
 ```javascript
 export function configure(aurelia) {
@@ -22,7 +22,7 @@ export function configure(aurelia) {
 }
 ```
 
-3. Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
+* Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
 
 ```json
 {
@@ -35,7 +35,7 @@ export function configure(aurelia) {
 }
 ```
 
-4. Using with your ViewModel:
+* Using with your ViewModel:
 
 ```javascript
 import {inject} from 'aurelia-frameework';
@@ -116,6 +116,68 @@ export function configure(aurelia) {
 }
 ```
 
+## API
+The Aurelia Configuration plugin is quite simple, there are only a few methods which you will commonly use.
+
+### setDirectory(name)
+A method for setting the location of configuration files. This method is made to be called within the bootstrapping phase.
+
+**Usage:**
+```javascript
+config.setDirectory('config');
+```
+
+### setConfig(fileName)
+A method for setting the name of the configuration file to load. This method is made to be called within the bootstrapping phase.
+
+**Usage:**
+```javascript
+config.setConfig('application.json');
+```
+
+### setEnvironment(environment)
+A method for setting the default environment. This method is designed to work within the bootstrapping phase and throughout your application.
+
+**Usage:**
+```javascript
+config.setEnvironment('DEVELOPMENT');
+```
+
+### get(key, defaultValue = null)
+A method for getting a configuration value by its key from the config file. Has an optional parameter for returning a default value if the config value could not be found. This method supports namespaced config values as well.
+
+**Usage:**
+```javascript
+var myVal = config.get('name', 'Default Name'); // If name doesn't exist, will return 'Default Name' as its value
+var myVal2 = config.get('name'); // If name doesn't exist, will return null as no default value has been specified
+var myVal3 = config.get('api.key', '12345678'); // Will look for "api": {"key": ""} in the configuration file and return default value if not found
+var myVal4 = config.get('api.key'); // Will look for "api": {"key": ""} in the configuration file and return null if not found
+```
+
+### set(key, val)
+A method for temporarily setting a configuration value. Allows you to overwrite existing values. This will not persist changes back to the file.
+
+**Usage:**
+```javascript
+config.set('name', 'New Name');
+```
+
+### setAll(obj)
+A method used by the plugin itself. Will set the configration object. Not advisable to use as it will delete any existing changes if not in the new obj value.
+
+**Usage:**
+```javascript
+config.setAll({mykey: "myval"});
+```
+
+### getAll()
+A method to get all configuration options pulled from the configuration file.
+
+**Usage:**
+```javascript
+var myConfigValues = config.getAll();
+```
+
 ## Dependencies
 
 * [aurelia-dependency-injection](https://github.com/aurelia/dependency-injection)
@@ -126,50 +188,50 @@ export function configure(aurelia) {
 
 To build this plugin from the source, follow these steps.
 
-1. Ensure that you have [Node.js](http://nodejs.org) installed. This is what our tooling will depend on to compile the plugin.
+* Ensure that you have [Node.js](http://nodejs.org) installed. This is what our tooling will depend on to compile the plugin.
 
-2. Inside of the project folder, execute the following command:
+* Inside of the project folder, execute the following command:
 
 ```shell
 npm install
 ```
 
-3. Ensure that you have Gulp installed globally, using the following command:
+* Ensure that you have Gulp installed globally, using the following command:
 
 ```shell
 npm install -g gulp
 ```
 
-4. Ensure that you have JSPM installed globally, using the following command:
+* Ensure that you have JSPM installed globally, using the following command:
 
 ```shell
 npm install -g jspm
 ```
 
-5. To build the plugin, run:
+* To build the plugin, run:
 
 ```shell
 gulp build
 ```
 
-6. You will then find the compiled code in the 'dist' folder, in three different module formats: AMD, CommonJS and ES6.
+* You will then find the compiled code in the 'dist' folder, in three different module formats: AMD, CommonJS and ES6.
 
 ## Running The Tests
 
 To run the unit tests (there are none currently), please make sure you follow the above steps and then follow each step below to get the testing environment setup.
 
-1. Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If it is not installed, then install it using the following command:
+* Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If it is not installed, then install it using the following command:
 
   ```shell
   npm install -g karma-cli
   ```
 
-2. Install the client-side dependencies with JSPM:
+* Install the client-side dependencies with JSPM:
 
   ```shell
   jspm install
   ```
-3. You can now run the tests with this command:
+* You can now run the tests with this command:
 
   ```shell
   karma start
