@@ -45,6 +45,16 @@ export class Configure {
     }
 
     /**
+     * Set Environment
+     * Changes the environment value
+     *
+     * @param environment
+     */
+    setEnvironment(environment) {
+        ENVIRONMENT.set(this, environment);
+    }
+
+    /**
      * Get Config
      * Returns the entire configuration object pulled and parsed from file
      *
@@ -200,7 +210,7 @@ export class Configure {
      * Load Config
      * Loads the configuration file from specified location
      * and then returns a Promise
-     * 
+     *
      * @returns {Promise}
      */
     loadConfig() {
