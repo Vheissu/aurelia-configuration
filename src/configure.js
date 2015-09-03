@@ -6,6 +6,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 // Secure references that can't be changed outside of Configure singleton class
 const ENVIRONMENT = new WeakMap();
+const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
 const CONFIG_OBJECT = new WeakMap();
@@ -57,11 +58,24 @@ export class Configure {
     }
 
     /**
+     * Set Environments
+     * Specify multiple environment domains to allow for
+     * dynamic environment switching.
+     *
+     * @param environments
+     */
+     setEnvironments(environments) {
+        ENVIRONMENTS.set(this, environments);
+     }
+
+    /**
      * Set Cascade Mode
      * By default if a environment config value is not found, it will
      * go looking up the config file to find it (a la inheritance style). Sometimes
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
+     *
+     * @param bool
      */
     setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
