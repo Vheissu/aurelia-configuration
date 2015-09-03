@@ -55,6 +55,10 @@ export class Configure {
         }
     }
 
+    setAll(obj) {
+        this.obj = obj;
+    }
+
     getAll() {
         return this.obj;
     }
