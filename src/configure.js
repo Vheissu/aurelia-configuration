@@ -58,6 +58,16 @@ export class Configure {
         return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
     }
 
+    /**
+     * Environment Exists
+     * Checks if the environment section actually exists within
+     * the configuration file or defaults to default
+     *
+     */
+    environmentExists() {
+        return (typeof this.obj[this.environment] === undefined) ? false : true;
+    }
+    
         if (key.indexOf('.') === -1) {
             return this.obj[key] ? this.obj[key] : false;
         } else {
