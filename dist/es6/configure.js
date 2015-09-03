@@ -63,7 +63,7 @@ export class Configure {
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
      */
-    setCascadeMode(bool) {
+    setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
     }
 
@@ -157,12 +157,14 @@ export class Configure {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
             } else {
-                // Value exists in environment
-                if (this.environmentExists() && this.obj[this.environment][key]) {
-                    returnVal = this.obj[this.environment][key];
-                // Get default value from non-namespaced section if enabled
-                } else if (this.cascadeMode && this.obj[key]) {
-                    returnVal = this.obj[key];
+                if (this.environmentExists()) {
+                    // Value exists in environment
+                    if (this.obj[this.environment][key]) {
+                        returnVal = this.obj[this.environment][key];
+                    // Get default value from non-namespaced section if enabled
+                    } else if (this.cascadeMode && this.obj[key]) {
+                        returnVal = this.obj[key];
+                    }
                 }
 
                 return returnVal;
@@ -178,12 +180,10 @@ export class Configure {
                 }
             } else {
                 if (this.environmentExists()) {
-                    console.log('Environment is real');
-                    if (this.obj[this.environment][parent]) {
+                    if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
                         returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascadeMode && this.obj[parent]) {
-                        console.log('Value not found and cascading mode is on');
-                        returnVal = this.obj[parent];
+                    } else if (this.cascadeMode && this.obj[parent] && this.obj[parent][child]) {
+                        returnVal = this.obj[parent][child];
                     }
                 }
 

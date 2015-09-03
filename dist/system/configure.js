@@ -49,7 +49,9 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     ENVIRONMENT.set(this, environment);
                 };
 
-                Configure.prototype.setCascadeMode = function setCascadeMode(bool) {
+                Configure.prototype.setCascadeMode = function setCascadeMode() {
+                    var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
+
                     CASCADE_MODE.set(this, bool);
                 };
 
@@ -70,11 +72,13 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                         if (!this.environmentEnabled()) {
                             return this.obj[key] ? this.obj[key] : defaultValue;
                         } else {
-                            if (this.environmentExists() && this.obj[this.environment][key]) {
-                                returnVal = this.obj[this.environment][key];
-                            } else if (this.cascadeMode && this.obj[key]) {
-                                    returnVal = this.obj[key];
-                                }
+                            if (this.environmentExists()) {
+                                if (this.obj[this.environment][key]) {
+                                    returnVal = this.obj[this.environment][key];
+                                } else if (this.cascadeMode && this.obj[key]) {
+                                        returnVal = this.obj[key];
+                                    }
+                            }
 
                             return returnVal;
                         }
@@ -89,12 +93,10 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                             }
                         } else {
                             if (this.environmentExists()) {
-                                console.log('Environment is real');
-                                if (this.obj[this.environment][_parent]) {
+                                if (this.obj[this.environment][_parent] && this.obj[this.environment][_parent][child]) {
                                     returnVal = this.obj[this.environment][_parent][child];
-                                } else if (this.cascadeMode && this.obj[_parent]) {
-                                    console.log('Value not found and cascading mode is on');
-                                    returnVal = this.obj[_parent];
+                                } else if (this.cascadeMode && this.obj[_parent] && this.obj[_parent][child]) {
+                                    returnVal = this.obj[_parent][child];
                                 }
                             }
 
