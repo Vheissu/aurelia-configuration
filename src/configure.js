@@ -17,10 +17,6 @@ export class Configure {
         // Injected dependencies
         this.http = http;
         this.ea = ea;
-
-        // Load the config file and then populate obj with the response
-        this.loadConfig()
-          .then(data => this.obj = data);
     }
 
     setDirectory(path) {
