@@ -21,7 +21,7 @@ export class Configure {
 
         CONFIG_OBJECT.set(this, {});
 
-        ENVIRONMENT.set(this, 'DEFAULT');
+        ENVIRONMENT.set(this, 'default');
         ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
@@ -181,7 +181,7 @@ export class Configure {
      * @returns {boolean}
      */
     environmentEnabled() {
-        return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
+        return (this.environment === 'default' || this.environment === '' || !this.environment) ? false : true;
     }
 
     /**
