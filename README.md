@@ -72,7 +72,7 @@ export function configure(aurelia) {
         .standardConfiguration()
         .developmentLogging()
         .plugin('aurelia-configuration', config => {
-            config.setEnvironment('DEVELOPMENT'); // Environment changes to DEVELOPMENT
+            config.setEnvironment('development'); // Environment changes to development
         });
 
     aurelia.start().then(a => a.setRoot());
@@ -88,7 +88,7 @@ If a value is not found inside of a configuration group, it will attempt to look
         "key": "somekey",
         "endpoint": "http://www.google.com/"
     },
-    "DEVELOPMENT": {
+    "development": {
         "api": {
             "key": "developmentonlykey938109283091",
             "endpoint": "http://localhost/api/v1"
@@ -97,7 +97,9 @@ If a value is not found inside of a configuration group, it will attempt to look
 }
 ```
 
-If you have specified a particular environment and a config value does not exist, it will look for it further up the config file. For example if you have your environment set to "DEVELOPMENT" and you request an API key but it isn't specified and you have a value specified futher up, it will use that. The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration.
+If you have specified a particular environment and a config value does not exist, it will look for it further up the config file. For example if you have your environment set to "development" and you request an API key but it isn't specified and you have a value specified futher up, it will use that.
+
+The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration. By default this behaviour is turned on, but if you don't want values to be searched outside of your specified environment, disable cascading (below).
 
 #### Dynamic Environment Switching
 Manually specifying an environment might not be as efficient in all cases. In this instance you can configure the plugin to dynamically change your environment based on the current URL. Doing so requires specifying one or more domains for particular environments.
@@ -108,11 +110,11 @@ export function configure(aurelia) {
         .standardConfiguration()
         .developmentLogging()
         .plugin('aurelia-configuration', config => {
-            config.setEnvironments([
-                'development': ['localhost', 'dev.local'],
-                'staging': ['staging.website.com', 'test.staging.website.com'],
-                'production': ['website.com']  
-            ]);
+            config.setEnvironments({
+                development: ['localhost', 'dev.local'],
+                staging: ['staging.website.com', 'test.staging.website.com'],
+                production: ['website.com']  
+            });
         });
 
     aurelia.start().then(a => a.setRoot());
