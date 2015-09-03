@@ -9,6 +9,7 @@ const ENVIRONMENT = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
 const CONFIG_OBJECT = new WeakMap();
+const CASCADE_MODE = new WeakMap();
 
 @inject(HttpClient, EventAggregator)
 export class Configure {
@@ -22,6 +23,7 @@ export class Configure {
         ENVIRONMENT.set(this, 'DEFAULT');
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
+        CASCADE_MODE.set(this, true);
     }
 
     /**
@@ -55,6 +57,17 @@ export class Configure {
     }
 
     /**
+     * Config Get Cascade
+     * By default if a environment config value is not found, it will
+     * go looking up the config file to find it (a la inheritance style). Sometimes
+     * you just want a config value from a specific environment and nowhere else
+     * use this to disabled this functionality
+     */
+    configGetCascade(bool) {
+        CASCADE_MODE.set(this, bool);
+    }
+
+    /**
      * Get Config
      * Returns the entire configuration object pulled and parsed from file
      *
@@ -72,6 +85,15 @@ export class Configure {
      */
     get environment() {
         return ENVIRONMENT.get(this);
+    }
+
+    /**
+     * Get Cascade Mode
+     * Gets the current cascade mode boolean
+     * @returns {boolean}
+     */
+    get cascadeMode() {
+        return CASCADE_MODE.get(this);
     }
 
     /**
@@ -138,8 +160,8 @@ export class Configure {
                 // Value exists in environment
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
-                // Get default value from non-namespaced section
-                } else if (this.obj[key]) {
+                // Get default value from non-namespaced section if enabled
+            } else if  (this.cascadeMode && this.obj[key]) {
                     returnVal = this.obj[key];
                 }
 
@@ -157,7 +179,7 @@ export class Configure {
             } else {
                 if (this.environmentExists() && this.obj[this.environment][parent]) {
                     returnVal = this.obj[this.environment][parent][child];
-                } else if (this.obj[parent]) {
+                } else if (this.cascadeMode && this.obj[parent]) {
                     returnVal = this.obj[parent];
                 }
 
