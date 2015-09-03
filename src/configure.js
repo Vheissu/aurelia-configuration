@@ -177,7 +177,7 @@ export class Configure {
                 // Make sure we have hostnames
                 if (hostnames) {
                     // Loop the hostnames
-                    for (host of hostnames) {
+                    for (let host of hostnames) {
                         if (hostname.search(host) !== -1) {
                             this.setEnvironment(env);
                         }
