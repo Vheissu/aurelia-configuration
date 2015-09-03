@@ -186,7 +186,27 @@ A method for setting the default environment. This method is designed to work wi
 
 **Usage:**
 ```javascript
-config.setEnvironment('DEVELOPMENT');
+config.setEnvironment('development');
+```
+
+### setEnvironments(environments)
+A method for setting dynamic environments. This method is designed to work within the bootstrapping phase. You can have as many custom environments as you like by defining a new object property and supplying an array of values.
+
+**Usage:**
+```javascript
+config.setEnvironments({
+    development: ['localhost', 'dev.local'],
+    staging: ['staging.website.com', 'test.staging.website.com'],
+    production: ['website.com']  
+});
+```
+
+### is(environment)
+A method for determining if the current environment matches that of the supplied environment value. The below example will return true if the current environment is 'development' or false if it is not. Handy for doing conditional checks based on environment in your application.
+
+**Usage:**
+```javascript
+var currentEnv = config.is('development');
 ```
 
 ### get(key, defaultValue = null)
