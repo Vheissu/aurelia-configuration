@@ -67,7 +67,13 @@ export class Configure {
         return new Promise((resolve, reject) => {
             this.http
               .get(`${this.directory}/${this.config}`)
-              .then(data => resolve(data.response));
+              .then(response => {
+                  let raw = response.response;
+                  let json = JSON.parse(JSON.stringify(raw));
+
+                  resolve(json);
+              })
+              .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
         });
     }
 }
