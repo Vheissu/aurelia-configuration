@@ -1,4 +1,4 @@
-define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _coreJs, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
+define(['exports', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
     'use strict';
 
     exports.__esModule = true;
@@ -66,10 +66,7 @@ define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-clie
 
             return new Promise(function (resolve, reject) {
                 _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                    var raw = response.response;
-                    var json = JSON.parse(JSON.stringify(raw));
-
-                    resolve(json);
+                    resolve(response.content);
                 })['catch'](function () {
                     return reject(new Error('Configuration file could not be found or loaded.'));
                 });

@@ -4,8 +4,6 @@ exports.__esModule = true;
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-require('core-js');
-
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
 var _aureliaHttpClient = require('aurelia-http-client');
@@ -73,10 +71,7 @@ var Configure = (function () {
 
         return new Promise(function (resolve, reject) {
             _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                var raw = response.response;
-                var json = JSON.parse(JSON.stringify(raw));
-
-                resolve(json);
+                resolve(response.content);
             })['catch'](function () {
                 return reject(new Error('Configuration file could not be found or loaded.'));
             });

@@ -1,5 +1,3 @@
-import 'core-js';
-
 import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -70,10 +68,7 @@ export class Configure {
             this.http
               .get(`${this.directory}/${this.config}`)
               .then(response => {
-                  let raw = response.response;
-                  let json = JSON.parse(JSON.stringify(raw));
-
-                  resolve(json);
+                  resolve(response.content);
               })
               .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
         });

@@ -1,4 +1,4 @@
-System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
+System.register(['aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
     'use strict';
 
     var inject, HttpClient, EventAggregator, Configure;
@@ -6,7 +6,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
     return {
-        setters: [function (_coreJs) {}, function (_aureliaDependencyInjection) {
+        setters: [function (_aureliaDependencyInjection) {
             inject = _aureliaDependencyInjection.inject;
         }, function (_aureliaHttpClient) {
             HttpClient = _aureliaHttpClient.HttpClient;
@@ -75,10 +75,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
 
                     return new Promise(function (resolve, reject) {
                         _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                            var raw = response.response;
-                            var json = JSON.parse(JSON.stringify(raw));
-
-                            resolve(json);
+                            resolve(response.content);
                         })['catch'](function () {
                             return reject(new Error('Configuration file could not be found or loaded.'));
                         });
