@@ -153,6 +153,27 @@ export class Configure {
     }
 
     /**
+     * Check
+     * Looks for a match of the hostName to any of the domain
+     * values specified during the configuration bootstrapping
+     * phase of Aurelia.
+     *
+     */
+    check() {
+        let hostname = window.location.hostname;
+
+        // Check we have environments we can loop
+        if (this.environments) {
+            // Loop over supplied environments
+            for (let env in this.environments) {
+                if (hostname.search(env) !== -1) {
+                    this.setEnvironment(env);
+                }
+            }
+        }
+    }
+
+    /**
      * Environment Enabled
      * A handy method for determining if we are using the default
      * environment or have another specified like; staging
