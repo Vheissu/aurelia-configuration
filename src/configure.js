@@ -142,6 +142,17 @@ export class Configure {
     }
 
     /**
+     * Is
+     * A method for determining if the current environment
+     * equals that of the supplied environment value*
+     * @param environment
+     * @returns {boolean}
+     */
+    is(environment) {
+        return (environment === this.environment);
+    }
+
+    /**
      * Environment Enabled
      * A handy method for determining if we are using the default
      * environment or have another specified like; staging
