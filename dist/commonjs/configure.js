@@ -86,10 +86,14 @@ var Configure = (function () {
                     return this.obj[_parent][child] ? this.obj[_parent][child] : defaultValue;
                 }
             } else {
-                if (this.environmentExists() && this.obj[this.environment][_parent]) {
-                    returnVal = this.obj[this.environment][_parent][child];
-                } else if (this.cascadeMode && this.obj[_parent]) {
-                    returnVal = this.obj[_parent];
+                if (this.environmentExists()) {
+                    console.log('Environment is real');
+                    if (this.obj[this.environment][_parent]) {
+                        returnVal = this.obj[this.environment][_parent][child];
+                    } else if (this.cascadeMode && this.obj[_parent]) {
+                        console.log('Value not found and cascading mode is on');
+                        returnVal = this.obj[_parent];
+                    }
                 }
 
                 return returnVal;
