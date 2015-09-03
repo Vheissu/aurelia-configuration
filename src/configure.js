@@ -24,26 +24,62 @@ export class Configure {
         CONFIG_FILE.set(this, 'application.json');
     }
 
+    /**
+     * Set Directory
+     * Sets the location to look for the config file
+     *
+     * @param path
+     */
     setDirectory(path) {
         DIRECTORY.set(this, path);
     }
 
+    /**
+     * Set Config
+     * Sets the filename to look for in the defined directory
+     *
+     * @param name
+     */
     setConfig(name) {
         CONFIG_FILE.set(this, name);
     }
 
+    /**
+     * Get Config
+     * Returns the entire configuration object pulled and parsed from file
+     *
+     * @returns {V}
+     */
     get obj() {
         return CONFIG_OBJECT.get(this);
     }
 
+    /**
+     * Get Environment
+     * Gets the current environment value
+     *
+     * @returns {V}
+     */
     get environment() {
         return ENVIRONMENT.get(this);
     }
 
+    /**
+     * Get Directory
+     * Gets the current directory
+     *
+     * @returns {V}
+     */
     get directory() {
         return DIRECTORY.get(this);
     }
 
+    /**
+     * Get Config
+     * Get the config file name
+     *
+     * @returns {V}
+     */
     get config() {
         return CONFIG_FILE.get(this);
     }
@@ -53,6 +89,7 @@ export class Configure {
      * A handy method for determining if we are using the default
      * environment or have another specified like; staging
      *
+     * @returns {boolean}
      */
     environmentEnabled() {
         return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
@@ -63,11 +100,21 @@ export class Configure {
      * Checks if the environment section actually exists within
      * the configuration file or defaults to default
      *
+     * @returns {boolean}
      */
     environmentExists() {
         return (typeof this.obj[this.environment] === undefined) ? false : true;
     }
-    
+
+    /**
+     * Get
+     * Gets a configuration value from the main config object
+     * with support for a default value if nothing found
+     *
+     * @param key
+     * @param defaultValue
+     * @returns {*}
+     */
     get(key, defaultValue = null) {
         // By default return the default value
         let returnVal = defaultValue;
@@ -109,6 +156,13 @@ export class Configure {
         }
     }
 
+    /**
+     * Set
+     * Saves a config value temporarily
+     *
+     * @param key
+     * @param val
+     */
     set(key, val) {
         if (key.indexOf('.') === -1) {
             this.obj[key] = val;
@@ -121,14 +175,34 @@ export class Configure {
         }
     }
 
+    /**
+     * Set All
+     * A dangerous method that sets the entire config object
+     * only used during bootstrapping phase
+     *
+     * @param obj
+     */
     setAll(obj) {
         CONFIG_OBJECT.set(this, obj);
     }
 
+    /**
+     * Get All
+     * Returns all configuration options as an object
+     *
+     * @returns {V}
+     */
     getAll() {
         return this.obj;
     }
 
+    /**
+     * Load Config
+     * Loads the configuration file from specified location
+     * and then returns a Promise
+     * 
+     * @returns {Promise}
+     */
     loadConfig() {
         return new Promise((resolve, reject) => {
             this.http
