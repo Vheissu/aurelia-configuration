@@ -11,9 +11,6 @@ export function configure(aurelia, configCallback) {
     return new Promise((resolve, reject) => {
         instance.loadConfig().then(data => {
             instance.setAll(data);
-
-            // Gets the current pathName to determine dynamic environments (if defined)
-            instance.check();
             resolve();
         });
     }).catch(() => {

@@ -65,8 +65,13 @@ export class Configure {
      *
      * @param environments
      */
-     setEnvironments(environments) {
-        ENVIRONMENTS.set(this, environments);
+     setEnvironments(environments = false) {
+         if (environments) {
+            ENVIRONMENTS.set(this, environments);
+
+            // Check the hostname value and determine our environment
+            this.check();
+         }
      }
 
     /**
