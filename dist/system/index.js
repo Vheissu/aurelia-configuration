@@ -8,6 +8,10 @@ System.register(['./configure'], function (_export) {
     function configure(aurelia, configCallback) {
         var instance = aurelia.container.get(Configure);
 
+        if (configCallback !== undefined && typeof configCallback === 'function') {
+            configCallback(instance);
+        }
+
         return new Promise(function (resolve, reject) {
             instance.loadConfig().then(function (data) {
                 instance.setAll(data);

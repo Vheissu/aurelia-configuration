@@ -43,6 +43,10 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     CONFIG_FILE.set(this, name);
                 };
 
+                Configure.prototype.setEnvironment = function setEnvironment(environment) {
+                    ENVIRONMENT.set(this, environment);
+                };
+
                 Configure.prototype.environmentEnabled = function environmentEnabled() {
                     return this.environment === 'DEFAULT' || this.environment === '' || !this.environment ? false : true;
                 };
