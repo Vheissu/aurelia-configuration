@@ -48,6 +48,16 @@ export class Configure {
         return CONFIG_FILE.get(this);
     }
 
+    /**
+     * Environment Enabled
+     * A handy method for determining if we are using the default
+     * environment or have another specified like; staging
+     *
+     */
+    environmentEnabled() {
+        return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
+    }
+
         if (key.indexOf('.') === -1) {
             return this.obj[key] ? this.obj[key] : false;
         } else {
