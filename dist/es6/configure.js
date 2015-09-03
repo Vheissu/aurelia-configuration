@@ -1,45 +1,110 @@
+import 'core-js';
+
 import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
+const ENVIRONMENT = new WeakMap();
+const DIRECTORY = new WeakMap();
+const CONFIG_FILE = new WeakMap();
+const CONFIG_OBJECT = new WeakMap();
+
 @inject(HttpClient, EventAggregator)
 export class Configure {
-    // Location of configuration file(s)
-    directory = 'config';
-
-    // Configuration file name
-    config = 'application.json';
-
-    // Configuration store object
-    obj = {};
-
     constructor(http, ea) {
         // Injected dependencies
         this.http = http;
         this.ea = ea;
+
+        CONFIG_OBJECT.set(this, {});
+
+        ENVIRONMENT.set(this, 'DEFAULT');
+        DIRECTORY.set(this, 'config');
+        CONFIG_FILE.set(this, 'application.json');
     }
 
     setDirectory(path) {
-        this.directory = path;
+        DIRECTORY.set(this, path);
     }
 
     setConfig(name) {
-        this.config = name;
+        CONFIG_FILE.set(this, name);
     }
 
-    get(key) {
+    get obj() {
+        return CONFIG_OBJECT.get(this);
+    }
+
+    get environment() {
+        return ENVIRONMENT.get(this);
+    }
+
+    get directory() {
+        return DIRECTORY.get(this);
+    }
+
+    get config() {
+        return CONFIG_FILE.get(this);
+    }
+
+    /**
+     * Environment Enabled
+     * A handy method for determining if we are using the default
+     * environment or have another specified like; staging
+     *
+     */
+    environmentEnabled() {
+        return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
+    }
+
+    /**
+     * Environment Exists
+     * Checks if the environment section actually exists within
+     * the configuration file or defaults to default
+     *
+     */
+    environmentExists() {
+        return (typeof this.obj[this.environment] === undefined) ? false : true;
+    }
+
+    get(key, defaultValue = null) {
+        // By default return the default value
+        let returnVal = defaultValue;
+
+        // Singular non-namespaced value
         if (key.indexOf('.') === -1) {
-            return this.obj[key] ? this.obj[key] : false;
+            // Using default environment
+            if (!this.environmentEnabled()) {
+                return this.obj[key] ? this.obj[key] : defaultValue;
+            } else {
+                // Value exists in environment
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                // Get default value from non-namespaced section
+                } else if (this.obj[key]) {
+                    returnVal = this.obj[key];
+                }
+
+                return returnVal;
+            }
         } else {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
 
-            if (this.obj[parent]) {
-                return this.obj[parent][child] ? this.obj[parent][child] : false;
-            }
+            if (!this.environmentEnabled()) {
+                if (this.obj[parent]) {
+                    return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
+                }
+            } else {
+                if (this.environmentExists() && this.obj[this.environment][parent]) {
+                    returnVal = this.obj[this.environment][parent][child];
+                } else if (this.obj[parent]) {
+                    returnVal = this.obj[parent];
+                }
 
-            return false;
+                return returnVal;
+            }
         }
     }
 
@@ -56,7 +121,7 @@ export class Configure {
     }
 
     setAll(obj) {
-        this.obj = obj;
+        CONFIG_OBJECT.set(this, obj);
     }
 
     getAll() {

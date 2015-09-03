@@ -2,7 +2,11 @@
 
 exports.__esModule = true;
 
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+require('core-js');
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -10,39 +14,76 @@ var _aureliaHttpClient = require('aurelia-http-client');
 
 var _aureliaEventAggregator = require('aurelia-event-aggregator');
 
+var ENVIRONMENT = new WeakMap();
+var DIRECTORY = new WeakMap();
+var CONFIG_FILE = new WeakMap();
+var CONFIG_OBJECT = new WeakMap();
+
 var Configure = (function () {
     function Configure(http, ea) {
         _classCallCheck(this, _Configure);
 
-        this.directory = 'config';
-        this.config = 'application.json';
-        this.obj = {};
-
         this.http = http;
         this.ea = ea;
+
+        CONFIG_OBJECT.set(this, {});
+
+        ENVIRONMENT.set(this, 'DEFAULT');
+        DIRECTORY.set(this, 'config');
+        CONFIG_FILE.set(this, 'application.json');
     }
 
     Configure.prototype.setDirectory = function setDirectory(path) {
-        this.directory = path;
+        DIRECTORY.set(this, path);
     };
 
     Configure.prototype.setConfig = function setConfig(name) {
-        this.config = name;
+        CONFIG_FILE.set(this, name);
+    };
+
+    Configure.prototype.environmentEnabled = function environmentEnabled() {
+        return this.environment === 'DEFAULT' || this.environment === '' || !this.environment ? false : true;
+    };
+
+    Configure.prototype.environmentExists = function environmentExists() {
+        return typeof this.obj[this.environment] === undefined ? false : true;
     };
 
     Configure.prototype.get = function get(key) {
+        var defaultValue = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+
+        var returnVal = defaultValue;
+
         if (key.indexOf('.') === -1) {
-            return this.obj[key] ? this.obj[key] : false;
+            if (!this.environmentEnabled()) {
+                return this.obj[key] ? this.obj[key] : defaultValue;
+            } else {
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                } else if (this.obj[key]) {
+                        returnVal = this.obj[key];
+                    }
+
+                return returnVal;
+            }
         } else {
             var splitKey = key.split('.');
             var _parent = splitKey[0];
             var child = splitKey[1];
 
-            if (this.obj[_parent]) {
-                return this.obj[_parent][child] ? this.obj[_parent][child] : false;
-            }
+            if (!this.environmentEnabled()) {
+                if (this.obj[_parent]) {
+                    return this.obj[_parent][child] ? this.obj[_parent][child] : defaultValue;
+                }
+            } else {
+                if (this.environmentExists() && this.obj[this.environment][_parent]) {
+                    returnVal = this.obj[this.environment][_parent][child];
+                } else if (this.obj[_parent]) {
+                    returnVal = this.obj[_parent];
+                }
 
-            return false;
+                return returnVal;
+            }
         }
     };
 
@@ -59,7 +100,7 @@ var Configure = (function () {
     };
 
     Configure.prototype.setAll = function setAll(obj) {
-        this.obj = obj;
+        CONFIG_OBJECT.set(this, obj);
     };
 
     Configure.prototype.getAll = function getAll() {
@@ -77,6 +118,28 @@ var Configure = (function () {
             });
         });
     };
+
+    _createClass(Configure, [{
+        key: 'obj',
+        get: function get() {
+            return CONFIG_OBJECT.get(this);
+        }
+    }, {
+        key: 'environment',
+        get: function get() {
+            return ENVIRONMENT.get(this);
+        }
+    }, {
+        key: 'directory',
+        get: function get() {
+            return DIRECTORY.get(this);
+        }
+    }, {
+        key: 'config',
+        get: function get() {
+            return CONFIG_FILE.get(this);
+        }
+    }]);
 
     var _Configure = Configure;
     Configure = _aureliaDependencyInjection.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
