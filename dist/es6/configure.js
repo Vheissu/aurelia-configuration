@@ -6,6 +6,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 // Secure references that can't be changed outside of Configure singleton class
 const ENVIRONMENT = new WeakMap();
+const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
 const CONFIG_OBJECT = new WeakMap();
@@ -20,7 +21,8 @@ export class Configure {
 
         CONFIG_OBJECT.set(this, {});
 
-        ENVIRONMENT.set(this, 'DEFAULT');
+        ENVIRONMENT.set(this, 'default');
+        ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
         CASCADE_MODE.set(this, true);
@@ -57,11 +59,29 @@ export class Configure {
     }
 
     /**
+     * Set Environments
+     * Specify multiple environment domains to allow for
+     * dynamic environment switching.
+     *
+     * @param environments
+     */
+     setEnvironments(environments = false) {
+         if (environments) {
+            ENVIRONMENTS.set(this, environments);
+
+            // Check the hostname value and determine our environment
+            this.check();
+         }
+     }
+
+    /**
      * Set Cascade Mode
      * By default if a environment config value is not found, it will
      * go looking up the config file to find it (a la inheritance style). Sometimes
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
+     *
+     * @param bool
      */
     setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
@@ -85,6 +105,16 @@ export class Configure {
      */
     get environment() {
         return ENVIRONMENT.get(this);
+    }
+
+    /**
+     * Get Environments
+     * Gets any user supplied environment mappings
+     *
+     * @returns {array}
+     */
+    get environments() {
+        return ENVIRONMENTS.get(this);
     }
 
     /**
@@ -117,6 +147,47 @@ export class Configure {
     }
 
     /**
+     * Is
+     * A method for determining if the current environment
+     * equals that of the supplied environment value*
+     * @param environment
+     * @returns {boolean}
+     */
+    is(environment) {
+        return (environment === this.environment);
+    }
+
+    /**
+     * Check
+     * Looks for a match of the hostName to any of the domain
+     * values specified during the configuration bootstrapping
+     * phase of Aurelia.
+     *
+     */
+    check() {
+        let hostname = window.location.hostname;
+
+        // Check we have environments we can loop
+        if (this.environments) {
+            // Loop over supplied environments
+            for (let env in this.environments) {
+                // Get environment hostnames
+                let hostnames = this.environments[env];
+
+                // Make sure we have hostnames
+                if (hostnames) {
+                    // Loop the hostnames
+                    for (let host of hostnames) {
+                        if (hostname.search(host) !== -1) {
+                            this.setEnvironment(env);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
      * Environment Enabled
      * A handy method for determining if we are using the default
      * environment or have another specified like; staging
@@ -124,7 +195,7 @@ export class Configure {
      * @returns {boolean}
      */
     environmentEnabled() {
-        return (this.environment === 'DEFAULT' || this.environment === '' || !this.environment) ? false : true;
+        return (this.environment === 'default' || this.environment === '' || !this.environment) ? false : true;
     }
 
     /**

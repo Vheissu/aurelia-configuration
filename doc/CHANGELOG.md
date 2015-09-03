@@ -1,3 +1,9 @@
+### 1.0.3 (04-09-2015)
+* Added in new setEnvironments method for dynamic environments
+* New is method for checking the current environment
+* Better documentation
+* Minor bugfixes and improvements
+
 ### 1.0.2 (03-09-2015)
 * A tonne of bug fixes...
 * Get config method now has support for default values

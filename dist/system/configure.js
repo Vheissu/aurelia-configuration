@@ -1,7 +1,7 @@
 System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
     'use strict';
 
-    var inject, HttpClient, EventAggregator, ENVIRONMENT, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, CASCADE_MODE, Configure;
+    var inject, HttpClient, EventAggregator, ENVIRONMENT, ENVIRONMENTS, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, CASCADE_MODE, Configure;
 
     var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -17,6 +17,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
         }],
         execute: function () {
             ENVIRONMENT = new WeakMap();
+            ENVIRONMENTS = new WeakMap();
             DIRECTORY = new WeakMap();
             CONFIG_FILE = new WeakMap();
             CONFIG_OBJECT = new WeakMap();
@@ -31,7 +32,8 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
 
                     CONFIG_OBJECT.set(this, {});
 
-                    ENVIRONMENT.set(this, 'DEFAULT');
+                    ENVIRONMENT.set(this, 'default');
+                    ENVIRONMENTS.set(this, false);
                     DIRECTORY.set(this, 'config');
                     CONFIG_FILE.set(this, 'application.json');
                     CASCADE_MODE.set(this, true);
@@ -49,14 +51,59 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     ENVIRONMENT.set(this, environment);
                 };
 
+                Configure.prototype.setEnvironments = function setEnvironments() {
+                    var environments = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+
+                    if (environments) {
+                        ENVIRONMENTS.set(this, environments);
+
+                        this.check();
+                    }
+                };
+
                 Configure.prototype.setCascadeMode = function setCascadeMode() {
                     var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
                     CASCADE_MODE.set(this, bool);
                 };
 
+                Configure.prototype.is = function is(environment) {
+                    return environment === this.environment;
+                };
+
+                Configure.prototype.check = function check() {
+                    var hostname = window.location.hostname;
+
+                    if (this.environments) {
+                        for (var env in this.environments) {
+                            var hostnames = this.environments[env];
+
+                            if (hostnames) {
+                                for (var _iterator = hostnames, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
+                                    var _ref;
+
+                                    if (_isArray) {
+                                        if (_i >= _iterator.length) break;
+                                        _ref = _iterator[_i++];
+                                    } else {
+                                        _i = _iterator.next();
+                                        if (_i.done) break;
+                                        _ref = _i.value;
+                                    }
+
+                                    var host = _ref;
+
+                                    if (hostname.search(host) !== -1) {
+                                        this.setEnvironment(env);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
                 Configure.prototype.environmentEnabled = function environmentEnabled() {
-                    return this.environment === 'DEFAULT' || this.environment === '' || !this.environment ? false : true;
+                    return this.environment === 'default' || this.environment === '' || !this.environment ? false : true;
                 };
 
                 Configure.prototype.environmentExists = function environmentExists() {
@@ -146,6 +193,11 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                     key: 'environment',
                     get: function get() {
                         return ENVIRONMENT.get(this);
+                    }
+                }, {
+                    key: 'environments',
+                    get: function get() {
+                        return ENVIRONMENTS.get(this);
                     }
                 }, {
                     key: 'cascadeMode',
