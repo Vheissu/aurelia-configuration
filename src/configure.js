@@ -57,13 +57,13 @@ export class Configure {
     }
 
     /**
-     * Config Get Cascade
+     * Set Cascade Mode
      * By default if a environment config value is not found, it will
      * go looking up the config file to find it (a la inheritance style). Sometimes
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
      */
-    configGetCascade(bool) {
+    setCascadeMode(bool) {
         CASCADE_MODE.set(this, bool);
     }
 

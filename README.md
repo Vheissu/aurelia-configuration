@@ -116,8 +116,32 @@ export function configure(aurelia) {
 }
 ```
 
+### Changing cascade mode
+By default, if you're using an environment value using setEnvironment, then by default if a value is not found in a particular environment it will search for it further up the configuration file sort of like inheritance. You might not want this behaviour by default, so you can turn it off by using the ``setCascadeMode`` method.
+
+```javascript
+export function configure(aurelia) {
+    aurelia.use
+        .standardConfiguration()
+        .developmentLogging()
+        .plugin('aurelia-configuration', config => {
+            config.setCascadeMode(false); // Disable value cascading
+        });
+
+    aurelia.start().then(a => a.setRoot());
+}
+```
+
 ## API
 The Aurelia Configuration plugin is quite simple, there are only a few methods which you will commonly use.
+
+### setCascadeMode(boolean = true)
+A method for setting the cascading config value fetching mode. By default this is true. Specify false to prevent values being search in upper parts of the config when using environment values.
+
+**Usage:**
+```javascript
+config.setCascadeMode(false);
+```
 
 ### setDirectory(name)
 A method for setting the location of configuration files. This method is made to be called within the bootstrapping phase.
