@@ -111,9 +111,18 @@ export function configure(aurelia) {
         .developmentLogging()
         .plugin('aurelia-configuration', config => {
             config.setEnvironments({
-                development: ['localhost', 'dev.local'],
-                staging: ['staging.website.com', 'test.staging.website.com'],
-                production: ['website.com']  
+                development: {
+                    file: 'config.development.json',
+                    hostnames: ['localhost', 'dev.local']
+                },
+                staging: {
+                    file: 'config.staging.json',
+                    hostnames: ['staging.website.com', 'test.staging.website.com']
+                },
+                production: {
+                    file: 'config.production.json',
+                    hostnames: ['website.com']
+                }  
             });
         });
 
