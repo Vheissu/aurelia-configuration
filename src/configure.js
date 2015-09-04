@@ -8,8 +8,11 @@ const ENVIRONMENT = new WeakMap();
 const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
-const CONFIG_OBJECT = new WeakMap();
 const CASCADE_MODE = new WeakMap();
+const MERGE_MODE = new WeakMap();
+
+// An object that stores all of our configuration options
+const CONFIG_OBJECT = new WeakMap();
 
 @inject(HttpClient)
 export class Configure {
@@ -24,6 +27,7 @@ export class Configure {
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
         CASCADE_MODE.set(this, true);
+        MERGE_MODE.set(this, false);
     }
 
     /**
@@ -86,6 +90,17 @@ export class Configure {
     }
 
     /**
+     * Set Merge Mode
+     * Turns on merge mode for configurable options
+     *
+     * @param bool (Boolean)
+     *
+     */
+    setMergeMode(bool = true) {
+        MERGE_MODE.set(this, bool);
+    }
+
+    /**
      * Get Config
      * Returns the entire configuration object pulled and parsed from file
      *
@@ -122,6 +137,15 @@ export class Configure {
      */
     get cascadeMode() {
         return CASCADE_MODE.get(this);
+    }
+
+    /**
+     * Get Merge Mode
+     * Gets the current merge mode boolean
+     * @returns {Boolean}
+     */
+    get cascadeMode() {
+        return MERGE_MODE.get(this);
     }
 
     /**
@@ -317,5 +341,56 @@ export class Configure {
               })
               .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
         });
+    }
+
+    /**
+     * Deep Merge
+     * A function for deeply merging objects
+     *
+     * Method taken from: https://github.com/KyleAMathews/deepmerge
+     *
+     * @param target (Object)
+     * @param src (Object)
+     * @returns {Object}
+     */
+    deepMerge(target, src) {
+      var array = Array.isArray(src);
+      var dst = array && [] || {};
+
+      if (array) {
+          target = target || [];
+          dst = dst.concat(target);
+          src.forEach((e, i) => {
+              if (typeof dst[i] === 'undefined') {
+                  dst[i] = e;
+              } else if (typeof e === 'object') {
+                  dst[i] = this.deepMerge(target[i], e);
+              } else {
+                  if (target.indexOf(e) === -1) {
+                      dst.push(e);
+                  }
+              }
+          });
+      } else {
+          if (target && typeof target === 'object') {
+              Object.keys(target).forEach(key => {
+                  dst[key] = target[key];
+              })
+          }
+          Object.keys(src).forEach(key => {
+              if (typeof src[key] !== 'object' || !src[key]) {
+                  dst[key] = src[key];
+              }
+              else {
+                  if (!target[key]) {
+                      dst[key] = src[key];
+                  } else {
+                      dst[key] = this.deepMerge(target[key], src[key]);
+                  }
+              }
+          });
+      }
+
+      return dst;
     }
 }
