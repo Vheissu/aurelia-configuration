@@ -8,7 +8,6 @@ const ENVIRONMENT = new WeakMap();
 const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
-const CASCADE_MODE = new WeakMap();
 
 // An object that stores all of our configuration options
 const CONFIG_OBJECT = new WeakMap();
@@ -25,7 +24,6 @@ export class Configure {
         ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
-        CASCADE_MODE.set(this, true);
     }
 
     /**
@@ -75,19 +73,6 @@ export class Configure {
      }
 
     /**
-     * Set Cascade Mode
-     * By default if a environment config value is not found, it will
-     * go looking up the config file to find it (a la inheritance style). Sometimes
-     * you just want a config value from a specific environment and nowhere else
-     * use this to disabled this functionality
-     *
-     * @param bool (Boolean)
-     */
-    setCascadeMode(bool = true) {
-        CASCADE_MODE.set(this, bool);
-    }
-
-    /**
      * Get Config
      * Returns the entire configuration object pulled and parsed from file
      *
@@ -115,24 +100,6 @@ export class Configure {
      */
     get environments() {
         return ENVIRONMENTS.get(this);
-    }
-
-    /**
-     * Get Cascade Mode
-     * Gets the current cascade mode boolean
-     * @returns {boolean}
-     */
-    get cascadeMode() {
-        return CASCADE_MODE.get(this);
-    }
-
-    /**
-     * Get Merge Mode
-     * Gets the current merge mode boolean
-     * @returns {Boolean}
-     */
-    get cascadeMode() {
-        return MERGE_MODE.get(this);
     }
 
     /**
@@ -228,47 +195,19 @@ export class Configure {
      * @returns {*}
      */
     get(key, defaultValue = null) {
-        // By default return the default value
-        let returnVal = defaultValue;
-
         // Singular non-namespaced value
         if (key.indexOf('.') === -1) {
-            // Using default environment
-            if (!this.environmentEnabled()) {
-                return this.obj[key] ? this.obj[key] : defaultValue;
-            } else {
-                if (this.environmentExists()) {
-                    // Value exists in environment
-                    if (this.obj[this.environment][key]) {
-                        returnVal = this.obj[this.environment][key];
-                    // Get default value from non-namespaced section if enabled
-                    } else if (this.cascadeMode && this.obj[key]) {
-                        returnVal = this.obj[key];
-                    }
-                }
-
-                return returnVal;
-            }
+            return this.obj[this.environment][key];
         } else {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
 
-            if (!this.environmentEnabled()) {
-                if (this.obj[parent]) {
-                    return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
-                }
-            } else {
-                if (this.environmentExists()) {
-                    if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                        returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascadeMode && this.obj[parent] && this.obj[parent][child]) {
-                        returnVal = this.obj[parent][child];
-                    }
-                }
-
-                return returnVal;
+            if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                return this.obj[this.environment][parent][child];
             }
+
+            return defaultValue;
         }
     }
 
