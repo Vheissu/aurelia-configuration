@@ -20,36 +20,39 @@ describe('configure.js -- ', () => {
         mockedEvent = new EventStub();
         config = new Configure(mockedHttp, mockedEvent);
 
-        spyOn(config, 'loadConfig');
-
-        config.loadConfig();
+        spyOn(config, 'loadConfig').and.callFake(() => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve({
+                        name: "Test Application",
+                        version: 1.0
+                    });
+                }, 500);
+            })
+        });
     });
 
     describe('Basic tests: ', () => {
-        it('default directory value should be set', (done) => {
+        it('default directory value should be set', () => {
             expect(config.directory).toEqual('config');
-            done();
         });
 
-        it('default config file value should be set', (done) => {
+        it('default config file value should be set', () => {
             expect(config.config).toEqual('application.json');
-            done();
         });
 
-        it('default config object should be empty', (done) => {
+        it('default config object should be empty', () => {
             expect(config.obj).toBeDefined();
-            done();
         });
 
-        it('constructor should inject classes', (done) => {
+        it('constructor should inject classes', () => {
             expect(config.http).toBeDefined();
             expect(config.ea).toBeDefined();
-            done();
         });
 
-        it('loadConfig method should have been called', (done) => {
+        it('loadConfig method should have been called', () => {
+            config.loadConfig();
             expect(config.loadConfig).toHaveBeenCalled();
-            done();
         });
     });
 
