@@ -9,7 +9,6 @@ const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
 const CONFIG_FILE = new WeakMap();
 const CASCADE_MODE = new WeakMap();
-const MERGE_MODE = new WeakMap();
 
 // An object that stores all of our configuration options
 const CONFIG_OBJECT = new WeakMap();
@@ -27,7 +26,6 @@ export class Configure {
         DIRECTORY.set(this, 'config');
         CONFIG_FILE.set(this, 'application.json');
         CASCADE_MODE.set(this, true);
-        MERGE_MODE.set(this, false);
     }
 
     /**
@@ -87,17 +85,6 @@ export class Configure {
      */
     setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
-    }
-
-    /**
-     * Set Merge Mode
-     * Turns on merge mode for configurable options
-     *
-     * @param bool (Boolean)
-     *
-     */
-    setMergeMode(bool = true) {
-        MERGE_MODE.set(this, bool);
     }
 
     /**
