@@ -297,9 +297,17 @@ export class Configure {
      * only used during bootstrapping phase
      *
      * @param obj (Object)
+     * @param merge {Boolean}
      */
-    setAll(obj) {
-        CONFIG_OBJECT.set(this, obj);
+    setAll(obj, merge = false) {
+        var storeObj = obj;
+
+        if (merge) {
+            let target = this.obj;
+            storeObj = this.deepMerge(target, obj);
+        }
+
+        CONFIG_OBJECT.set(this, storeObj);
     }
 
     /**
