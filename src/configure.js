@@ -7,7 +7,6 @@ import {HttpClient} from 'aurelia-http-client';
 const ENVIRONMENT = new WeakMap();
 const ENVIRONMENTS = new WeakMap();
 const DIRECTORY = new WeakMap();
-const CONFIG_FILE = new WeakMap();
 
 // An object that stores all of our configuration options
 const CONFIG_OBJECT = new WeakMap();
@@ -20,10 +19,15 @@ export class Configure {
 
         CONFIG_OBJECT.set(this, {});
 
-        ENVIRONMENT.set(this, 'default');
-        ENVIRONMENTS.set(this, false);
+        ENVIRONMENT.set(this, 'development');
         DIRECTORY.set(this, 'config');
-        CONFIG_FILE.set(this, 'application.json');
+
+        ENVIRONMENTS.set(this, {
+            development: {
+                file: 'application.json',
+                hostnames: '*'
+            }
+        });
     }
 
     /**
@@ -34,16 +38,6 @@ export class Configure {
      */
     setDirectory(path) {
         DIRECTORY.set(this, path);
-    }
-
-    /**
-     * Set Config
-     * Sets the filename to look for in the defined directory
-     *
-     * @param name (String)
-     */
-    setConfig(name) {
-        CONFIG_FILE.set(this, name);
     }
 
     /**
@@ -119,7 +113,9 @@ export class Configure {
      * @returns {V}
      */
     get config() {
-        return CONFIG_FILE.get(this);
+        let config = this.environments[this.environment];
+
+        return config.file;
     }
 
     /**
@@ -147,42 +143,25 @@ export class Configure {
         if (this.environments) {
             // Loop over supplied environments
             for (let env in this.environments) {
-                // Get environment hostnames
-                let hostnames = this.environments[env];
+                let envObj = this.environments[env];
 
-                // Make sure we have hostnames
-                if (hostnames) {
-                    // Loop the hostnames
-                    for (let host of hostnames) {
-                        if (hostname.search(host) !== -1) {
-                            this.setEnvironment(env);
+                if (envObj) {
+                    if (envObj.hostnames !== '*') {
+                        let hostnames = envObj.hostnames;
+
+                        // Make sure we have hostnames
+                        if (hostnames) {
+                            // Loop the hostnames
+                            for (let host of hostnames) {
+                                if (hostname.search(host) !== -1) {
+                                    this.setEnvironment(env);
+                                }
+                            }
                         }
                     }
                 }
             }
         }
-    }
-
-    /**
-     * Environment Enabled
-     * A handy method for determining if we are using the default
-     * environment or have another specified like; staging
-     *
-     * @returns {Boolean}
-     */
-    environmentEnabled() {
-        return (this.environment === 'default' || this.environment === '' || !this.environment) ? false : true;
-    }
-
-    /**
-     * Environment Exists
-     * Checks if the environment section actually exists within
-     * the configuration file or defaults to default
-     *
-     * @returns {Boolean}
-     */
-    environmentExists() {
-        return (typeof this.obj[this.environment] === undefined) ? false : true;
     }
 
     /**
