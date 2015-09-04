@@ -130,8 +130,8 @@ export function configure(aurelia) {
 }
 ```
 
-### Changing directory and/or filename
-If you want to change the location of where your configuration files are loaded from or the name, you configure it during the bootstrapping phase within your ``main.js``.
+### Changing directory
+If you want to change the location of where your configuration files are loaded from, you configure it during the bootstrapping phase within your ``main.js``.
 
 ```javascript
 export function configure(aurelia) {
@@ -140,7 +140,6 @@ export function configure(aurelia) {
         .developmentLogging()
         .plugin('aurelia-configuration', config => {
             config.setDirectory('config-files'); // Will make plugin look for config files in a directory called "config-files"
-            config.setConfig('mycoolconfig.json'); // Will look for mycoolconfig.json as the configuration file
         });
 
     aurelia.start().then(a => a.setRoot());
