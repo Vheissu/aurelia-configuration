@@ -30,7 +30,7 @@ export class Configure {
      * Set Directory
      * Sets the location to look for the config file
      *
-     * @param path
+     * @param path (String)
      */
     setDirectory(path) {
         DIRECTORY.set(this, path);
@@ -40,7 +40,7 @@ export class Configure {
      * Set Config
      * Sets the filename to look for in the defined directory
      *
-     * @param name
+     * @param name (String)
      */
     setConfig(name) {
         CONFIG_FILE.set(this, name);
@@ -50,7 +50,7 @@ export class Configure {
      * Set Environment
      * Changes the environment value
      *
-     * @param environment
+     * @param environment (String)
      */
     setEnvironment(environment) {
         ENVIRONMENT.set(this, environment);
@@ -61,7 +61,7 @@ export class Configure {
      * Specify multiple environment domains to allow for
      * dynamic environment switching.
      *
-     * @param environments
+     * @param environments (Object)
      */
      setEnvironments(environments = false) {
          if (environments) {
@@ -79,7 +79,7 @@ export class Configure {
      * you just want a config value from a specific environment and nowhere else
      * use this to disabled this functionality
      *
-     * @param bool
+     * @param bool (Boolean)
      */
     setCascadeMode(bool = true) {
         CASCADE_MODE.set(this, bool);
@@ -148,8 +148,8 @@ export class Configure {
      * Is
      * A method for determining if the current environment
      * equals that of the supplied environment value*
-     * @param environment
-     * @returns {boolean}
+     * @param environment (String)
+     * @returns {Boolean}
      */
     is(environment) {
         return (environment === this.environment);
@@ -190,7 +190,7 @@ export class Configure {
      * A handy method for determining if we are using the default
      * environment or have another specified like; staging
      *
-     * @returns {boolean}
+     * @returns {Boolean}
      */
     environmentEnabled() {
         return (this.environment === 'default' || this.environment === '' || !this.environment) ? false : true;
@@ -201,7 +201,7 @@ export class Configure {
      * Checks if the environment section actually exists within
      * the configuration file or defaults to default
      *
-     * @returns {boolean}
+     * @returns {Boolean}
      */
     environmentExists() {
         return (typeof this.obj[this.environment] === undefined) ? false : true;
@@ -212,8 +212,8 @@ export class Configure {
      * Gets a configuration value from the main config object
      * with support for a default value if nothing found
      *
-     * @param key
-     * @param defaultValue
+     * @param key (String)
+     * @param defaultValue (String)
      * @returns {*}
      */
     get(key, defaultValue = null) {
@@ -265,8 +265,8 @@ export class Configure {
      * Set
      * Saves a config value temporarily
      *
-     * @param key
-     * @param val
+     * @param key (String)
+     * @param val (Mixed)
      */
     set(key, val) {
         if (key.indexOf('.') === -1) {
@@ -285,7 +285,7 @@ export class Configure {
      * A dangerous method that sets the entire config object
      * only used during bootstrapping phase
      *
-     * @param obj
+     * @param obj (Object)
      */
     setAll(obj) {
         CONFIG_OBJECT.set(this, obj);
