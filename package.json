@@ -29,7 +29,6 @@
     },
     "dependencies": {
       "aurelia-dependency-injection": "github:aurelia/dependency-injection@^0.9.2",
-      "aurelia-event-aggregator": "github:aurelia/event-aggregator@^0.7.0",
       "aurelia-http-client": "github:aurelia/http-client@^0.10.3",
       "core-js": "npm:core-js@^0.9.4"
     },
