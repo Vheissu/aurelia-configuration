@@ -108,11 +108,23 @@ export class Configure {
 
     /**
      * Get Config
-     * Get the config file name or endpoint
+     * Get the config value from the main object mapping
      *
      * @returns {V}
      */
     get config() {
+        let config = this.obj[this.environment];
+
+        return config;
+    }
+
+    /**
+     * Get JSON
+     * Get the config file name or endpoint
+     *
+     * @returns {V}
+     */
+    get json() {
         let config = this.environments[this.environment];
 
         return config.json;
