@@ -108,14 +108,14 @@ export class Configure {
 
     /**
      * Get Config
-     * Get the config file name
+     * Get the config file name or endpoint
      *
      * @returns {V}
      */
     get config() {
         let config = this.environments[this.environment];
 
-        return config.file;
+        return config.json;
     }
 
     /**
