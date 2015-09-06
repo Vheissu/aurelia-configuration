@@ -24,7 +24,7 @@ export class Configure {
 
         ENVIRONMENTS.set(this, {
             development: {
-                file: 'application.json',
+                json: 'application.json',
                 hostnames: '*'
             }
         });
