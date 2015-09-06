@@ -243,12 +243,21 @@ export class Configure {
      * Loads the configuration file from specified location
      * and then returns a Promise
      *
+     * @param jsonSrc (String)
      * @returns {Promise}
      */
-    loadConfig() {
+    loadConfig(jsonSrc = this.config) {
+        let httpUrl = `${this.directory}/${jsonSrc}`;
+
+        // This isn't a config file, it is an endpoint
+        // So we don't need any directory or path
+        if (filename.indexOf('.json') === -1) {
+            httpUrl = jsonSrc;
+        }
+
         return new Promise((resolve, reject) => {
             this.http
-              .get(`${this.directory}/${this.config}`)
+              .get(httpUrl)
               .then(response => {
                   resolve(response.content);
               })
