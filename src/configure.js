@@ -208,16 +208,17 @@ export class Configure {
      *
      * @param key (String)
      * @param val (Mixed)
+     * @param environment (String)
      */
-    set(key, val) {
+    set(key, val, environment = this.environment) {
         if (key.indexOf('.') === -1) {
-            this.obj[key] = val;
+            this.obj[environment][key] = val;
         } else {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
 
-            this.obj[parent][child] = val;
+            this.obj[environment][parent][child] = val;
         }
     }
 
