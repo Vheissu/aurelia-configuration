@@ -259,7 +259,7 @@ export class Configure {
      * @param jsonSrc (String)
      * @returns {Promise}
      */
-    loadConfig(jsonSrc = this.config) {
+    loadConfig(jsonSrc = this.json) {
         let httpUrl = `${this.directory}/${jsonSrc}`;
 
         // This isn't a config file, it is an endpoint
