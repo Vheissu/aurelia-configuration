@@ -22,7 +22,7 @@ export function configure(aurelia) {
 }
 ```
 
-* Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
+* Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like. You can also specify a JSON endpoint (which we'll demo further down) to get get JSON config options from a server.
 
 ```json
 {
@@ -38,7 +38,7 @@ export function configure(aurelia) {
 * Using with your ViewModel:
 
 ```javascript
-import {inject} from 'aurelia-frameework';
+import {inject} from 'aurelia-framework';
 import {Configure} from 'aurelia-configuration';
 
 @inject(Configure)
@@ -64,7 +64,7 @@ export class ViewModel {
 The Aurelia Configuration plugin allows you to configure during the bootstrapping phase.
 
 ### Changing environment
-The concept of environment configuration exists within this plugin. By default the plugin assumes no environment is specified, however you can have different levels of environment config values which you can configure the plugin to look in first.
+The concept of environment configuration exists within this plugin. By default the plugin assumes assumes development as its environment, however you can have different levels of environment config values which you can configure the plugin to look in first.
 
 ```javascript
 export function configure(aurelia) {
@@ -112,15 +112,15 @@ export function configure(aurelia) {
         .plugin('aurelia-configuration', config => {
             config.setEnvironments({
                 development: {
-                    file: 'config.development.json',
+                    json: 'config.development.json',
                     hostnames: ['localhost', 'dev.local']
                 },
                 staging: {
-                    file: 'config.staging.json',
+                    json: 'config.staging.json',
                     hostnames: ['staging.website.com', 'test.staging.website.com']
                 },
                 production: {
-                    file: 'config.production.json',
+                    json: 'config.production.json',
                     hostnames: ['website.com']
                 }  
             });
@@ -129,6 +129,9 @@ export function configure(aurelia) {
     aurelia.start().then(a => a.setRoot());
 }
 ```
+
+### Specifying an endpoint
+Sometimes you want to load values from a server endpoint.
 
 ### Changing directory
 If you want to change the location of where your configuration files are loaded from, you configure it during the bootstrapping phase within your ``main.js``.
@@ -165,14 +168,6 @@ export function configure(aurelia) {
 ## API
 The Aurelia Configuration plugin is quite simple, there are only a few methods which you will commonly use.
 
-### setCascadeMode(boolean = true)
-A method for setting the cascading config value fetching mode. By default this is true. Specify false to prevent values being search in upper parts of the config when using environment values.
-
-**Usage:**
-```javascript
-config.setCascadeMode(false);
-```
-
 ### setDirectory(name)
 A method for setting the location of configuration files. This method is made to be called within the bootstrapping phase.
 
@@ -200,12 +195,23 @@ config.setEnvironment('development');
 ### setEnvironments(environments)
 A method for setting dynamic environments. This method is designed to work within the bootstrapping phase. You can have as many custom environments as you like by defining a new object property and supplying an array of values.
 
+The environments are defined within an object where the supplied property is the environment and then json and hostnames values. The json property accepts either the name of a JSON file or a HTTP endpoint.
+
 **Usage:**
 ```javascript
 config.setEnvironments({
-    development: ['localhost', 'dev.local'],
-    staging: ['staging.website.com', 'test.staging.website.com'],
-    production: ['website.com']  
+    development: {
+        json: 'config.development.json',
+        hostnames: ['localhost', 'dev.local']
+    },
+    staging: {
+        json: 'config.staging.json',
+        hostnames: ['staging.website.com', 'test.staging.website.com']
+    },
+    production: {
+        json: 'config.production.json',
+        hostnames: ['website.com']
+    }  
 });
 ```
 
@@ -228,7 +234,7 @@ var myVal3 = config.get('api.key', '12345678'); // Will look for "api": {"key": 
 var myVal4 = config.get('api.key'); // Will look for "api": {"key": ""} in the configuration file and return null if not found
 ```
 
-### set(key, val)
+### set(key, val, environment)
 A method for temporarily setting a configuration value. Allows you to overwrite existing values. This will not persist changes back to the file.
 
 **Usage:**
@@ -236,8 +242,10 @@ A method for temporarily setting a configuration value. Allows you to overwrite 
 config.set('name', 'New Name');
 ```
 
-### setAll(obj)
-A method used by the plugin itself. Will set the configration object. Not advisable to use as it will delete any existing changes if not in the new obj value.
+Optionally, you can also specify a third optional value for the environment. By default it is assumed you're setting a value for the current environment, but sometimes this might not be the desirable action.
+
+### setAll(obj, merge)
+A method used by the plugin itself. Will set the configration object with support for deep merging.
 
 **Usage:**
 ```javascript

@@ -230,7 +230,7 @@ export class Configure {
      * @param obj (Object)
      * @param merge {Boolean}
      */
-    setAll(obj, merge = false) {
+    setAll(obj, merge = true) {
         var storeObj = obj;
 
         if (merge) {
