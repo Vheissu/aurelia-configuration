@@ -6,19 +6,13 @@ class HttpStub {
     }
 }
 
-class EventStub {
-
-}
-
 describe('configure.js -- ', () => {
     var config;
     var mockedHttp;
-    var mockedEvent;
 
     beforeEach(() => {
         mockedHttp = new HttpStub();
-        mockedEvent = new EventStub();
-        config = new Configure(mockedHttp, mockedEvent);
+        config = new Configure(mockedHttp);
 
         spyOn(config, 'loadConfig').and.callFake(() => {
             return new Promise((resolve, reject) => {
@@ -47,7 +41,6 @@ describe('configure.js -- ', () => {
 
         it('constructor should inject classes', () => {
             expect(config.http).toBeDefined();
-            expect(config.ea).toBeDefined();
         });
 
         it('loadConfig method should have been called', () => {

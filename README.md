@@ -113,7 +113,7 @@ export function configure(aurelia) {
             config.setEnvironments({
                 development: ['localhost', 'dev.local'],
                 staging: ['staging.website.com', 'test.staging.website.com'],
-                production: ['website.com']  
+                production: ['website.com']
             });
         });
 
@@ -197,7 +197,7 @@ A method for setting dynamic environments. This method is designed to work withi
 config.setEnvironments({
     development: ['localhost', 'dev.local'],
     staging: ['staging.website.com', 'test.staging.website.com'],
-    production: ['website.com']  
+    production: ['website.com']
 });
 ```
 
@@ -248,7 +248,6 @@ var myConfigValues = config.getAll();
 
 * [aurelia-dependency-injection](https://github.com/aurelia/dependency-injection)
 * [aurelia-http-client](https://github.com/aurelia/http-client)
-* [aurelia-event-aggregator](https://github.com/aurelia/event-aggregator)
 
 ## Building from src
 

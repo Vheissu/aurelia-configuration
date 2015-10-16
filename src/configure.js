@@ -2,7 +2,6 @@ import 'core-js';
 
 import {inject} from 'aurelia-dependency-injection';
 import {HttpClient} from 'aurelia-http-client';
-import {EventAggregator} from 'aurelia-event-aggregator';
 
 // Secure references that can't be changed outside of Configure singleton class
 const ENVIRONMENT = new WeakMap();
@@ -12,12 +11,11 @@ const CONFIG_FILE = new WeakMap();
 const CONFIG_OBJECT = new WeakMap();
 const CASCADE_MODE = new WeakMap();
 
-@inject(HttpClient, EventAggregator)
+@inject(HttpClient)
 export class Configure {
-    constructor(http, ea) {
+    constructor(http) {
         // Injected dependencies
         this.http = http;
-        this.ea = ea;
 
         CONFIG_OBJECT.set(this, {});
 
@@ -277,6 +275,10 @@ export class Configure {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
+
+            if (this.obj[parent] === undefined) {
+              this.obj[parent] = {};
+            }
 
             this.obj[parent][child] = val;
         }
