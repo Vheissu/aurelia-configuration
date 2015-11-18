@@ -1,8 +1,5 @@
 import 'core-js';
 
-import {inject} from 'aurelia-dependency-injection';
-import {HttpClient} from 'aurelia-http-client';
-
 // Secure references that can't be changed outside of Configure singleton class
 const ENVIRONMENT = new WeakMap();
 const ENVIRONMENTS = new WeakMap();
@@ -11,14 +8,9 @@ const DIRECTORY = new WeakMap();
 // An object that stores all of our configuration options
 const CONFIG_OBJECT = new WeakMap();
 
-@inject(HttpClient)
 export class Configure {
-    constructor(http) {
-        // Injected dependencies
-        this.http = http;
-
+    constructor() {
         CONFIG_OBJECT.set(this, {});
-
         ENVIRONMENT.set(this, 'development');
         DIRECTORY.set(this, 'config');
 
