@@ -244,6 +244,55 @@ export class Configure {
     }
 
     /**
+     * Load JSON
+     * Loads a JSON file using XMLHttpRequest
+     *
+     * @param isRemote {boolean}
+     * @returns Promise
+     */
+    loadJson(url = null) {
+        return new Promise((resolve, reject) => {
+            let request = new XMLHttpRequest();
+            request.setRequestHeader('Content-Type', 'application/json');
+            request.overrideMimeType('application/json');
+
+            if (!url) {
+                request.open('GET', `${this.directory}/${this.json}`, true);
+            } else {
+                request.open('GET', url, true);
+            }
+
+            request.onreadystatechange = () => {
+                if (request.readyState === 4) {
+                    if (request.status === 200 || request.status === 304) {
+                        resolve(JSON.parse(request.responseText));
+                    } else {
+                        reject(new Error('There was an error loading the remote JSON.'));
+                    }
+                } else {
+                    reject(new Error('JSON file could not be loaded'));
+                }
+            };
+
+            request.send(null);
+        });
+    }
+
+    /**
+     * Load Remote JSON
+     * A wrapper method for loadJson to remotely load JSON
+     *
+     * @param url {string}
+     * @returns {string}
+     *
+     */
+    loadRemoteJson(url) {
+        this.loadJson(url).then(config => {
+
+        });
+    }
+
+    /**
      * Load Config
      * Loads the configuration file from specified location
      * and then returns a Promise
