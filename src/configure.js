@@ -27,6 +27,7 @@ export class Configure {
      * Sets the location to look for the config file
      *
      * @param path (String)
+     * @returns void
      */
     setDirectory(path) {
         DIRECTORY.set(this, path);
@@ -37,6 +38,7 @@ export class Configure {
      * Changes the environment value
      *
      * @param environment (String)
+     * @returns void
      */
     setEnvironment(environment) {
         ENVIRONMENT.set(this, environment);
@@ -48,6 +50,7 @@ export class Configure {
      * dynamic environment switching.
      *
      * @param environments (Object)
+     * @preturns void
      */
      setEnvironments(environments = false) {
          if (environments) {
