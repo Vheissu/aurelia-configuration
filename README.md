@@ -92,7 +92,7 @@ If a value is not found inside of a configuration group, it will attempt to look
         "api": {
             "key": "developmentonlykey938109283091",
             "endpoint": "http://localhost/api/v1"
-        },
+        }
     }
 }
 ```
