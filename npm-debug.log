@@ -1,0 +1,138 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node',
+1 verbose cli   '/usr/local/opt/nvm/versions/node/v0.12.7/bin/npm',
+1 verbose cli   'install' ]
+2 info using npm@3.3.12
+3 info using node@v0.12.7
+4 verbose node symlink /usr/local/opt/nvm/versions/node/v0.12.7/bin/node
+5 silly loadCurrentTree Starting
+6 silly install loadCurrentTree
+7 silly install readLocalPackageData
+8 silly install normalizeTree
+9 silly loadCurrentTree Finishing
+10 silly loadIdealTree Starting
+11 silly install loadIdealTree
+12 silly cloneCurrentTree Starting
+13 silly install cloneCurrentTreeToIdealTree
+14 silly cloneCurrentTree Finishing
+15 silly loadShrinkwrap Starting
+16 silly install loadShrinkwrap
+17 silly loadShrinkwrap Finishing
+18 silly loadAllDepsIntoIdealTree Starting
+19 silly install loadAllDepsIntoIdealTree
+20 silly fetchOtherPackageData json@github:systemjs/plugin-json%40%5E0.1.0
+21 silly cache add args [ 'json@github:systemjs/plugin-json%40%5E0.1.0', null ]
+22 verbose cache add spec json@github:systemjs/plugin-json%40%5E0.1.0
+23 silly cache add parsed spec { raw: 'json@github:systemjs/plugin-json%40%5E0.1.0',
+23 silly cache add   scope: null,
+23 silly cache add   name: 'json',
+23 silly cache add   rawSpec: 'github:systemjs/plugin-json%40%5E0.1.0',
+23 silly cache add   spec: 'github:systemjs/plugin-json%40%5E0.1.0',
+23 silly cache add   type: 'hosted',
+23 silly cache add   hosted:
+23 silly cache add    { type: 'github',
+23 silly cache add      ssh: 'git@github.com:systemjs/plugin-json%40%5E0.1.0.git',
+23 silly cache add      sshUrl: 'git+ssh://git@github.com/systemjs/plugin-json%40%5E0.1.0.git',
+23 silly cache add      httpsUrl: 'git+https://github.com/systemjs/plugin-json%40%5E0.1.0.git',
+23 silly cache add      gitUrl: 'git://github.com/systemjs/plugin-json%40%5E0.1.0.git',
+23 silly cache add      shortcut: 'github:systemjs/plugin-json%40%5E0.1.0',
+23 silly cache add      directUrl: 'https://raw.githubusercontent.com/systemjs/plugin-json%40%5E0.1.0/master/package.json' } }
+24 verbose addRemoteGit caching github:systemjs/plugin-json%40%5E0.1.0
+25 verbose addRemoteGit systemjs/plugin-json%40%5E0.1.0 is a repository hosted by github
+26 silly tryGitProto attempting to clone git://github.com/systemjs/plugin-json%40%5E0.1.0.git
+27 silly tryClone cloning systemjs/plugin-json%40%5E0.1.0 via git://github.com/systemjs/plugin-json%40%5E0.1.0.git
+28 verbose tryClone git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f not in flight; caching
+29 info git [ 'clone',
+29 info git   '--template=/Users/Dwayne/.npm/_git-remotes/_templates',
+29 info git   '--mirror',
+29 info git   'git://github.com/systemjs/plugin-json%40%5E0.1.0.git',
+29 info git   '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f' ]
+30 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f: Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f'...
+30 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f: fatal: remote error:
+30 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f:   systemjs/plugin-json@^0.1.0 is not a valid repository name
+30 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-3970910608fdd63d23cbe2cd6107ee6f:   Email support@github.com for help
+31 silly tryHTTPS attempting to clone git+https://github.com/systemjs/plugin-json%40%5E0.1.0.git
+32 silly tryClone cloning systemjs/plugin-json%40%5E0.1.0 via git+https://github.com/systemjs/plugin-json%40%5E0.1.0.git
+33 verbose tryClone git-https-github-com-systemjs-plugin-json-40-5E0-1-0-git-960f7bcb31c607a24237330bdfac92c0 not in flight; caching
+34 info git [ 'clone',
+34 info git   '--template=/Users/Dwayne/.npm/_git-remotes/_templates',
+34 info git   '--mirror',
+34 info git   'https://github.com/systemjs/plugin-json%40%5E0.1.0.git',
+34 info git   '/Users/Dwayne/.npm/_git-remotes/git-https-github-com-systemjs-plugin-json-40-5E0-1-0-git-960f7bcb31c607a24237330bdfac92c0' ]
+35 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror https://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-https-github-com-systemjs-plugin-json-40-5E0-1-0-git-960f7bcb31c607a24237330bdfac92c0: Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-https-github-com-systemjs-plugin-json-40-5E0-1-0-git-960f7bcb31c607a24237330bdfac92c0'...
+35 verbose git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror https://github.com/systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-https-github-com-systemjs-plugin-json-40-5E0-1-0-git-960f7bcb31c607a24237330bdfac92c0: fatal: unable to access 'https://github.com/systemjs/plugin-json%40%5E0.1.0.git/': The requested URL returned error: 400
+36 silly trySSH attempting to clone git@github.com:systemjs/plugin-json%40%5E0.1.0.git
+37 silly tryClone cloning systemjs/plugin-json%40%5E0.1.0 via git@github.com:systemjs/plugin-json%40%5E0.1.0.git
+38 verbose tryClone git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa not in flight; caching
+39 info git [ 'clone',
+39 info git   '--template=/Users/Dwayne/.npm/_git-remotes/_templates',
+39 info git   '--mirror',
+39 info git   'git@github.com:systemjs/plugin-json%40%5E0.1.0.git',
+39 info git   '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa' ]
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa: Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa'...
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa: Permission denied (publickey).
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa: fatal: Could not read from remote repository.
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa:
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa: Please make sure you have the correct access rights
+40 error git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa: and the repository exists.
+41 silly fetchPackageMetaData Error: Command failed: git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa
+41 silly fetchPackageMetaData Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa'...
+41 silly fetchPackageMetaData Permission denied (publickey).
+41 silly fetchPackageMetaData fatal: Could not read from remote repository.
+41 silly fetchPackageMetaData
+41 silly fetchPackageMetaData Please make sure you have the correct access rights
+41 silly fetchPackageMetaData and the repository exists.
+41 silly fetchPackageMetaData
+41 silly fetchPackageMetaData     at ChildProcess.exithandler (child_process.js:751:12)
+41 silly fetchPackageMetaData     at ChildProcess.emit (events.js:110:17)
+41 silly fetchPackageMetaData     at maybeClose (child_process.js:1015:16)
+41 silly fetchPackageMetaData     at Socket.<anonymous> (child_process.js:1183:11)
+41 silly fetchPackageMetaData     at Socket.emit (events.js:107:17)
+41 silly fetchPackageMetaData     at Pipe.close (net.js:485:12)
+41 silly fetchPackageMetaData  error for json@github:systemjs/plugin-json%40%5E0.1.0 { [Error: Command failed: git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa
+41 silly fetchPackageMetaData Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa'...
+41 silly fetchPackageMetaData Permission denied (publickey).
+41 silly fetchPackageMetaData fatal: Could not read from remote repository.
+41 silly fetchPackageMetaData
+41 silly fetchPackageMetaData Please make sure you have the correct access rights
+41 silly fetchPackageMetaData and the repository exists.
+41 silly fetchPackageMetaData ]
+41 silly fetchPackageMetaData   killed: false,
+41 silly fetchPackageMetaData   code: 128,
+41 silly fetchPackageMetaData   signal: null,
+41 silly fetchPackageMetaData   cmd: 'git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa' }
+42 silly rollbackFailedOptional Starting
+43 silly rollbackFailedOptional Finishing
+44 silly runTopLevelLifecycles Starting
+45 silly runTopLevelLifecycles Finishing
+46 silly install printInstalled
+47 verbose stack Error: Command failed: git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa
+47 verbose stack Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa'...
+47 verbose stack Permission denied (publickey).
+47 verbose stack fatal: Could not read from remote repository.
+47 verbose stack
+47 verbose stack Please make sure you have the correct access rights
+47 verbose stack and the repository exists.
+47 verbose stack
+47 verbose stack     at ChildProcess.exithandler (child_process.js:751:12)
+47 verbose stack     at ChildProcess.emit (events.js:110:17)
+47 verbose stack     at maybeClose (child_process.js:1015:16)
+47 verbose stack     at Socket.<anonymous> (child_process.js:1183:11)
+47 verbose stack     at Socket.emit (events.js:107:17)
+47 verbose stack     at Pipe.close (net.js:485:12)
+48 verbose cwd /Users/Dwayne/Github/Aurelia-Configuration
+49 error Darwin 15.0.0
+50 error argv "node" "/usr/local/opt/nvm/versions/node/v0.12.7/bin/npm" "install"
+51 error node v0.12.7
+52 error npm  v3.3.12
+53 error code 128
+54 error Command failed: git clone --template=/Users/Dwayne/.npm/_git-remotes/_templates --mirror git@github.com:systemjs/plugin-json%40%5E0.1.0.git /Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa
+54 error Cloning into bare repository '/Users/Dwayne/.npm/_git-remotes/git-github-com-systemjs-plugin-json-40-5E0-1-0-git-21ea4a6461e11db7e560375c2880e7aa'...
+54 error Permission denied (publickey).
+54 error fatal: Could not read from remote repository.
+54 error
+54 error Please make sure you have the correct access rights
+54 error and the repository exists.
+55 error If you need help, you may report this error at:
+55 error     <https://github.com/npm/npm/issues>
+56 verbose exit [ 1, true ]

@@ -97,9 +97,9 @@ If a value is not found inside of a configuration group, it will attempt to look
 }
 ```
 
-If you have specified a particular environment and a config value does not exist, it will look for it further up the config file. For example if you have your environment set to "development" and you request an API key but it isn't specified and you have a value specified futher up, it will use that.
+If you have specified a particular environment and a config value does not exist, it will look for it further up the config file. For example if you have your environment set to "development" and you request an API key but it isn't specified and you have a value specified further up, it will use that.
 
-The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration. By default this behaviour is turned on, but if you don't want values to be searched outside of your specified environment, disable cascading (below).
+The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration. By default this behavior is turned on, but if you don't want values to be searched outside of your specified environment, disable cascading (below).
 
 #### Dynamic Environment Switching
 Manually specifying an environment might not be as efficient in all cases. In this instance you can configure the plugin to dynamically change your environment based on the current URL. Doing so requires specifying one or more domains for particular environments.

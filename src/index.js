@@ -1,7 +1,7 @@
-import {Configure} from './configure';
+import ConfigureService from './configure-service';
 
 export function configure(aurelia, configCallback) {
-    var instance = aurelia.container.get(Configure);
+    let configure = aurelia.container.get(ConfigureService);
 
     // Do we have a callback function?
     if (configCallback !== undefined && typeof(configCallback) === 'function') {
@@ -9,8 +9,8 @@ export function configure(aurelia, configCallback) {
     }
 
     return new Promise((resolve, reject) => {
-        instance.loadConfig().then(data => {
-            instance.setAll(data);
+        configure.loadConfig().then(data => {
+            configure.setAll(data);
             resolve();
         });
     }).catch(() => {
@@ -18,4 +18,4 @@ export function configure(aurelia, configCallback) {
     });
 }
 
-export {Configure};
+export {ConfigureService};
