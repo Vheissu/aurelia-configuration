@@ -38,7 +38,7 @@ export function configure(aurelia) {
 * Using with your ViewModel:
 
 ```javascript
-import {inject} from 'aurelia-frameework';
+import {inject} from 'aurelia-framework';
 import {Configure} from 'aurelia-configuration';
 
 @inject(Configure)
