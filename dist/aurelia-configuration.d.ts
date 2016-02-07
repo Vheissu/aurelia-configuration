@@ -26,7 +26,7 @@ declare module 'aurelia-configuration' {
      *
      * @param environment
      */
-    setEnvironment(environment: any): void;
+    setEnvironment(environment: string): void;
     
     /**
      * Set Environments
