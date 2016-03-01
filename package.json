@@ -22,7 +22,7 @@
     "test": "gulp test"
   },
   "jspm": {
-    "registry": "npm",
+    "registry": "github",
     "main": "index",
     "format": "amd",
     "directories": {
