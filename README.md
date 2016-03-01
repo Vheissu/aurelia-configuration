@@ -22,7 +22,7 @@ export function configure(aurelia) {
 }
 ```
 
-* Create a config file. By default the plugin will assume a configuration file called: application.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
+* Create a config file. By default the plugin will assume a configuration file called: config.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
 
 ```json
 {
@@ -35,7 +35,7 @@ export function configure(aurelia) {
 }
 ```
 
-* Using with your ViewModel:
+**Using with your ViewModel:**
 
 ```javascript
 import {inject} from 'aurelia-framework';
@@ -48,14 +48,17 @@ export class ViewModel {
 
         // Get configuration data using this.config
         // Single non-namespace item:
-            this.config.get('name') // Using above sample config would return 'Test Application'
+        this.config.get('name') // Using above sample config would return 'Test Application'
         // Single namespaced item:
-            this.config.get('api.key') // Using above sample config would return 'somekey'
+        this.config.get('api.key') // Using above sample config would return 'somekey'
+            
+        // Get config item and if it doesn't exist return a default value provided as the second argument
+        this.config.get('name', 'default value');
 
         // Setting a temporary config value non-namespaced:
-            this.config.set('newkey', 'surprise!') // Would store a value of 'surprise!' on object {newkey: 'surprise!'}
+        this.config.set('newkey', 'surprise!') // Would store a value of 'surprise!' on object {newkey: 'surprise!'}
         // Setting a temporary config value namespaced:
-            this.config.set('websites.name', 'Google'); // Would store a value of 'Google' on object {websites: {name: 'Google'}}
+        this.config.set('websites.name', 'Google'); // Would store a value of 'Google' on object {websites: {name: 'Google'}}
     }
 }
 ```
@@ -102,7 +105,9 @@ If you have specified a particular environment and a config value does not exist
 The idea is environment specific config values extend parent values, similar to what Ruby on Rails does with its configuration. By default this behaviour is turned on, but if you don't want values to be searched outside of your specified environment, disable cascading (below).
 
 #### Dynamic Environment Switching
-Manually specifying an environment might not be as efficient in all cases. In this instance you can configure the plugin to dynamically change your environment based on the current URL. Doing so requires specifying one or more domains for particular environments.
+Manually specifying an environment might not be as efficient in all cases. In this instance you can configure the plugin to dynamically change your environment based on the current URL. 
+
+Doing so requires specifying one or more domains for particular environments.
 
 ```javascript
 export function configure(aurelia) {
@@ -227,6 +232,9 @@ A method for temporarily setting a configuration value. Allows you to overwrite 
 ```javascript
 config.set('name', 'New Name');
 ```
+
+### merge(obj)
+This method allows you to merge configuration options into your local configuration. Convenient if you want to load some configuration options from the server and then use them with the configuration plugin.
 
 ### setAll(obj)
 A method used by the plugin itself. Will set the configration object. Not advisable to use as it will delete any existing changes if not in the new obj value.
