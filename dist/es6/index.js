@@ -10,6 +10,7 @@ export function configure(aurelia, configCallback) {
 
     return new Promise((resolve, reject) => {
         instance.loadConfig().then(data => {
+            data = JSON.parse(data);
             instance.setAll(data);
             resolve();
         });

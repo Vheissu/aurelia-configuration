@@ -14,6 +14,7 @@ function configure(aurelia, configCallback) {
 
     return new Promise(function (resolve, reject) {
         instance.loadConfig().then(function (data) {
+            data = JSON.parse(data);
             instance.setAll(data);
             resolve();
         });

@@ -1,7 +1,7 @@
-System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (_export) {
+System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-loader'], function (_export) {
     'use strict';
 
-    var inject, HttpClient, EventAggregator, ENVIRONMENT, ENVIRONMENTS, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, CASCADE_MODE, Configure;
+    var inject, Loader, ENVIRONMENT, ENVIRONMENTS, DIRECTORY, CONFIG_FILE, CONFIG_OBJECT, CASCADE_MODE, Configure;
 
     var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -10,10 +10,8 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
     return {
         setters: [function (_coreJs) {}, function (_aureliaDependencyInjection) {
             inject = _aureliaDependencyInjection.inject;
-        }, function (_aureliaHttpClient) {
-            HttpClient = _aureliaHttpClient.HttpClient;
-        }, function (_aureliaEventAggregator) {
-            EventAggregator = _aureliaEventAggregator.EventAggregator;
+        }, function (_aureliaLoader) {
+            Loader = _aureliaLoader.Loader;
         }],
         execute: function () {
             ENVIRONMENT = new WeakMap();
@@ -24,18 +22,17 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
             CASCADE_MODE = new WeakMap();
 
             Configure = (function () {
-                function Configure(http, ea) {
+                function Configure(loader) {
                     _classCallCheck(this, _Configure);
 
-                    this.http = http;
-                    this.ea = ea;
+                    this.loader = loader;
 
                     CONFIG_OBJECT.set(this, {});
 
                     ENVIRONMENT.set(this, 'default');
                     ENVIRONMENTS.set(this, false);
                     DIRECTORY.set(this, 'config');
-                    CONFIG_FILE.set(this, 'application.json');
+                    CONFIG_FILE.set(this, 'config.json');
                     CASCADE_MODE.set(this, true);
                 }
 
@@ -160,8 +157,19 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                         var _parent2 = splitKey[0];
                         var child = splitKey[1];
 
+                        if (this.obj[_parent2] === undefined) {
+                            this.obj[_parent2] = {};
+                        }
+
                         this.obj[_parent2][child] = val;
                     }
+                };
+
+                Configure.prototype.merge = function merge(obj) {
+                    var currentConfig = CONFIG_OBJECT.get(this);
+                    var merged = Object.assign(currentConfig, obj);
+
+                    CONFIG_OBJECT.set(this, merged);
                 };
 
                 Configure.prototype.setAll = function setAll(obj) {
@@ -173,14 +181,8 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                 };
 
                 Configure.prototype.loadConfig = function loadConfig() {
-                    var _this = this;
-
-                    return new Promise(function (resolve, reject) {
-                        _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                            resolve(response.content);
-                        })['catch'](function () {
-                            return reject(new Error('Configuration file could not be found or loaded.'));
-                        });
+                    return this.loader.loadText(this.directory + '/' + this.config)['catch'](function () {
+                        return reject(new Error('Configuration file could not be found or loaded.'));
                     });
                 };
 
@@ -217,7 +219,7 @@ System.register(['core-js', 'aurelia-dependency-injection', 'aurelia-http-client
                 }]);
 
                 var _Configure = Configure;
-                Configure = inject(HttpClient, EventAggregator)(Configure) || Configure;
+                Configure = inject(Loader)(Configure) || Configure;
                 return Configure;
             })();
 

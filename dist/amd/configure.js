@@ -1,4 +1,4 @@
-define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-client', 'aurelia-event-aggregator'], function (exports, _coreJs, _aureliaDependencyInjection, _aureliaHttpClient, _aureliaEventAggregator) {
+define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-loader'], function (exports, _coreJs, _aureliaDependencyInjection, _aureliaLoader) {
     'use strict';
 
     exports.__esModule = true;
@@ -15,18 +15,17 @@ define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-clie
     var CASCADE_MODE = new WeakMap();
 
     var Configure = (function () {
-        function Configure(http, ea) {
+        function Configure(loader) {
             _classCallCheck(this, _Configure);
 
-            this.http = http;
-            this.ea = ea;
+            this.loader = loader;
 
             CONFIG_OBJECT.set(this, {});
 
             ENVIRONMENT.set(this, 'default');
             ENVIRONMENTS.set(this, false);
             DIRECTORY.set(this, 'config');
-            CONFIG_FILE.set(this, 'application.json');
+            CONFIG_FILE.set(this, 'config.json');
             CASCADE_MODE.set(this, true);
         }
 
@@ -151,8 +150,19 @@ define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-clie
                 var _parent2 = splitKey[0];
                 var child = splitKey[1];
 
+                if (this.obj[_parent2] === undefined) {
+                    this.obj[_parent2] = {};
+                }
+
                 this.obj[_parent2][child] = val;
             }
+        };
+
+        Configure.prototype.merge = function merge(obj) {
+            var currentConfig = CONFIG_OBJECT.get(this);
+            var merged = Object.assign(currentConfig, obj);
+
+            CONFIG_OBJECT.set(this, merged);
         };
 
         Configure.prototype.setAll = function setAll(obj) {
@@ -164,14 +174,8 @@ define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-clie
         };
 
         Configure.prototype.loadConfig = function loadConfig() {
-            var _this = this;
-
-            return new Promise(function (resolve, reject) {
-                _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                    resolve(response.content);
-                })['catch'](function () {
-                    return reject(new Error('Configuration file could not be found or loaded.'));
-                });
+            return this.loader.loadText(this.directory + '/' + this.config)['catch'](function () {
+                return reject(new Error('Configuration file could not be found or loaded.'));
             });
         };
 
@@ -208,7 +212,7 @@ define(['exports', 'core-js', 'aurelia-dependency-injection', 'aurelia-http-clie
         }]);
 
         var _Configure = Configure;
-        Configure = _aureliaDependencyInjection.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
+        Configure = _aureliaDependencyInjection.inject(_aureliaLoader.Loader)(Configure) || Configure;
         return Configure;
     })();
 

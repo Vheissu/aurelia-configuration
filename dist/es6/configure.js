@@ -1,8 +1,7 @@
 import 'core-js';
 
 import {inject} from 'aurelia-dependency-injection';
-import {HttpClient} from 'aurelia-http-client';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import {Loader} from 'aurelia-loader';
 
 // Secure references that can't be changed outside of Configure singleton class
 const ENVIRONMENT = new WeakMap();
@@ -12,24 +11,24 @@ const CONFIG_FILE = new WeakMap();
 const CONFIG_OBJECT = new WeakMap();
 const CASCADE_MODE = new WeakMap();
 
-@inject(HttpClient, EventAggregator)
+@inject(Loader)
 export class Configure {
-    constructor(http, ea) {
+    constructor(loader) {
         // Injected dependencies
-        this.http = http;
-        this.ea = ea;
+        this.loader = loader;
 
         CONFIG_OBJECT.set(this, {});
 
         ENVIRONMENT.set(this, 'default');
         ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
-        CONFIG_FILE.set(this, 'application.json');
+        CONFIG_FILE.set(this, 'config.json');
         CASCADE_MODE.set(this, true);
     }
 
     /**
      * Set Directory
+     * 
      * Sets the location to look for the config file
      *
      * @param path
@@ -40,6 +39,7 @@ export class Configure {
 
     /**
      * Set Config
+     * 
      * Sets the filename to look for in the defined directory
      *
      * @param name
@@ -50,6 +50,7 @@ export class Configure {
 
     /**
      * Set Environment
+     * 
      * Changes the environment value
      *
      * @param environment
@@ -60,6 +61,7 @@ export class Configure {
 
     /**
      * Set Environments
+     * 
      * Specify multiple environment domains to allow for
      * dynamic environment switching.
      *
@@ -76,6 +78,7 @@ export class Configure {
 
     /**
      * Set Cascade Mode
+     * 
      * By default if a environment config value is not found, it will
      * go looking up the config file to find it (a la inheritance style). Sometimes
      * you just want a config value from a specific environment and nowhere else
@@ -89,6 +92,7 @@ export class Configure {
 
     /**
      * Get Config
+     * 
      * Returns the entire configuration object pulled and parsed from file
      *
      * @returns {V}
@@ -99,6 +103,7 @@ export class Configure {
 
     /**
      * Get Environment
+     * 
      * Gets the current environment value
      *
      * @returns {V}
@@ -109,6 +114,7 @@ export class Configure {
 
     /**
      * Get Environments
+     * 
      * Gets any user supplied environment mappings
      *
      * @returns {array}
@@ -119,6 +125,7 @@ export class Configure {
 
     /**
      * Get Cascade Mode
+     * 
      * Gets the current cascade mode boolean
      * @returns {boolean}
      */
@@ -128,6 +135,7 @@ export class Configure {
 
     /**
      * Get Directory
+     * 
      * Gets the current directory
      *
      * @returns {V}
@@ -138,6 +146,7 @@ export class Configure {
 
     /**
      * Get Config
+     * 
      * Get the config file name
      *
      * @returns {V}
@@ -148,6 +157,7 @@ export class Configure {
 
     /**
      * Is
+     * 
      * A method for determining if the current environment
      * equals that of the supplied environment value*
      * @param environment
@@ -278,14 +288,36 @@ export class Configure {
             let parent = splitKey[0];
             let child = splitKey[1];
 
+            if (this.obj[parent] === undefined) {
+              this.obj[parent] = {};
+            }
+
             this.obj[parent][child] = val;
         }
+    }
+    
+    /**
+     * Merge
+     * 
+     * Allows you to merge in configuration options
+     * this method might be used to merge in server-loaded
+     * configuration options with local ones.
+     * 
+     * @param obj
+     * 
+     */
+    merge(obj) {
+        let currentConfig = CONFIG_OBJECT.get(this);
+        let merged = Object.assign(currentConfig, obj);
+        
+        CONFIG_OBJECT.set(this, merged);        
     }
 
     /**
      * Set All
-     * A dangerous method that sets the entire config object
-     * only used during bootstrapping phase
+     * Sets and overwrites the entire configuration object
+     * used internally, but also can be used to set the configuration
+     * from outside of the usual JSON loading logic.
      *
      * @param obj
      */
@@ -311,13 +343,7 @@ export class Configure {
      * @returns {Promise}
      */
     loadConfig() {
-        return new Promise((resolve, reject) => {
-            this.http
-              .get(`${this.directory}/${this.config}`)
-              .then(response => {
-                  resolve(response.content);
-              })
-              .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
-        });
+        return this.loader.loadText(`${this.directory}/${this.config}`)
+            .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
     }
 }

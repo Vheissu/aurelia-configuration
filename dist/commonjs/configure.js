@@ -10,9 +10,7 @@ require('core-js');
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
-var _aureliaHttpClient = require('aurelia-http-client');
-
-var _aureliaEventAggregator = require('aurelia-event-aggregator');
+var _aureliaLoader = require('aurelia-loader');
 
 var ENVIRONMENT = new WeakMap();
 var ENVIRONMENTS = new WeakMap();
@@ -22,18 +20,17 @@ var CONFIG_OBJECT = new WeakMap();
 var CASCADE_MODE = new WeakMap();
 
 var Configure = (function () {
-    function Configure(http, ea) {
+    function Configure(loader) {
         _classCallCheck(this, _Configure);
 
-        this.http = http;
-        this.ea = ea;
+        this.loader = loader;
 
         CONFIG_OBJECT.set(this, {});
 
         ENVIRONMENT.set(this, 'default');
         ENVIRONMENTS.set(this, false);
         DIRECTORY.set(this, 'config');
-        CONFIG_FILE.set(this, 'application.json');
+        CONFIG_FILE.set(this, 'config.json');
         CASCADE_MODE.set(this, true);
     }
 
@@ -158,8 +155,19 @@ var Configure = (function () {
             var _parent2 = splitKey[0];
             var child = splitKey[1];
 
+            if (this.obj[_parent2] === undefined) {
+                this.obj[_parent2] = {};
+            }
+
             this.obj[_parent2][child] = val;
         }
+    };
+
+    Configure.prototype.merge = function merge(obj) {
+        var currentConfig = CONFIG_OBJECT.get(this);
+        var merged = Object.assign(currentConfig, obj);
+
+        CONFIG_OBJECT.set(this, merged);
     };
 
     Configure.prototype.setAll = function setAll(obj) {
@@ -171,14 +179,8 @@ var Configure = (function () {
     };
 
     Configure.prototype.loadConfig = function loadConfig() {
-        var _this = this;
-
-        return new Promise(function (resolve, reject) {
-            _this.http.get(_this.directory + '/' + _this.config).then(function (response) {
-                resolve(response.content);
-            })['catch'](function () {
-                return reject(new Error('Configuration file could not be found or loaded.'));
-            });
+        return this.loader.loadText(this.directory + '/' + this.config)['catch'](function () {
+            return reject(new Error('Configuration file could not be found or loaded.'));
         });
     };
 
@@ -215,7 +217,7 @@ var Configure = (function () {
     }]);
 
     var _Configure = Configure;
-    Configure = _aureliaDependencyInjection.inject(_aureliaHttpClient.HttpClient, _aureliaEventAggregator.EventAggregator)(Configure) || Configure;
+    Configure = _aureliaDependencyInjection.inject(_aureliaLoader.Loader)(Configure) || Configure;
     return Configure;
 })();
 

@@ -13,6 +13,7 @@ define(['exports', './configure'], function (exports, _configure) {
 
         return new Promise(function (resolve, reject) {
             instance.loadConfig().then(function (data) {
+                data = JSON.parse(data);
                 instance.setAll(data);
                 resolve();
             });
