@@ -8,7 +8,6 @@ System.config({
     ]
   },
   paths: {
-    "*": "dist/*",
     "github:*": "jspm_packages/github/*",
     "npm:*": "jspm_packages/npm/*",
     "aurelia-configuration/*": "dist/*.js"
@@ -18,6 +17,7 @@ System.config({
     "aurelia-dependency-injection": "npm:aurelia-dependency-injection@1.0.0-beta.1.1.4",
     "aurelia-loader": "npm:aurelia-loader@1.0.0-beta.1.1.1",
     "aurelia-pal-browser": "npm:aurelia-pal-browser@1.0.0-beta.1.1.4",
+    "aurelia-path": "npm:aurelia-path@1.0.0-beta.1.1.1",
     "babel": "npm:babel-core@5.8.35",
     "babel-runtime": "npm:babel-runtime@5.8.35",
     "core-js": "npm:core-js@1.2.6",
