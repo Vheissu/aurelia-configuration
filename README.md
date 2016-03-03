@@ -234,7 +234,7 @@ config.set('name', 'New Name');
 ```
 
 ### merge(obj)
-This method allows you to merge configuration options into your local configuration. Convenient if you want to load some configuration options from the server and then use them with the configuration plugin.
+This method allows you to merge configuration options into your local configuration. Convenient if you want to load some configuration options from the server and then use them with the configuration plugin. Use this to merge in options you might get via an AJAX request into the local cached configuration options.
 
 ### setAll(obj)
 A method used by the plugin itself. Will set the configration object. Not advisable to use as it will delete any existing changes if not in the new obj value.
@@ -255,7 +255,8 @@ var myConfigValues = config.getAll();
 ## Dependencies
 
 * [aurelia-dependency-injection](https://github.com/aurelia/dependency-injection)
-* [aurelia-http-client](https://github.com/aurelia/http-client)
+* [aurelia-path](https://github.com/aurelia/path)
+* [aurelia-loader](https://github.com/aurelia/loader)
 
 ## Building from src
 
