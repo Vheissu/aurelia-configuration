@@ -13,10 +13,10 @@ export function configure(aurelia, configCallback) {
             data = JSON.parse(data);
             instance.setAll(data);
             resolve();
+        }).catch(() => {
+            reject(new Error('Configuration file could not be loaded'));
         });
-    }).catch(() => {
-        reject(new Error('Configuration file could not be loaded'));
-    });
+    })
 }
 
 export {Configure};

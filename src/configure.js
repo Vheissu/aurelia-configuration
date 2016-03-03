@@ -1,5 +1,3 @@
-import 'core-js';
-
 import {inject} from 'aurelia-dependency-injection';
 import {Loader} from 'aurelia-loader';
 
