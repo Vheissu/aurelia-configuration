@@ -1,4 +1,5 @@
 import {inject} from 'aurelia-dependency-injection';
+import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
 
 @inject(Loader)
@@ -291,7 +292,7 @@ export class Configure {
      * @returns {Promise}
      */
     loadConfig() {
-        return this.loader.loadText(`${this.directory}/${this.config}`)
+        return this.loader.loadText(join(this.directory, this.config))
             .catch(() => { 
                 throw new Error('Configuration file could not be found or loaded.') 
             });
