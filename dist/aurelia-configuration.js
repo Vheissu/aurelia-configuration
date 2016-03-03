@@ -1,29 +1,21 @@
-import 'core-js';
-
 import {inject} from 'aurelia-dependency-injection';
+import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
-
-// Secure references that can't be changed outside of Configure singleton class
-const ENVIRONMENT = new WeakMap();
-const ENVIRONMENTS = new WeakMap();
-const DIRECTORY = new WeakMap();
-const CONFIG_FILE = new WeakMap();
-const CONFIG_OBJECT = new WeakMap();
-const CASCADE_MODE = new WeakMap();
 
 @inject(Loader)
 export class Configure {
+    
     constructor(loader) {
         // Injected dependencies
         this.loader = loader;
-
-        CONFIG_OBJECT.set(this, {});
-
-        ENVIRONMENT.set(this, 'default');
-        ENVIRONMENTS.set(this, false);
-        DIRECTORY.set(this, 'config');
-        CONFIG_FILE.set(this, 'config.json');
-        CASCADE_MODE.set(this, true);
+        
+        this.environment = 'default';
+        this.environments = false;
+        this.directory = 'config';
+        this.config_file = 'config.json';
+        this.cascade_mode = true;
+        
+        this._config_object = {};
     }
 
     /**
@@ -34,7 +26,7 @@ export class Configure {
      * @param path
      */
     setDirectory(path) {
-        DIRECTORY.set(this, path);
+        this.directory = path;
     }
 
     /**
@@ -45,7 +37,7 @@ export class Configure {
      * @param name
      */
     setConfig(name) {
-        CONFIG_FILE.set(this, name);
+        this.config_file = name;
     }
 
     /**
@@ -56,7 +48,7 @@ export class Configure {
      * @param environment
      */
     setEnvironment(environment) {
-        ENVIRONMENT.set(this, environment);
+        this.environment = environment;
     }
 
     /**
@@ -69,7 +61,7 @@ export class Configure {
      */
      setEnvironments(environments = false) {
          if (environments) {
-            ENVIRONMENTS.set(this, environments);
+            this.environments = environments;
 
             // Check the hostname value and determine our environment
             this.check();
@@ -87,7 +79,7 @@ export class Configure {
      * @param bool
      */
     setCascadeMode(bool = true) {
-        CASCADE_MODE.set(this, bool);
+        this.cascade_mode = bool;
     }
 
     /**
@@ -98,50 +90,7 @@ export class Configure {
      * @returns {V}
      */
     get obj() {
-        return CONFIG_OBJECT.get(this);
-    }
-
-    /**
-     * Get Environment
-     * 
-     * Gets the current environment value
-     *
-     * @returns {V}
-     */
-    get environment() {
-        return ENVIRONMENT.get(this);
-    }
-
-    /**
-     * Get Environments
-     * 
-     * Gets any user supplied environment mappings
-     *
-     * @returns {array}
-     */
-    get environments() {
-        return ENVIRONMENTS.get(this);
-    }
-
-    /**
-     * Get Cascade Mode
-     * 
-     * Gets the current cascade mode boolean
-     * @returns {boolean}
-     */
-    get cascadeMode() {
-        return CASCADE_MODE.get(this);
-    }
-
-    /**
-     * Get Directory
-     * 
-     * Gets the current directory
-     *
-     * @returns {V}
-     */
-    get directory() {
-        return DIRECTORY.get(this);
+        return this._config_object;
     }
 
     /**
@@ -152,7 +101,7 @@ export class Configure {
      * @returns {V}
      */
     get config() {
-        return CONFIG_FILE.get(this);
+        return this.config_file;
     }
 
     /**
@@ -307,10 +256,10 @@ export class Configure {
      * 
      */
     merge(obj) {
-        let currentConfig = CONFIG_OBJECT.get(this);
+        let currentConfig = this._config_object;
         let merged = Object.assign(currentConfig, obj);
         
-        CONFIG_OBJECT.set(this, merged);        
+        this._config_object = merged;       
     }
 
     /**
@@ -322,7 +271,7 @@ export class Configure {
      * @param obj
      */
     setAll(obj) {
-        CONFIG_OBJECT.set(this, obj);
+        this._config_object = obj;
     }
 
     /**
@@ -343,7 +292,30 @@ export class Configure {
      * @returns {Promise}
      */
     loadConfig() {
-        return this.loader.loadText(`${this.directory}/${this.config}`)
-            .catch(() => reject(new Error('Configuration file could not be found or loaded.')));
+        return this.loader.loadText(join(this.directory, this.config))
+            .catch(() => { 
+                throw new Error('Configuration file could not be found or loaded.') 
+            });
     }
 }
+
+export function configure(aurelia, configCallback) {
+    var instance = aurelia.container.get(Configure);
+
+    // Do we have a callback function?
+    if (configCallback !== undefined && typeof(configCallback) === 'function') {
+        configCallback(instance);
+    }
+
+    return new Promise((resolve, reject) => {
+        instance.loadConfig().then(data => {
+            data = JSON.parse(data);
+            instance.setAll(data);
+            resolve();
+        }).catch(() => {
+            reject(new Error('Configuration file could not be loaded'));
+        });
+    })
+}
+
+export {Configure};

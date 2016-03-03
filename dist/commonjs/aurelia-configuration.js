@@ -4,20 +4,15 @@ exports.__esModule = true;
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+exports.configure = configure;
 
-require('core-js');
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
-var _aureliaLoader = require('aurelia-loader');
+var _aureliaPath = require('aurelia-path');
 
-var ENVIRONMENT = new WeakMap();
-var ENVIRONMENTS = new WeakMap();
-var DIRECTORY = new WeakMap();
-var CONFIG_FILE = new WeakMap();
-var CONFIG_OBJECT = new WeakMap();
-var CASCADE_MODE = new WeakMap();
+var _aureliaLoader = require('aurelia-loader');
 
 var Configure = (function () {
     function Configure(loader) {
@@ -25,32 +20,32 @@ var Configure = (function () {
 
         this.loader = loader;
 
-        CONFIG_OBJECT.set(this, {});
+        this.environment = 'default';
+        this.environments = false;
+        this.directory = 'config';
+        this.config_file = 'config.json';
+        this.cascade_mode = true;
 
-        ENVIRONMENT.set(this, 'default');
-        ENVIRONMENTS.set(this, false);
-        DIRECTORY.set(this, 'config');
-        CONFIG_FILE.set(this, 'config.json');
-        CASCADE_MODE.set(this, true);
+        this._config_object = {};
     }
 
     Configure.prototype.setDirectory = function setDirectory(path) {
-        DIRECTORY.set(this, path);
+        this.directory = path;
     };
 
     Configure.prototype.setConfig = function setConfig(name) {
-        CONFIG_FILE.set(this, name);
+        this.config_file = name;
     };
 
     Configure.prototype.setEnvironment = function setEnvironment(environment) {
-        ENVIRONMENT.set(this, environment);
+        this.environment = environment;
     };
 
     Configure.prototype.setEnvironments = function setEnvironments() {
         var environments = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
         if (environments) {
-            ENVIRONMENTS.set(this, environments);
+            this.environments = environments;
 
             this.check();
         }
@@ -59,7 +54,7 @@ var Configure = (function () {
     Configure.prototype.setCascadeMode = function setCascadeMode() {
         var bool = arguments.length <= 0 || arguments[0] === undefined ? true : arguments[0];
 
-        CASCADE_MODE.set(this, bool);
+        this.cascade_mode = bool;
     };
 
     Configure.prototype.is = function is(environment) {
@@ -164,14 +159,14 @@ var Configure = (function () {
     };
 
     Configure.prototype.merge = function merge(obj) {
-        var currentConfig = CONFIG_OBJECT.get(this);
+        var currentConfig = this._config_object;
         var merged = Object.assign(currentConfig, obj);
 
-        CONFIG_OBJECT.set(this, merged);
+        this._config_object = merged;
     };
 
     Configure.prototype.setAll = function setAll(obj) {
-        CONFIG_OBJECT.set(this, obj);
+        this._config_object = obj;
     };
 
     Configure.prototype.getAll = function getAll() {
@@ -179,40 +174,20 @@ var Configure = (function () {
     };
 
     Configure.prototype.loadConfig = function loadConfig() {
-        return this.loader.loadText(this.directory + '/' + this.config)['catch'](function () {
-            return reject(new Error('Configuration file could not be found or loaded.'));
+        return this.loader.loadText(_aureliaPath.join(this.directory, this.config))['catch'](function () {
+            throw new Error('Configuration file could not be found or loaded.');
         });
     };
 
     _createClass(Configure, [{
         key: 'obj',
         get: function get() {
-            return CONFIG_OBJECT.get(this);
-        }
-    }, {
-        key: 'environment',
-        get: function get() {
-            return ENVIRONMENT.get(this);
-        }
-    }, {
-        key: 'environments',
-        get: function get() {
-            return ENVIRONMENTS.get(this);
-        }
-    }, {
-        key: 'cascadeMode',
-        get: function get() {
-            return CASCADE_MODE.get(this);
-        }
-    }, {
-        key: 'directory',
-        get: function get() {
-            return DIRECTORY.get(this);
+            return this._config_object;
         }
     }, {
         key: 'config',
         get: function get() {
-            return CONFIG_FILE.get(this);
+            return this.config_file;
         }
     }]);
 
@@ -220,5 +195,25 @@ var Configure = (function () {
     Configure = _aureliaDependencyInjection.inject(_aureliaLoader.Loader)(Configure) || Configure;
     return Configure;
 })();
+
+exports.Configure = Configure;
+
+function configure(aurelia, configCallback) {
+    var instance = aurelia.container.get(Configure);
+
+    if (configCallback !== undefined && typeof configCallback === 'function') {
+        configCallback(instance);
+    }
+
+    return new Promise(function (resolve, reject) {
+        instance.loadConfig().then(function (data) {
+            data = JSON.parse(data);
+            instance.setAll(data);
+            resolve();
+        })['catch'](function () {
+            reject(new Error('Configuration file could not be loaded'));
+        });
+    });
+}
 
 exports.Configure = Configure;
