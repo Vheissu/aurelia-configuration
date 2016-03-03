@@ -3,17 +3,18 @@ import {Loader} from 'aurelia-loader';
 
 @inject(Loader)
 export class Configure {
-    environment = 'default';
-    environments = false;
-    directory = 'config';
-    config_file = 'config.json';
-    cascade_mode = true;
-    
-    _config_object = {};
     
     constructor(loader) {
         // Injected dependencies
         this.loader = loader;
+        
+        this.environment = 'default';
+        this.environments = false;
+        this.directory = 'config';
+        this.config_file = 'config.json';
+        this.cascade_mode = true;
+        
+        this._config_object = {};
     }
 
     /**
