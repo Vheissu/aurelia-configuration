@@ -22,7 +22,7 @@
     "test": "gulp test"
   },
   "jspm": {
-    "registry": "github",
+    "registry": "npm",
     "main": "index",
     "format": "amd",
     "directories": {
@@ -33,7 +33,10 @@
       "aurelia-loader": "^1.0.0-beta.1.1.1"
     },
     "devDependencies": {
-      "aurelia-pal-browser": "^1.0.0-beta.1.1.4"
+      "aurelia-pal-browser": "^1.0.0-beta.1.1.4",
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
     }
   },
   "devDependencies": {
