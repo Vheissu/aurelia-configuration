@@ -1,4 +1,6 @@
 # Aurelia-Configuration
+
+[![Join the chat at https://gitter.im/Vheissu/Aurelia-Configuration](https://badges.gitter.im/Vheissu/Aurelia-Configuration.svg)](https://gitter.im/Vheissu/Aurelia-Configuration?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A smart configuration plugin and singleton service layer for your Aurelia applications.
 
 ## Get Started
