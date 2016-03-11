@@ -139,6 +139,9 @@ export class Configure {
                     for (let host of hostnames) {
                         if (hostname.search(host) !== -1) {
                             this.setEnvironment(env);
+                            
+                            // We have successfully found an environment, stop searching
+                            return;
                         }
                     }
                 }

@@ -80,6 +80,8 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
 
                             if (hostname.search(host) !== -1) {
                                 this.setEnvironment(env);
+
+                                return;
                             }
                         }
                     }
