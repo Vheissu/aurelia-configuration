@@ -85,6 +85,8 @@ var Configure = (function () {
 
                         if (hostname.search(host) !== -1) {
                             this.setEnvironment(env);
+
+                            return;
                         }
                     }
                 }

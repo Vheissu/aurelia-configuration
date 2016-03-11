@@ -107,6 +107,8 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
 
                                     if (hostname.search(host) !== -1) {
                                         this.setEnvironment(env);
+
+                                        return;
                                     }
                                 }
                             }
