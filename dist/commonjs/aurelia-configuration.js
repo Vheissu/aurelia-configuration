@@ -175,7 +175,7 @@ var Configure = (function () {
 
     Configure.prototype.lazyMerge = function lazyMerge(obj) {
         var currentMergeConfig = this._config_merge_object || {};
-        var merged = deepExtend(currentMergeConfig, obj);
+        var merged = _deepExtend2['default'](currentMergeConfig, obj);
 
         this._config_merge_object = merged;
     };
@@ -202,11 +202,13 @@ var Configure = (function () {
     };
 
     Configure.prototype.loadConfigFile = function loadConfigFile(path, action) {
-        return this.loader.loadText(path).then(function (data) {
+        var pathClosure = path.toString();
+
+        return this.loader.loadText(pathClosure).then(function (data) {
             data = JSON.parse(data);
             action(data);
         })['catch'](function () {
-            throw new Error('Configuration file could not be found or loaded.');
+            console.log('Configuration file could not be found or loaded: ' + pathClosure);
         });
     };
 
