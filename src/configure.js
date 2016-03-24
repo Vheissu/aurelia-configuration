@@ -331,13 +331,15 @@ export class Configure {
      * @returns {Promise}
      */
     loadConfigFile(path, action) {
-        return this.loader.loadText(path)
+        let pathClosure = path.toString();
+        
+        return this.loader.loadText(pathClosure)
             .then(data => {
                 data = JSON.parse(data);
                 action(data);
             })
             .catch(() => { 
-                throw new Error('Configuration file could not be found or loaded.') 
+                console.log(`Configuration file could not be found or loaded: ${pathClosure}`);
             });
     }
     

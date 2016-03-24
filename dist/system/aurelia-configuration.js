@@ -218,11 +218,13 @@ System.register(['deep-extend', 'aurelia-dependency-injection', 'aurelia-path', 
                 };
 
                 Configure.prototype.loadConfigFile = function loadConfigFile(path, action) {
-                    return this.loader.loadText(path).then(function (data) {
+                    var pathClosure = path.toString();
+
+                    return this.loader.loadText(pathClosure).then(function (data) {
                         data = JSON.parse(data);
                         action(data);
                     })['catch'](function () {
-                        throw new Error('Configuration file could not be found or loaded.');
+                        console.log('Configuration file could not be found or loaded: ' + pathClosure);
                     });
                 };
 
