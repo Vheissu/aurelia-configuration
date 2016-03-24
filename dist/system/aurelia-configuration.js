@@ -1,7 +1,7 @@
-System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader'], function (_export) {
+System.register(['deep-extend', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader'], function (_export) {
     'use strict';
 
-    var inject, join, Loader, Configure;
+    var deepExtend, inject, join, Loader, Configure;
 
     var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -28,7 +28,9 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
     }
 
     return {
-        setters: [function (_aureliaDependencyInjection) {
+        setters: [function (_deepExtend) {
+            deepExtend = _deepExtend['default'];
+        }, function (_aureliaDependencyInjection) {
             inject = _aureliaDependencyInjection.inject;
         }, function (_aureliaPath) {
             join = _aureliaPath.join;
@@ -184,7 +186,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
 
                 Configure.prototype.merge = function merge(obj) {
                     var currentConfig = this._config_object;
-                    var merged = Object.assign(currentConfig, obj);
+                    var merged = deepExtend(currentConfig, obj);
 
                     this._config_object = merged;
                 };

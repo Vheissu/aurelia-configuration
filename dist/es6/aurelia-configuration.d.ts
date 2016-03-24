@@ -1,4 +1,5 @@
 declare module 'aurelia-configuration' {
+  import deepExtend from 'deep-extend';
   import { inject }  from 'aurelia-dependency-injection';
   import { join }  from 'aurelia-path';
   import { Loader }  from 'aurelia-loader';
@@ -132,8 +133,8 @@ declare module 'aurelia-configuration' {
     /**
          * Merge
          * 
-         * Allows you to merge in configuration options
-         * this method might be used to merge in server-loaded
+         * Allows you to merge in configuration options.
+         * This method might be used to merge in server-loaded
          * configuration options with local ones.
          * 
          * @param obj
