@@ -9,13 +9,11 @@ export function configure(aurelia, configCallback) {
     }
 
     return new Promise((resolve, reject) => {
-        instance.loadConfig().then(data => {
-            data = JSON.parse(data);
-            instance.setAll(data);
-            resolve();
-        }).catch(() => {
-            reject(new Error('Configuration file could not be loaded'));
-        });
+        instance.loadConfig()
+            .then(() => resolve())
+            .catch(() => {
+                reject(new Error('Configuration file could not be loaded'));
+            });
     })
 }
 

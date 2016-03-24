@@ -265,6 +265,24 @@ export class Configure {
         
         this._config_object = merged;       
     }
+    
+    /**
+     * Lazy Merge
+     * 
+     * Allows you to merge in configuration options.
+     * This method might be used to merge in server-loaded
+     * configuration options with local ones. The merge
+     * occurs after the config has been loaded.
+     * 
+     * @param obj
+     * 
+     */
+    lazyMerge(obj) {
+        let currentMergeConfig = (this._config_merge_object || {});
+        let merged = deepExtend(currentMergeConfig, obj);
+        
+        this._config_merge_object = merged;       
+    }
 
     /**
      * Set All
@@ -290,15 +308,50 @@ export class Configure {
 
     /**
      * Load Config
-     * Loads the configuration file from specified location
-     * and then returns a Promise
+     * Loads the configuration file from specified location,
+     * merges in any overrides, then returns a Promise.
      *
      * @returns {Promise}
      */
     loadConfig() {
-        return this.loader.loadText(join(this.directory, this.config))
+        return this.loadConfigFile(join(this.directory, this.config), data => this.setAll(data))
+            .then(() => {
+                if (this._config_merge_object) {
+                    this.merge(this._config_merge_object);
+                    this._config_merge_object = null;
+                }
+            });
+    }
+
+    /**
+     * Load Config File
+     * Loads the configuration file from the specified location
+     * and then returns a Promise.
+     *
+     * @returns {Promise}
+     */
+    loadConfigFile(path, action) {
+        return this.loader.loadText(path)
+            .then(data => {
+                data = JSON.parse(data);
+                action(data);
+            })
             .catch(() => { 
                 throw new Error('Configuration file could not be found or loaded.') 
             });
+    }
+    
+    /**
+     * Merge Config File
+     * 
+     * Allows you to merge in configuration options from a file.
+     * This method might be used to merge in server-loaded
+     * configuration options with local ones.
+     * 
+     * @param path
+     * 
+     */
+    mergeConfigFile(path) {
+        return this.loadConfigFile(path, data => this.merge(data));
     }
 }

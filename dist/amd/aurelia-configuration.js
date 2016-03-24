@@ -166,6 +166,13 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
             this._config_object = merged;
         };
 
+        Configure.prototype.lazyMerge = function lazyMerge(obj) {
+            var currentMergeConfig = this._config_merge_object || {};
+            var merged = deepExtend(currentMergeConfig, obj);
+
+            this._config_merge_object = merged;
+        };
+
         Configure.prototype.setAll = function setAll(obj) {
             this._config_object = obj;
         };
@@ -175,8 +182,32 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
         };
 
         Configure.prototype.loadConfig = function loadConfig() {
-            return this.loader.loadText(_aureliaPath.join(this.directory, this.config))['catch'](function () {
+            var _this = this;
+
+            return this.loadConfigFile(_aureliaPath.join(this.directory, this.config), function (data) {
+                return _this.setAll(data);
+            }).then(function () {
+                if (_this._config_merge_object) {
+                    _this.merge(_this._config_merge_object);
+                    _this._config_merge_object = null;
+                }
+            });
+        };
+
+        Configure.prototype.loadConfigFile = function loadConfigFile(path, action) {
+            return this.loader.loadText(path).then(function (data) {
+                data = JSON.parse(data);
+                action(data);
+            })['catch'](function () {
                 throw new Error('Configuration file could not be found or loaded.');
+            });
+        };
+
+        Configure.prototype.mergeConfigFile = function mergeConfigFile(path) {
+            var _this2 = this;
+
+            return this.loadConfigFile(path, function (data) {
+                return _this2.merge(data);
             });
         };
 
@@ -207,10 +238,8 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
         }
 
         return new Promise(function (resolve, reject) {
-            instance.loadConfig().then(function (data) {
-                data = JSON.parse(data);
-                instance.setAll(data);
-                resolve();
+            instance.loadConfig().then(function () {
+                return resolve();
             })['catch'](function () {
                 reject(new Error('Configuration file could not be loaded'));
             });
