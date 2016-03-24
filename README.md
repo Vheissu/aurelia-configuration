@@ -238,6 +238,12 @@ config.set('name', 'New Name');
 ### merge(obj)
 This method allows you to merge configuration options into your local configuration. Convenient if you want to load some configuration options from the server and then use them with the configuration plugin. Use this to merge in options you might get via an AJAX request into the local cached configuration options.
 
+### lazyMerge(obj)
+Similar to `merge`, however, this method applies the configuration changes during `loadConfig`, rather than immediately.
+
+### mergeConfigFile(path)
+Similar to `merge`, but takes a file path instead of a configuration object.
+
 ### setAll(obj)
 A method used by the plugin itself. Will set the configration object. Not advisable to use as it will delete any existing changes if not in the new obj value.
 
