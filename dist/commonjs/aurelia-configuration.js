@@ -6,7 +6,13 @@ var _createClass = (function () { function defineProperties(target, props) { for
 
 exports.configure = configure;
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _deepExtend = require('deep-extend');
+
+var _deepExtend2 = _interopRequireDefault(_deepExtend);
 
 var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
@@ -162,7 +168,7 @@ var Configure = (function () {
 
     Configure.prototype.merge = function merge(obj) {
         var currentConfig = this._config_object;
-        var merged = Object.assign(currentConfig, obj);
+        var merged = _deepExtend2['default'](currentConfig, obj);
 
         this._config_object = merged;
     };

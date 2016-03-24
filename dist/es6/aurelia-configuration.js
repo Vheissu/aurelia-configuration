@@ -1,3 +1,4 @@
+import deepExtend from 'deep-extend';
 import {inject} from 'aurelia-dependency-injection';
 import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
@@ -251,8 +252,8 @@ export class Configure {
     /**
      * Merge
      * 
-     * Allows you to merge in configuration options
-     * this method might be used to merge in server-loaded
+     * Allows you to merge in configuration options.
+     * This method might be used to merge in server-loaded
      * configuration options with local ones.
      * 
      * @param obj
@@ -260,7 +261,7 @@ export class Configure {
      */
     merge(obj) {
         let currentConfig = this._config_object;
-        let merged = Object.assign(currentConfig, obj);
+        let merged = deepExtend(currentConfig, obj);
         
         this._config_object = merged;       
     }

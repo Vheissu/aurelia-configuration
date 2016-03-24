@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader'], function (exports, _aureliaDependencyInjection, _aureliaPath, _aureliaLoader) {
+define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader'], function (exports, _deepExtend, _aureliaDependencyInjection, _aureliaPath, _aureliaLoader) {
     'use strict';
 
     exports.__esModule = true;
@@ -7,7 +7,11 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
 
     exports.configure = configure;
 
+    function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+    var _deepExtend2 = _interopRequireDefault(_deepExtend);
 
     var Configure = (function () {
         function Configure(loader) {
@@ -157,7 +161,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
 
         Configure.prototype.merge = function merge(obj) {
             var currentConfig = this._config_object;
-            var merged = Object.assign(currentConfig, obj);
+            var merged = _deepExtend2['default'](currentConfig, obj);
 
             this._config_object = merged;
         };
