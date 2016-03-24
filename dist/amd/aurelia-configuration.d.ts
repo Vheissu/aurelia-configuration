@@ -142,6 +142,19 @@ declare module 'aurelia-configuration' {
     merge(obj: any): any;
     
     /**
+         * Lazy Merge
+         * 
+         * Allows you to merge in configuration options.
+         * This method might be used to merge in server-loaded
+         * configuration options with local ones. The merge
+         * occurs after the config has been loaded.
+         * 
+         * @param obj
+         * 
+         */
+    lazyMerge(obj: any): any;
+    
+    /**
          * Set All
          * Sets and overwrites the entire configuration object
          * used internally, but also can be used to set the configuration
@@ -161,12 +174,33 @@ declare module 'aurelia-configuration' {
     
     /**
          * Load Config
-         * Loads the configuration file from specified location
-         * and then returns a Promise
+         * Loads the configuration file from specified location,
+         * merges in any overrides, then returns a Promise.
          *
          * @returns {Promise}
          */
     loadConfig(): any;
+    
+    /**
+         * Load Config File
+         * Loads the configuration file from the specified location
+         * and then returns a Promise.
+         *
+         * @returns {Promise}
+         */
+    loadConfigFile(path: any, action: any): any;
+    
+    /**
+         * Merge Config File
+         * 
+         * Allows you to merge in configuration options from a file.
+         * This method might be used to merge in server-loaded
+         * configuration options with local ones.
+         * 
+         * @param path
+         * 
+         */
+    mergeConfigFile(path: any): any;
   }
   export function configure(aurelia: any, configCallback: any): any;
 }
