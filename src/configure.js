@@ -196,7 +196,7 @@ export class Configure {
                     if (this.obj[this.environment][key]) {
                         returnVal = this.obj[this.environment][key];
                     // Get default value from non-namespaced section if enabled
-                    } else if (this.cascadeMode && this.obj[key]) {
+                    } else if (this.cascade_mode && this.obj[key]) {
                         returnVal = this.obj[key];
                     }
                 }
@@ -216,7 +216,7 @@ export class Configure {
                 if (this.environmentExists()) {
                     if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
                         returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascadeMode && this.obj[parent] && this.obj[parent][child]) {
+                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
                         returnVal = this.obj[parent][child];
                     }
                 }
