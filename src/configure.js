@@ -169,7 +169,7 @@ export class Configure {
      * @returns {boolean}
      */
     environmentExists() {
-        return this.environment in this.obj ? true : false;
+        return this.environment in this.obj;
     }
 
     /**
