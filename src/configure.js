@@ -169,7 +169,7 @@ export class Configure {
      * @returns {boolean}
      */
     environmentExists() {
-        return (typeof this.obj[this.environment] === undefined) ? false : true;
+        return this.environment in this.obj ? true : false;
     }
 
     /**
