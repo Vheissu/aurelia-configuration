@@ -191,14 +191,12 @@ export class Configure {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
             } else {
-                if (this.environmentExists()) {
-                    // Value exists in environment
-                    if (this.obj[this.environment][key]) {
-                        returnVal = this.obj[this.environment][key];
-                    // Get default value from non-namespaced section if enabled
-                    } else if (this.cascade_mode && this.obj[key]) {
-                        returnVal = this.obj[key];
-                    }
+                // Value exists in environment
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                // Get default value from non-namespaced section if enabled
+                } else if (this.cascade_mode && this.obj[key]) {
+                    returnVal = this.obj[key];
                 }
 
                 return returnVal;
