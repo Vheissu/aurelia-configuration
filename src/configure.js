@@ -169,7 +169,7 @@ export class Configure {
      * @returns {boolean}
      */
     environmentExists() {
-        return (typeof this.obj[this.environment] === undefined) ? false : true;
+        return this.environment in this.obj;
     }
 
     /**
@@ -191,14 +191,12 @@ export class Configure {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
             } else {
-                if (this.environmentExists()) {
-                    // Value exists in environment
-                    if (this.obj[this.environment][key]) {
-                        returnVal = this.obj[this.environment][key];
-                    // Get default value from non-namespaced section if enabled
-                    } else if (this.cascadeMode && this.obj[key]) {
-                        returnVal = this.obj[key];
-                    }
+                // Value exists in environment
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                // Get default value from non-namespaced section if enabled
+                } else if (this.cascade_mode && this.obj[key]) {
+                    returnVal = this.obj[key];
                 }
 
                 return returnVal;
@@ -216,7 +214,7 @@ export class Configure {
                 if (this.environmentExists()) {
                     if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
                         returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascadeMode && this.obj[parent] && this.obj[parent][child]) {
+                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
                         returnVal = this.obj[parent][child];
                     }
                 }
