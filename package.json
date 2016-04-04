@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "author": "Dwayne Charrington <dwaynecharrington@gmail.com> (http://ilikekillnerds.com)",
-  "main": "dist/commonjs/index.js",
+  "main": "dist/commonjs/aurelia-configuration.js",
   "repository": {
     "type": "git",
     "url": "http://github.com/Vheissu/Aurelia-Configuration"
