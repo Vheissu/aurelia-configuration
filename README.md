@@ -11,7 +11,7 @@ A smart configuration plugin and singleton service layer for your Aurelia applic
 jspm install aurelia-configuration
 ```
 
-* Use the plugin in your app's main.js:
+* Add plugin to your app's main.js:
 
 ```javascript
 export function configure(aurelia) {
@@ -22,6 +22,18 @@ export function configure(aurelia) {
 
     aurelia.start().then(a => a.setRoot());
 }
+```
+
+* Use to **set** configuration in your app's main.js:
+
+```
+import {Configure} from "aurelia-configuration";
+// [...]
+aurelia.use
+        .standardConfiguration()
+        .plugin('aurelia-i18n', (instance) => {
+                let configInstance = aurelia.container.get(Configure);
+                let apiEndpoint = configInstance.get('api.endpoint');
 ```
 
 * Create a config file. By default the plugin will assume a configuration file called: config.json inside of a root directory called "config" - the contents of the JSON file can be anything you like as long as it is a JSON object. You can configure the plugin to use a different config file if you like.
