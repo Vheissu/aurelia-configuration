@@ -105,7 +105,7 @@ var Configure = (function () {
     };
 
     Configure.prototype.environmentExists = function environmentExists() {
-        return typeof this.obj[this.environment] === undefined ? false : true;
+        return this.environment in this.obj;
     };
 
     Configure.prototype.get = function get(key) {
@@ -117,13 +117,11 @@ var Configure = (function () {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
             } else {
-                if (this.environmentExists()) {
-                    if (this.obj[this.environment][key]) {
-                        returnVal = this.obj[this.environment][key];
-                    } else if (this.cascadeMode && this.obj[key]) {
-                            returnVal = this.obj[key];
-                        }
-                }
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
+                } else if (this.cascade_mode && this.obj[key]) {
+                        returnVal = this.obj[key];
+                    }
 
                 return returnVal;
             }
@@ -140,7 +138,7 @@ var Configure = (function () {
                 if (this.environmentExists()) {
                     if (this.obj[this.environment][_parent] && this.obj[this.environment][_parent][child]) {
                         returnVal = this.obj[this.environment][_parent][child];
-                    } else if (this.cascadeMode && this.obj[_parent] && this.obj[_parent][child]) {
+                    } else if (this.cascade_mode && this.obj[_parent] && this.obj[_parent][child]) {
                         returnVal = this.obj[_parent][child];
                     }
                 }
@@ -205,7 +203,9 @@ var Configure = (function () {
         var pathClosure = path.toString();
 
         return this.loader.loadText(pathClosure).then(function (data) {
-            data = JSON.parse(data);
+            if (typeof data !== 'object') {
+                data = JSON.parse(data);
+            }
             action(data);
         })['catch'](function () {
             console.log('Configuration file could not be found or loaded: ' + pathClosure);
