@@ -333,7 +333,9 @@ export class Configure {
         
         return this.loader.loadText(pathClosure)
             .then(data => {
-                data = JSON.parse(data);
+                if (typeof data !== 'object') {
+                    data = JSON.parse(data);
+                }
                 action(data);
             })
             .catch(() => { 
