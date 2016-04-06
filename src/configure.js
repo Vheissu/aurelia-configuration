@@ -354,6 +354,6 @@ export class Configure {
      * 
      */
     mergeConfigFile(path) {
-        return this.loadConfigFile(path, data => this.merge(data));
+        return this.loadConfigFile(path, data => this.lazyMerge(data));
     }
 }
