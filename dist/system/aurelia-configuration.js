@@ -232,7 +232,7 @@ System.register(['deep-extend', 'aurelia-dependency-injection', 'aurelia-path', 
                     var _this2 = this;
 
                     return this.loadConfigFile(path, function (data) {
-                        return _this2.merge(data);
+                        return _this2.lazyMerge(data);
                     });
                 };
 
