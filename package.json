@@ -28,17 +28,19 @@
     "directories": {
       "lib": "dist/amd"
     },
-    "peerDependencies": {
+    "dependencies": {
       "aurelia-dependency-injection": "^1.0.0-beta.1.1.4",
       "aurelia-loader": "1.0.0-beta.1.2.0",
-      "aurelia-path": "^1.0.0-beta.1.1.0",
-      "deep-extend": "^0.4.1"
+      "aurelia-path": "^1.0.0-beta.1.1.0"
     },
     "devDependencies": {
       "babel": "^5.8.24",
       "babel-runtime": "^5.8.24",
       "core-js": "^2.0.3"
     }
+  },
+  "dependencies": {
+    "deep-extend": "^0.4.1"
   },
   "devDependencies": {
     "aurelia-tools": "0.1.16",
