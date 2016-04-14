@@ -29,18 +29,21 @@
       "lib": "dist/amd"
     },
     "dependencies": {
-      "aurelia-dependency-injection": "^1.0.0-beta.1.1.4",
-      "aurelia-loader": "1.0.0-beta.1.2.0",
-      "aurelia-path": "^1.0.0-beta.1.1.0",
+      "aurelia-dependency-injection": "^1.0.0-beta.1.2.0",
+      "aurelia-loader-default": "^1.0.0-beta.1.2.1",
+      "aurelia-path": "^1.0.0-beta.1.2.1",
       "deep-extend": "^0.4.1"
     },
     "devDependencies": {
-      "babel": "^5.8.24",
+      "babel": "babel-core@^5.8.24",
       "babel-runtime": "^5.8.24",
-      "core-js": "^2.0.3"
+      "core-js": "^1.1.4"
     }
   },
   "dependencies": {
+    "aurelia-dependency-injection": "^1.0.0-beta.1.2.0",
+    "aurelia-loader-default": "^1.0.0-beta.1.2.1",
+    "aurelia-path": "^1.0.0-beta.1.2.1",
     "deep-extend": "^0.4.1"
   },
   "devDependencies": {
