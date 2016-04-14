@@ -31,7 +31,8 @@
     "dependencies": {
       "aurelia-dependency-injection": "^1.0.0-beta.1.1.4",
       "aurelia-loader": "1.0.0-beta.1.2.0",
-      "aurelia-path": "^1.0.0-beta.1.1.0"
+      "aurelia-path": "^1.0.0-beta.1.1.0",
+      "deep-extend": "^0.4.1"
     },
     "devDependencies": {
       "babel": "^5.8.24",
