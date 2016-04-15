@@ -106,7 +106,7 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
     };
 
     Configure.prototype.environmentEnabled = function environmentEnabled() {
-        return this.environment === 'default' || this.environment === '' || !this.environment ? false : true;
+        return !(this.environment === 'default' || this.environment === '' || !this.environment);
     };
 
     Configure.prototype.environmentExists = function environmentExists() {
@@ -171,16 +171,14 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
 
     Configure.prototype.merge = function merge(obj) {
         var currentConfig = this._config_object;
-        var merged = (0, _deepExtend2.default)(currentConfig, obj);
 
-        this._config_object = merged;
+        this._config_object = (0, _deepExtend2.default)(currentConfig, obj);
     };
 
     Configure.prototype.lazyMerge = function lazyMerge(obj) {
         var currentMergeConfig = this._config_merge_object || {};
-        var merged = (0, _deepExtend2.default)(currentMergeConfig, obj);
 
-        this._config_merge_object = merged;
+        this._config_merge_object = (0, _deepExtend2.default)(currentMergeConfig, obj);
     };
 
     Configure.prototype.setAll = function setAll(obj) {

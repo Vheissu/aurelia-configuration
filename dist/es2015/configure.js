@@ -76,7 +76,7 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
     }
 
     environmentEnabled() {
-        return this.environment === 'default' || this.environment === '' || !this.environment ? false : true;
+        return !(this.environment === 'default' || this.environment === '' || !this.environment);
     }
 
     environmentExists() {
@@ -139,16 +139,14 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
 
     merge(obj) {
         let currentConfig = this._config_object;
-        let merged = deepExtend(currentConfig, obj);
 
-        this._config_object = merged;
+        this._config_object = deepExtend(currentConfig, obj);
     }
 
     lazyMerge(obj) {
         let currentMergeConfig = this._config_merge_object || {};
-        let merged = deepExtend(currentMergeConfig, obj);
 
-        this._config_merge_object = merged;
+        this._config_merge_object = deepExtend(currentMergeConfig, obj);
     }
 
     setAll(obj) {

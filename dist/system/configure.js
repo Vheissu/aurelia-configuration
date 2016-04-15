@@ -125,7 +125,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                 };
 
                 Configure.prototype.environmentEnabled = function environmentEnabled() {
-                    return this.environment === 'default' || this.environment === '' || !this.environment ? false : true;
+                    return !(this.environment === 'default' || this.environment === '' || !this.environment);
                 };
 
                 Configure.prototype.environmentExists = function environmentExists() {
@@ -190,16 +190,14 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
 
                 Configure.prototype.merge = function merge(obj) {
                     var currentConfig = this._config_object;
-                    var merged = deepExtend(currentConfig, obj);
 
-                    this._config_object = merged;
+                    this._config_object = deepExtend(currentConfig, obj);
                 };
 
                 Configure.prototype.lazyMerge = function lazyMerge(obj) {
                     var currentMergeConfig = this._config_merge_object || {};
-                    var merged = deepExtend(currentMergeConfig, obj);
 
-                    this._config_merge_object = merged;
+                    this._config_merge_object = deepExtend(currentMergeConfig, obj);
                 };
 
                 Configure.prototype.setAll = function setAll(obj) {
