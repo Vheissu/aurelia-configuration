@@ -1,8 +1,14 @@
 declare module 'aurelia-configuration' {
   import deepExtend from 'deep-extend';
-  import { inject }  from 'aurelia-dependency-injection';
-  import { join }  from 'aurelia-path';
-  import { Loader }  from 'aurelia-loader';
+  import {
+    inject
+  } from 'aurelia-dependency-injection';
+  import {
+    join
+  } from 'aurelia-path';
+  import {
+    Loader
+  } from 'aurelia-loader-default';
   export class Configure {
     constructor(loader: any);
     
@@ -204,4 +210,7 @@ declare module 'aurelia-configuration' {
     mergeConfigFile(path: any): any;
   }
   export function configure(aurelia: any, configCallback: any): any;
+  export {
+    Configure
+  };
 }

@@ -1,21 +1,54 @@
-define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader'], function (exports, _deepExtend, _aureliaDependencyInjection, _aureliaPath, _aureliaLoader) {
+define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader-default', 'deep-extend'], function (exports, _aureliaDependencyInjection, _aureliaPath, _aureliaLoaderDefault, _deepExtend) {
     'use strict';
 
-    exports.__esModule = true;
-
-    var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-    exports.configure = configure;
-
-    function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-    function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Configure = undefined;
 
     var _deepExtend2 = _interopRequireDefault(_deepExtend);
 
-    var Configure = (function () {
+    function _interopRequireDefault(obj) {
+        return obj && obj.__esModule ? obj : {
+            default: obj
+        };
+    }
+
+    var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+        return typeof obj;
+    } : function (obj) {
+        return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
+    };
+
+    function _classCallCheck(instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError("Cannot call a class as a function");
+        }
+    }
+
+    var _createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ("value" in descriptor) descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+
+    var _dec, _class;
+
+    var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoaderDefault.Loader), _dec(_class = function () {
         function Configure(loader) {
-            _classCallCheck(this, _Configure);
+            _classCallCheck(this, Configure);
 
             this.loader = loader;
 
@@ -120,19 +153,19 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
                 }
             } else {
                 var splitKey = key.split('.');
-                var _parent = splitKey[0];
+                var parent = splitKey[0];
                 var child = splitKey[1];
 
                 if (!this.environmentEnabled()) {
-                    if (this.obj[_parent]) {
-                        return this.obj[_parent][child] ? this.obj[_parent][child] : defaultValue;
+                    if (this.obj[parent]) {
+                        return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                     }
                 } else {
                     if (this.environmentExists()) {
-                        if (this.obj[this.environment][_parent] && this.obj[this.environment][_parent][child]) {
-                            returnVal = this.obj[this.environment][_parent][child];
-                        } else if (this.cascade_mode && this.obj[_parent] && this.obj[_parent][child]) {
-                            returnVal = this.obj[_parent][child];
+                        if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                            returnVal = this.obj[this.environment][parent][child];
+                        } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                            returnVal = this.obj[parent][child];
                         }
                     }
 
@@ -146,27 +179,27 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
                 this.obj[key] = val;
             } else {
                 var splitKey = key.split('.');
-                var _parent2 = splitKey[0];
+                var parent = splitKey[0];
                 var child = splitKey[1];
 
-                if (this.obj[_parent2] === undefined) {
-                    this.obj[_parent2] = {};
+                if (this.obj[parent] === undefined) {
+                    this.obj[parent] = {};
                 }
 
-                this.obj[_parent2][child] = val;
+                this.obj[parent][child] = val;
             }
         };
 
         Configure.prototype.merge = function merge(obj) {
             var currentConfig = this._config_object;
-            var merged = _deepExtend2['default'](currentConfig, obj);
+            var merged = (0, _deepExtend2.default)(currentConfig, obj);
 
             this._config_object = merged;
         };
 
         Configure.prototype.lazyMerge = function lazyMerge(obj) {
             var currentMergeConfig = this._config_merge_object || {};
-            var merged = _deepExtend2['default'](currentMergeConfig, obj);
+            var merged = (0, _deepExtend2.default)(currentMergeConfig, obj);
 
             this._config_merge_object = merged;
         };
@@ -182,7 +215,7 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
         Configure.prototype.loadConfig = function loadConfig() {
             var _this = this;
 
-            return this.loadConfigFile(_aureliaPath.join(this.directory, this.config), function (data) {
+            return this.loadConfigFile((0, _aureliaPath.join)(this.directory, this.config), function (data) {
                 return _this.setAll(data);
             }).then(function () {
                 if (_this._config_merge_object) {
@@ -196,11 +229,11 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
             var pathClosure = path.toString();
 
             return this.loader.loadText(pathClosure).then(function (data) {
-                if (typeof data !== 'object') {
+                if ((typeof data === 'undefined' ? 'undefined' : _typeof(data)) !== 'object') {
                     data = JSON.parse(data);
                 }
                 action(data);
-            })['catch'](function () {
+            }).catch(function () {
                 console.log('Configuration file could not be found or loaded: ' + pathClosure);
             });
         };
@@ -225,28 +258,6 @@ define(['exports', 'deep-extend', 'aurelia-dependency-injection', 'aurelia-path'
             }
         }]);
 
-        var _Configure = Configure;
-        Configure = _aureliaDependencyInjection.inject(_aureliaLoader.Loader)(Configure) || Configure;
         return Configure;
-    })();
-
-    exports.Configure = Configure;
-
-    function configure(aurelia, configCallback) {
-        var instance = aurelia.container.get(Configure);
-
-        if (configCallback !== undefined && typeof configCallback === 'function') {
-            configCallback(instance);
-        }
-
-        return new Promise(function (resolve, reject) {
-            instance.loadConfig().then(function () {
-                return resolve();
-            })['catch'](function () {
-                reject(new Error('Configuration file could not be loaded'));
-            });
-        });
-    }
-
-    exports.Configure = Configure;
+    }()) || _class);
 });
