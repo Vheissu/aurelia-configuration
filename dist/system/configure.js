@@ -1,6 +1,6 @@
 'use strict';
 
-System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader-default', 'deep-extend'], function (_export, _context) {
+System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function (_export, _context) {
     var inject, join, Loader, deepExtend, _typeof, _createClass, _dec, _class, Configure;
 
     function _classCallCheck(instance, Constructor) {
@@ -14,8 +14,8 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
             inject = _aureliaDependencyInjection.inject;
         }, function (_aureliaPath) {
             join = _aureliaPath.join;
-        }, function (_aureliaLoaderDefault) {
-            Loader = _aureliaLoaderDefault.Loader;
+        }, function (_aureliaLoader) {
+            Loader = _aureliaLoader.Loader;
         }, function (_deepExtend) {
             deepExtend = _deepExtend.default;
         }],

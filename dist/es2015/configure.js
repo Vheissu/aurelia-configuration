@@ -2,7 +2,7 @@ var _dec, _class;
 
 import { inject } from 'aurelia-dependency-injection';
 import { join } from 'aurelia-path';
-import { Loader } from 'aurelia-loader-default';
+import { Loader } from 'aurelia-loader';
 import deepExtend from 'deep-extend';
 
 export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {

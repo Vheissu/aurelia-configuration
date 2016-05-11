@@ -15,7 +15,7 @@ var _aureliaDependencyInjection = require('aurelia-dependency-injection');
 
 var _aureliaPath = require('aurelia-path');
 
-var _aureliaLoaderDefault = require('aurelia-loader-default');
+var _aureliaLoader = require('aurelia-loader');
 
 var _deepExtend = require('deep-extend');
 
@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoaderDefault.Loader), _dec(_class = function () {
+var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoader.Loader), _dec(_class = function () {
     function Configure(loader) {
         _classCallCheck(this, Configure);
 

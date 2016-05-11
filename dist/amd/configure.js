@@ -1,4 +1,4 @@
-define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader-default', 'deep-extend'], function (exports, _aureliaDependencyInjection, _aureliaPath, _aureliaLoaderDefault, _deepExtend) {
+define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function (exports, _aureliaDependencyInjection, _aureliaPath, _aureliaLoader, _deepExtend) {
     'use strict';
 
     Object.defineProperty(exports, "__esModule", {
@@ -46,7 +46,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
 
     var _dec, _class;
 
-    var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoaderDefault.Loader), _dec(_class = function () {
+    var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoader.Loader), _dec(_class = function () {
         function Configure(loader) {
             _classCallCheck(this, Configure);
 

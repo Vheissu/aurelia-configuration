@@ -1,7 +1,7 @@
 import deepExtend from 'deep-extend';
 import {inject} from 'aurelia-dependency-injection';
 import {join} from 'aurelia-path';
-import {Loader} from 'aurelia-loader-default';
+import {Loader} from 'aurelia-loader';
 
 @inject(Loader)
 export class Configure {

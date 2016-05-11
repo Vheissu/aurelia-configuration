@@ -8,7 +8,7 @@ declare module 'aurelia-configuration' {
   } from 'aurelia-path';
   import {
     Loader
-  } from 'aurelia-loader-default';
+  } from 'aurelia-loader';
   export class Configure {
     constructor(loader: any);
     

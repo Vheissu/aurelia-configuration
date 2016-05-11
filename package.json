@@ -1,6 +1,6 @@
 {
   "name": "aurelia-configuration",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "An Aurelia plugin for adding in configuration to your application.",
   "keywords": [
     "aurelia",
