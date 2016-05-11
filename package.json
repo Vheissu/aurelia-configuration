@@ -29,17 +29,19 @@
       "lib": "dist/amd"
     },
     "dependencies": {
-      "aurelia-dependency-injection": "^1.0.0-beta.1.2.0",
-      "aurelia-loader-default": "^1.0.0-beta.1.2.1",
-      "aurelia-path": "^1.0.0-beta.1.2.1",
+      "aurelia-dependency-injection": "^1.0.0-beta.1.2.3",
+      "aurelia-loader": "^1.0.0-beta.1.2.0",
+      "aurelia-loader-default": "^1.0.0-beta.1.2.2",
+      "aurelia-path": "^1.0.0-beta.1.2.2",
       "deep-extend": "^0.4.1"
     },
     "devDependencies": {}
   },
   "dependencies": {
-    "aurelia-dependency-injection": "^1.0.0-beta.1.2.0",
-    "aurelia-loader-default": "^1.0.0-beta.1.2.1",
-    "aurelia-path": "^1.0.0-beta.1.2.1",
+    "aurelia-dependency-injection": "^1.0.0-beta.1.2.3",
+    "aurelia-loader": "^1.0.0-beta.1.2.0",
+    "aurelia-loader-default": "^1.0.0-beta.1.2.2",
+    "aurelia-path": "^1.0.0-beta.1.2.2",
     "deep-extend": "^0.4.1"
   },
   "devDependencies": {
