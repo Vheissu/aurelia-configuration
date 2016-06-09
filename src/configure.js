@@ -5,17 +5,17 @@ import deepExtend from 'deep-extend';
 
 @inject(Loader)
 export class Configure {
-    
+
     constructor(loader) {
         // Injected dependencies
         this.loader = loader;
-        
+
         this.environment = 'default';
         this.environments = false;
         this.directory = 'config';
         this.config_file = 'config.json';
         this.cascade_mode = true;
-        
+
         this._config_object = {};
     }
 
@@ -60,14 +60,14 @@ export class Configure {
      *
      * @param environments
      */
-     setEnvironments(environments = false) {
-         if (environments) {
+    setEnvironments(environments = false) {
+        if (environments) {
             this.environments = environments;
 
             // Check the hostname value and determine our environment
             this.check();
-         }
-     }
+        }
+    }
 
     /**
      * Set Cascade Mode
@@ -140,7 +140,7 @@ export class Configure {
                     for (let host of hostnames) {
                         if (hostname.search(host) !== -1) {
                             this.setEnvironment(env);
-                            
+
                             // We have successfully found an environment, stop searching
                             return;
                         }
@@ -194,7 +194,7 @@ export class Configure {
                 // Value exists in environment
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
-                // Get default value from non-namespaced section if enabled
+                    // Get default value from non-namespaced section if enabled
                 } else if (this.cascade_mode && this.obj[key]) {
                     returnVal = this.obj[key];
                 }
@@ -211,12 +211,10 @@ export class Configure {
                     return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                 }
             } else {
-                if (this.environmentExists()) {
-                    if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                        returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                        returnVal = this.obj[parent][child];
-                    }
+                if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                    returnVal = this.obj[this.environment][parent][child];
+                } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                    returnVal = this.obj[parent][child];
                 }
 
                 return returnVal;
@@ -240,13 +238,13 @@ export class Configure {
             let child = splitKey[1];
 
             if (this.obj[parent] === undefined) {
-              this.obj[parent] = {};
+                this.obj[parent] = {};
             }
 
             this.obj[parent][child] = val;
         }
     }
-    
+
     /**
      * Merge
      * 
@@ -259,10 +257,10 @@ export class Configure {
      */
     merge(obj) {
         let currentConfig = this._config_object;
-        
+
         this._config_object = deepExtend(currentConfig, obj);
     }
-    
+
     /**
      * Lazy Merge
      * 
@@ -276,7 +274,7 @@ export class Configure {
      */
     lazyMerge(obj) {
         let currentMergeConfig = (this._config_merge_object || {});
-        
+
         this._config_merge_object = deepExtend(currentMergeConfig, obj);
     }
 
@@ -328,7 +326,7 @@ export class Configure {
      */
     loadConfigFile(path, action) {
         let pathClosure = path.toString();
-        
+
         return this.loader.loadText(pathClosure)
             .then(data => {
                 if (typeof data !== 'object') {
@@ -336,11 +334,11 @@ export class Configure {
                 }
                 action(data);
             })
-            .catch(() => { 
+            .catch(() => {
                 console.log(`Configuration file could not be found or loaded: ${pathClosure}`);
             });
     }
-    
+
     /**
      * Merge Config File
      * 
