@@ -138,7 +138,9 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                     if (key.indexOf('.') === -1) {
                         if (!this.environmentEnabled()) {
                             return this.obj[key] ? this.obj[key] : defaultValue;
-                        } else {
+                        }
+
+                        if (this.environmentEnabled()) {
                             if (this.environmentExists() && this.obj[this.environment][key]) {
                                 returnVal = this.obj[this.environment][key];
                             } else if (this.cascade_mode && this.obj[key]) {
@@ -147,7 +149,9 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
 
                             return returnVal;
                         }
-                    } else {
+                    }
+
+                    if (key.indexOf('.') !== -1) {
                         var splitKey = key.split('.');
                         var parent = splitKey[0];
                         var child = splitKey[1];
@@ -166,6 +170,8 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                             return returnVal;
                         }
                     }
+
+                    return returnVal;
                 };
 
                 Configure.prototype.set = function set(key, val) {
@@ -226,7 +232,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                         }
                         action(data);
                     }).catch(function () {
-                        console.log('Configuration file could not be found or loaded: ' + pathClosure);
+                        console.error('Configuration file could not be found or loaded: ' + pathClosure);
                     });
                 };
 

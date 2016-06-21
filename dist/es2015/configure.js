@@ -89,7 +89,9 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
         if (key.indexOf('.') === -1) {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
-            } else {
+            }
+
+            if (this.environmentEnabled()) {
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
                 } else if (this.cascade_mode && this.obj[key]) {
@@ -98,7 +100,9 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
 
                 return returnVal;
             }
-        } else {
+        }
+
+        if (key.indexOf('.') !== -1) {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
@@ -117,6 +121,8 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
                 return returnVal;
             }
         }
+
+        return returnVal;
     }
 
     set(key, val) {
@@ -173,7 +179,7 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
             }
             action(data);
         }).catch(() => {
-            console.log(`Configuration file could not be found or loaded: ${ pathClosure }`);
+            console.error(`Configuration file could not be found or loaded: ${ pathClosure }`);
         });
     }
 

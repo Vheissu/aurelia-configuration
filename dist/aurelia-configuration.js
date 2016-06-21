@@ -21,7 +21,7 @@ export class Configure {
 
     /**
      * Set Directory
-     * 
+     *
      * Sets the location to look for the config file
      *
      * @param path
@@ -32,7 +32,7 @@ export class Configure {
 
     /**
      * Set Config
-     * 
+     *
      * Sets the filename to look for in the defined directory
      *
      * @param name
@@ -43,7 +43,7 @@ export class Configure {
 
     /**
      * Set Environment
-     * 
+     *
      * Changes the environment value
      *
      * @param environment
@@ -54,7 +54,7 @@ export class Configure {
 
     /**
      * Set Environments
-     * 
+     *
      * Specify multiple environment domains to allow for
      * dynamic environment switching.
      *
@@ -71,7 +71,7 @@ export class Configure {
 
     /**
      * Set Cascade Mode
-     * 
+     *
      * By default if a environment config value is not found, it will
      * go looking up the config file to find it (a la inheritance style). Sometimes
      * you just want a config value from a specific environment and nowhere else
@@ -85,7 +85,6 @@ export class Configure {
 
     /**
      * Get Config
-     * 
      * Returns the entire configuration object pulled and parsed from file
      *
      * @returns {V}
@@ -96,7 +95,7 @@ export class Configure {
 
     /**
      * Get Config
-     * 
+     *
      * Get the config file name
      *
      * @returns {V}
@@ -107,7 +106,7 @@ export class Configure {
 
     /**
      * Is
-     * 
+     *
      * A method for determining if the current environment
      * equals that of the supplied environment value*
      * @param environment
@@ -190,7 +189,9 @@ export class Configure {
             // Using default environment
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
-            } else {
+            }
+
+            if (this.environmentEnabled()) {
                 // Value exists in environment
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
@@ -201,7 +202,9 @@ export class Configure {
 
                 return returnVal;
             }
-        } else {
+        }
+
+        if (key.indexOf('.') !== -1) {
             let splitKey = key.split('.');
             let parent = splitKey[0];
             let child = splitKey[1];
@@ -220,6 +223,8 @@ export class Configure {
                 return returnVal;
             }
         }
+
+        return returnVal;
     }
 
     /**
@@ -247,13 +252,13 @@ export class Configure {
 
     /**
      * Merge
-     * 
+     *
      * Allows you to merge in configuration options.
      * This method might be used to merge in server-loaded
      * configuration options with local ones.
-     * 
+     *
      * @param obj
-     * 
+     *
      */
     merge(obj) {
         let currentConfig = this._config_object;
@@ -263,14 +268,14 @@ export class Configure {
 
     /**
      * Lazy Merge
-     * 
+     *
      * Allows you to merge in configuration options.
      * This method might be used to merge in server-loaded
      * configuration options with local ones. The merge
      * occurs after the config has been loaded.
-     * 
+     *
      * @param obj
-     * 
+     *
      */
     lazyMerge(obj) {
         let currentMergeConfig = (this._config_merge_object || {});
@@ -335,19 +340,19 @@ export class Configure {
                 action(data);
             })
             .catch(() => {
-                console.log(`Configuration file could not be found or loaded: ${pathClosure}`);
+                console.error(`Configuration file could not be found or loaded: ${pathClosure}`);
             });
     }
 
     /**
      * Merge Config File
-     * 
+     *
      * Allows you to merge in configuration options from a file.
      * This method might be used to merge in server-loaded
      * configuration options with local ones.
-     * 
+     *
      * @param path
-     * 
+     *
      */
     mergeConfigFile(path) {
         return this.loadConfigFile(path, data => this.lazyMerge(data));
@@ -355,7 +360,7 @@ export class Configure {
 }
 
 export function configure(aurelia, configCallback) {
-    var instance = aurelia.container.get(Configure);
+    let instance = aurelia.container.get(Configure);
 
     // Do we have a callback function?
     if (configCallback !== undefined && typeof(configCallback) === 'function') {
@@ -368,7 +373,7 @@ export function configure(aurelia, configCallback) {
             .catch(() => {
                 reject(new Error('Configuration file could not be loaded'));
             });
-    })
+    });
 }
 
 export {Configure};

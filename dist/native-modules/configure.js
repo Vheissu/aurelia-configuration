@@ -107,7 +107,9 @@ export var Configure = (_dec = inject(Loader), _dec(_class = function () {
         if (key.indexOf('.') === -1) {
             if (!this.environmentEnabled()) {
                 return this.obj[key] ? this.obj[key] : defaultValue;
-            } else {
+            }
+
+            if (this.environmentEnabled()) {
                 if (this.environmentExists() && this.obj[this.environment][key]) {
                     returnVal = this.obj[this.environment][key];
                 } else if (this.cascade_mode && this.obj[key]) {
@@ -116,7 +118,9 @@ export var Configure = (_dec = inject(Loader), _dec(_class = function () {
 
                 return returnVal;
             }
-        } else {
+        }
+
+        if (key.indexOf('.') !== -1) {
             var splitKey = key.split('.');
             var parent = splitKey[0];
             var child = splitKey[1];
@@ -135,6 +139,8 @@ export var Configure = (_dec = inject(Loader), _dec(_class = function () {
                 return returnVal;
             }
         }
+
+        return returnVal;
     };
 
     Configure.prototype.set = function set(key, val) {
@@ -195,7 +201,7 @@ export var Configure = (_dec = inject(Loader), _dec(_class = function () {
             }
             action(data);
         }).catch(function () {
-            console.log('Configuration file could not be found or loaded: ' + pathClosure);
+            console.error('Configuration file could not be found or loaded: ' + pathClosure);
         });
     };
 

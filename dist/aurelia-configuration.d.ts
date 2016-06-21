@@ -13,7 +13,7 @@ export declare class Configure {
   
   /**
        * Set Directory
-       * 
+       *
        * Sets the location to look for the config file
        *
        * @param path
@@ -22,7 +22,7 @@ export declare class Configure {
   
   /**
        * Set Config
-       * 
+       *
        * Sets the filename to look for in the defined directory
        *
        * @param name
@@ -31,7 +31,7 @@ export declare class Configure {
   
   /**
        * Set Environment
-       * 
+       *
        * Changes the environment value
        *
        * @param environment
@@ -40,7 +40,7 @@ export declare class Configure {
   
   /**
        * Set Environments
-       * 
+       *
        * Specify multiple environment domains to allow for
        * dynamic environment switching.
        *
@@ -50,7 +50,7 @@ export declare class Configure {
   
   /**
        * Set Cascade Mode
-       * 
+       *
        * By default if a environment config value is not found, it will
        * go looking up the config file to find it (a la inheritance style). Sometimes
        * you just want a config value from a specific environment and nowhere else
@@ -62,7 +62,6 @@ export declare class Configure {
   
   /**
        * Get Config
-       * 
        * Returns the entire configuration object pulled and parsed from file
        *
        * @returns {V}
@@ -71,7 +70,7 @@ export declare class Configure {
   
   /**
        * Get Config
-       * 
+       *
        * Get the config file name
        *
        * @returns {V}
@@ -80,7 +79,7 @@ export declare class Configure {
   
   /**
        * Is
-       * 
+       *
        * A method for determining if the current environment
        * equals that of the supplied environment value*
        * @param environment
@@ -137,26 +136,26 @@ export declare class Configure {
   
   /**
        * Merge
-       * 
+       *
        * Allows you to merge in configuration options.
        * This method might be used to merge in server-loaded
        * configuration options with local ones.
-       * 
+       *
        * @param obj
-       * 
+       *
        */
   merge(obj?: any): any;
   
   /**
        * Lazy Merge
-       * 
+       *
        * Allows you to merge in configuration options.
        * This method might be used to merge in server-loaded
        * configuration options with local ones. The merge
        * occurs after the config has been loaded.
-       * 
+       *
        * @param obj
-       * 
+       *
        */
   lazyMerge(obj?: any): any;
   
@@ -198,13 +197,13 @@ export declare class Configure {
   
   /**
        * Merge Config File
-       * 
+       *
        * Allows you to merge in configuration options from a file.
        * This method might be used to merge in server-loaded
        * configuration options with local ones.
-       * 
+       *
        * @param path
-       * 
+       *
        */
   mergeConfigFile(path?: any): any;
 }
