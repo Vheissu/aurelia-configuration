@@ -1,35 +1,19 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.Configure = undefined;
-
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _dec, _class;
 
-exports.configure = configure;
 
-var _deepExtend = require('deep-extend');
 
-var _deepExtend2 = _interopRequireDefault(_deepExtend);
+import { inject } from 'aurelia-dependency-injection';
+import { join } from 'aurelia-path';
+import { Loader } from 'aurelia-loader';
+import deepExtend from 'deep-extend';
 
-var _aureliaDependencyInjection = require('aurelia-dependency-injection');
-
-var _aureliaPath = require('aurelia-path');
-
-var _aureliaLoader = require('aurelia-loader');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoader.Loader), _dec(_class = function () {
+export var Configure = (_dec = inject(Loader), _dec(_class = function () {
     function Configure(loader) {
-        _classCallCheck(this, Configure);
+        
 
         this.loader = loader;
 
@@ -172,13 +156,13 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
     Configure.prototype.merge = function merge(obj) {
         var currentConfig = this._config_object;
 
-        this._config_object = (0, _deepExtend2.default)(currentConfig, obj);
+        this._config_object = deepExtend(currentConfig, obj);
     };
 
     Configure.prototype.lazyMerge = function lazyMerge(obj) {
         var currentMergeConfig = this._config_merge_object || {};
 
-        this._config_merge_object = (0, _deepExtend2.default)(currentMergeConfig, obj);
+        this._config_merge_object = deepExtend(currentMergeConfig, obj);
     };
 
     Configure.prototype.setAll = function setAll(obj) {
@@ -192,7 +176,7 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
     Configure.prototype.loadConfig = function loadConfig() {
         var _this = this;
 
-        return this.loadConfigFile((0, _aureliaPath.join)(this.directory, this.config), function (data) {
+        return this.loadConfigFile(join(this.directory, this.config), function (data) {
             return _this.setAll(data);
         }).then(function () {
             if (_this._config_merge_object) {
@@ -237,20 +221,3 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
 
     return Configure;
 }()) || _class);
-function configure(aurelia, configCallback) {
-    var instance = aurelia.container.get(Configure);
-
-    if (configCallback !== undefined && typeof configCallback === 'function') {
-        configCallback(instance);
-    }
-
-    return new Promise(function (resolve, reject) {
-        instance.loadConfig().then(function () {
-            return resolve();
-        }).catch(function () {
-            reject(new Error('Configuration file could not be loaded'));
-        });
-    });
-}
-
-exports.Configure = Configure;

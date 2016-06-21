@@ -23,11 +23,11 @@ var _deepExtend2 = _interopRequireDefault(_deepExtend);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoader.Loader), _dec(_class = function () {
     function Configure(loader) {
-        _classCallCheck(this, Configure);
+        
 
         this.loader = loader;
 
@@ -140,12 +140,10 @@ var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inje
                     return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                 }
             } else {
-                if (this.environmentExists()) {
-                    if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                        returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                        returnVal = this.obj[parent][child];
-                    }
+                if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                    returnVal = this.obj[this.environment][parent][child];
+                } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                    returnVal = this.obj[parent][child];
                 }
 
                 return returnVal;

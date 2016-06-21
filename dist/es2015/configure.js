@@ -108,12 +108,10 @@ export let Configure = (_dec = inject(Loader), _dec(_class = class Configure {
                     return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                 }
             } else {
-                if (this.environmentExists()) {
-                    if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                        returnVal = this.obj[this.environment][parent][child];
-                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                        returnVal = this.obj[parent][child];
-                    }
+                if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                    returnVal = this.obj[this.environment][parent][child];
+                } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                    returnVal = this.obj[parent][child];
                 }
 
                 return returnVal;

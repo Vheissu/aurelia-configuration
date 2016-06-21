@@ -1,13 +1,11 @@
 'use strict';
 
 System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function (_export, _context) {
+    "use strict";
+
     var inject, join, Loader, deepExtend, _typeof, _createClass, _dec, _class, Configure;
 
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
+    
 
     return {
         setters: [function (_aureliaDependencyInjection) {
@@ -46,7 +44,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
 
             _export('Configure', Configure = (_dec = inject(Loader), _dec(_class = function () {
                 function Configure(loader) {
-                    _classCallCheck(this, Configure);
+                    
 
                     this.loader = loader;
 
@@ -159,12 +157,10 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                                 return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                             }
                         } else {
-                            if (this.environmentExists()) {
-                                if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                                    returnVal = this.obj[this.environment][parent][child];
-                                } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                                    returnVal = this.obj[parent][child];
-                                }
+                            if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                                returnVal = this.obj[this.environment][parent][child];
+                            } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                                returnVal = this.obj[parent][child];
                             }
 
                             return returnVal;

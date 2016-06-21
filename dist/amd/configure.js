@@ -20,11 +20,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
         return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj;
     };
 
-    function _classCallCheck(instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError("Cannot call a class as a function");
-        }
-    }
+    
 
     var _createClass = function () {
         function defineProperties(target, props) {
@@ -48,7 +44,7 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
 
     var Configure = exports.Configure = (_dec = (0, _aureliaDependencyInjection.inject)(_aureliaLoader.Loader), _dec(_class = function () {
         function Configure(loader) {
-            _classCallCheck(this, Configure);
+            
 
             this.loader = loader;
 
@@ -161,12 +157,10 @@ define(['exports', 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-load
                         return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
                     }
                 } else {
-                    if (this.environmentExists()) {
-                        if (this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                            returnVal = this.obj[this.environment][parent][child];
-                        } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                            returnVal = this.obj[parent][child];
-                        }
+                    if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
+                        returnVal = this.obj[this.environment][parent][child];
+                    } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
+                        returnVal = this.obj[parent][child];
                     }
 
                     return returnVal;

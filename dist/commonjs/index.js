@@ -1,27 +1,17 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
-exports.Configure = undefined;
-exports.configure = configure;
 
-var _configure = require('./configure');
+var _aureliaConfiguration = require('./aurelia-configuration');
 
-function configure(aurelia, configCallback) {
-    var instance = aurelia.container.get(_configure.Configure);
-
-    if (configCallback !== undefined && typeof configCallback === 'function') {
-        configCallback(instance);
+Object.keys(_aureliaConfiguration).forEach(function (key) {
+  if (key === "default") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _aureliaConfiguration[key];
     }
-
-    return new Promise(function (resolve, reject) {
-        instance.loadConfig().then(function () {
-            return resolve();
-        }).catch(function () {
-            reject(new Error('Configuration file could not be loaded'));
-        });
-    });
-}
-
-exports.Configure = _configure.Configure;
+  });
+});
