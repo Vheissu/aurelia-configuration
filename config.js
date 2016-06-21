@@ -1,6 +1,13 @@
 System.config({
   defaultJSExtensions: true,
-  transpiler: "none",
+  transpiler: "babel",
+  babelOptions: {
+    "optional": [
+      "runtime",
+      "es7.decorators",
+      "es7.classProperties"
+    ]
+  },
   paths: {
     "*": "dist/*",
     "github:*": "jspm_packages/github/*",

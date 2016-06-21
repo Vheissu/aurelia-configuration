@@ -1,0 +1,8 @@
+{
+    "extends": "./node_modules/aurelia-tools/.eslintrc.json",
+    "rules": {
+        "no-multi-str": 0,
+        "indent": [2, 4],
+        "no-console": ["error", { "allow": ["warn", "error"] }]
+    }
+}
