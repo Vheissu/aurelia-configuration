@@ -1,6 +1,6 @@
 {
   "name": "aurelia-configuration",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "An Aurelia plugin for adding in configuration to your application.",
   "keywords": [
     "aurelia",
@@ -24,10 +24,10 @@
     "test": "node_modules/.bin/karma start test/karma.conf.js --single-run"
   },
   "dependencies": {
-    "aurelia-dependency-injection": "^1.0.0-beta.2.1.1",
-    "aurelia-loader": "^1.0.0-beta.2.0.1",
-    "aurelia-loader-default": "^1.0.0-beta.2.0.2",
-    "aurelia-path": "^1.0.0-beta.2.0.1",
+    "aurelia-dependency-injection": "^1.0.0",
+    "aurelia-loader": "^1.0.0",
+    "aurelia-loader-default": "^1.0.0",
+    "aurelia-path": "^1.0.0",
     "deep-extend": "^0.4.1"
   },
   "devDependencies": {
