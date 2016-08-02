@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",  
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist/commonjs",
+    "outDir": "dist/amd",
     "sourceMap": true,
     "target": "es5",
-    "module": "commonjs",
+    "module": "amd",
     "moduleResolution": "node",
     "declaration": true,
     "stripInternal": true,

@@ -14,33 +14,14 @@
   "license": "MIT",
   "author": "Dwayne Charrington <dwaynecharrington@gmail.com> (http://ilikekillnerds.com)",
   "main": "dist/commonjs/index.js",
-  "typings": "dist/aurelia-configuration.d.ts",
+  "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "http://github.com/Vheissu/Aurelia-Configuration"
   },
   "scripts": {
-    "test": "gulp test"
-  },
-  "jspm": {
-    "registry": "npm",
-    "main": "aurelia-configuration",
-    "format": "amd",
-    "directories": {
-      "dist": "dist/amd"
-    },
-    "dependencies": {
-      "aurelia-dependency-injection": "^1.0.0-beta.2.1.1",
-      "aurelia-loader": "^1.0.0-beta.2.0.1",
-      "aurelia-loader-default": "^1.0.0-beta.2.0.2",
-      "aurelia-path": "^1.0.0-beta.2.0.1",
-      "deep-extend": "^0.4.1"
-    },
-    "devDependencies": {
-      "babel": "babel-core@^5.8.24",
-      "babel-runtime": "^5.8.24",
-      "core-js": "^1.1.4"
-    }
+    "build": "build.sh",
+    "test": "node_modules/.bin/karma start test/karma.conf.js --single-run"
   },
   "dependencies": {
     "aurelia-dependency-injection": "^1.0.0-beta.2.1.1",
@@ -50,35 +31,7 @@
     "deep-extend": "^0.4.1"
   },
   "devDependencies": {
-    "aurelia-tools": "^0.2.1",
-    "babel-dts-generator": "^0.5.1",
-    "babel-eslint": "^6.0.4",
-    "babel-plugin-syntax-flow": "^6.8.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-es2015-modules-amd": "^6.8.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.8.0",
-    "babel-plugin-transform-es2015-modules-systemjs": "^6.9.0",
-    "babel-plugin-transform-flow-strip-types": "^6.8.0",
-    "babel-preset-es2015": "^6.9.0",
-    "babel-preset-es2015-loose": "^7.0.0",
-    "babel-preset-es2015-loose-native-modules": "^1.0.0",
-    "babel-preset-stage-1": "^6.5.0",
-    "browser-sync": "^2.13.0",
-    "del": "^2.2.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-bump": "^2.1.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-conventional-changelog": "^1.1.0",
-    "gulp-eslint": "^2.0.0",
-    "gulp-ignore": "^2.0.1",
-    "gulp-insert": "^0.5.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-typedoc": "^2.0.0",
-    "gulp-typedoc-extractor": "^0.0.8",
-    "gulp-typescript": "^2.13.6",
-    "gulp-util": "^3.0.7",
-    "gulp-yuidoc": "^0.1.2",
+    "@types/deep-extend": "^0.4.28",
     "isparta": "^4.0.0",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
@@ -91,12 +44,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "merge2": "^1.0.2",
     "object.assign": "^4.0.3",
-    "require-dir": "^0.3.0",
-    "run-sequence": "^1.2.1",
-    "through2": "^2.0.1",
-    "typedoc": "^0.4.3",
-    "typescript": "^1.9.0-dev.20160614-1.0",
-    "vinyl-paths": "^2.1.0",
-    "yargs": "^4.7.1"
+    "typescript": "^2.1.0-dev.20160801"
   }
 }

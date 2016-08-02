@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",  
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist/commonjs",
+    "outDir": "dist/es2015",
     "sourceMap": true,
-    "target": "es5",
-    "module": "commonjs",
+    "target": "es2015",
+    "module": "es2015",
     "moduleResolution": "node",
     "declaration": true,
     "stripInternal": true,

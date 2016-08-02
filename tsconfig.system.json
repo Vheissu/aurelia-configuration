@@ -2,10 +2,10 @@
   "compilerOptions": {
     "baseUrl": ".",  
     "allowSyntheticDefaultImports": true,
-    "outDir": "dist/commonjs",
+    "outDir": "dist/system",
     "sourceMap": true,
     "target": "es5",
-    "module": "commonjs",
+    "module": "system",
     "moduleResolution": "node",
     "declaration": true,
     "stripInternal": true,
