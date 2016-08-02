@@ -45,5 +45,21 @@
     "merge2": "^1.0.2",
     "object.assign": "^4.0.3",
     "typescript": "^2.1.0-dev.20160801"
-  }
+  },
+  "jspm": {
+    "registry": "npm",
+    "main": "index",
+    "format": "amd",
+    "directories": {
+      "dist": "dist/amd"
+    },
+    "dependencies": {
+      "aurelia-dependency-injection": "^1.0.0",
+      "aurelia-loader": "^1.0.0",
+      "aurelia-loader-default": "^1.0.0",
+      "aurelia-path": "^1.0.0",
+      "deep-extend": "^0.4.1"
+    },
+    "devDependencies": {}
+  }  
 }
