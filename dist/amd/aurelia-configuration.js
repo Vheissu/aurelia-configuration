@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define(["require", "exports", 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function (require, exports, aurelia_dependency_injection_1, aurelia_path_1, aurelia_loader_1, deep_extend_1) {
+define("configure", ["require", "exports", 'aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function (require, exports, aurelia_dependency_injection_1, aurelia_path_1, aurelia_loader_1, deep_extend_1) {
     "use strict";
     var Configure = (function () {
         function Configure(loader) {
@@ -184,4 +184,22 @@ define(["require", "exports", 'aurelia-dependency-injection', 'aurelia-path', 'a
     }());
     exports.Configure = Configure;
 });
-//# sourceMappingURL=configure.js.map
+define("index", ["require", "exports", "configure"], function (require, exports, configure_1) {
+    "use strict";
+    exports.Configure = configure_1.Configure;
+    function configure(aurelia, configCallback) {
+        var instance = aurelia.container.get(configure_1.Configure);
+        if (configCallback !== undefined && typeof (configCallback) === 'function') {
+            configCallback(instance);
+        }
+        return new Promise(function (resolve, reject) {
+            instance.loadConfig()
+                .then(function () { return resolve(); })
+                .catch(function () {
+                reject(new Error('Configuration file could not be loaded'));
+            });
+        });
+    }
+    exports.configure = configure;
+});
+//# sourceMappingURL=aurelia-configuration.js.map
