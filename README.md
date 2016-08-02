@@ -9,8 +9,16 @@ A smart configuration plugin and singleton service layer for your Aurelia applic
 
 * Install aurelia-configuration
 
+**Jspm users**
+
 ```bash
 jspm install aurelia-configuration
+```
+
+**Webpack/CLI**
+
+```bash
+npm install aurelia-configuration --save
 ```
 
 * Add plugin to your app's main.js:
