@@ -1,13 +1,26 @@
-import {inject} from 'aurelia-dependency-injection';
+import {autoinject} from 'aurelia-dependency-injection';
 import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
 import deepExtend from 'deep-extend';
 
-@inject(Loader)
-export class Configure {
+export interface ConfigInterface {
 
-    constructor(loader) {
-        // Injected dependencies
+}
+
+@autoinject
+export class Configure {
+    loader: Loader;
+
+    environment: string = 'default';
+    environments;
+    directory: string = 'config';
+    config_file: string = 'config.json';
+    cascade_mode: boolean = true;
+
+    private _config_object: ConfigInterface;
+    private _config_merge_object;
+
+    constructor(loader: Loader) {
         this.loader = loader;
 
         this.environment = 'default';
