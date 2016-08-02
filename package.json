@@ -1,6 +1,6 @@
 {
   "name": "aurelia-configuration",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "An Aurelia plugin for adding in configuration to your application.",
   "keywords": [
     "aurelia",
@@ -20,8 +20,8 @@
     "url": "http://github.com/Vheissu/Aurelia-Configuration"
   },
   "scripts": {
-    "build": "build.sh",
-    "test": "node_modules/.bin/karma start test/karma.conf.js --single-run"
+    "build": "gulp build",
+    "test": "./node_modules/.bin/karma start karma.conf.js --single-run"
   },
   "dependencies": {
     "aurelia-dependency-injection": "^1.0.0",
@@ -32,18 +32,24 @@
   },
   "devDependencies": {
     "@types/deep-extend": "^0.4.28",
-    "isparta": "^4.0.0",
+    "@types/jasmine": "^2.2.30",
+    "babel-core": "^6.11.4",
+    "babel-preset-es2015": "^6.9.0",
+    "del": "^2.2.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^1.6.0",
     "jasmine-core": "^2.4.1",
-    "karma": "^0.13.22",
-    "karma-babel-preprocessor": "^6.0.1",
-    "karma-chrome-launcher": "^1.0.1",
-    "karma-coverage": "^1.0.0",
-    "karma-ie-launcher": "^1.0.0",
+    "karma": "^1.1.1",
     "karma-jasmine": "^1.0.2",
-    "karma-jspm": "^2.1.1",
-    "karma-sourcemap-loader": "^0.3.7",
+    "karma-typescript-preprocessor": "^0.2.1",
     "merge2": "^1.0.2",
     "object.assign": "^4.0.3",
+    "node-sass": "^3.8.0",
+    "run-sequence": "^1.2.2",
     "typescript": "^2.1.0-dev.20160801"
   },
   "jspm": {
