@@ -1,7 +1,10 @@
-declare module "configure" {
+declare module 'aurelia-configuration' {
+
     import { Loader } from 'aurelia-loader';
+
     export interface ConfigInterface {
     }
+
     export class Configure {
         loader: Loader;
         environment: string;
@@ -33,9 +36,6 @@ declare module "configure" {
         loadConfigFile(path: any, action: any): Promise<void>;
         mergeConfigFile(path: any): Promise<void>;
     }
-}
-declare module "index" {
-    import { Configure } from "configure";
+
     export function configure(aurelia: any, configCallback: any): Promise<{}>;
-    export { Configure };
 }
