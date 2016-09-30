@@ -1,7 +1,5 @@
 declare module "configure" {
-    import { Loader } from 'aurelia-loader';
     export class Configure {
-        loader: Loader;
         environment: string;
         environments: any;
         directory: string;
@@ -9,7 +7,7 @@ declare module "configure" {
         cascade_mode: boolean;
         private _config_object;
         private _config_merge_object;
-        constructor(loader: Loader);
+        constructor();
         setDirectory(path: any): void;
         setConfig(name: any): void;
         setEnvironment(environment: any): void;
@@ -28,8 +26,8 @@ declare module "configure" {
         setAll(obj: any): void;
         getAll(): any;
         loadConfig(): Promise<void>;
-        loadConfigFile(path: any, action: any): Promise<void>;
-        mergeConfigFile(path: any): Promise<void>;
+        loadConfigFile(path: any, action: any): Promise<{}>;
+        mergeConfigFile(path: any): Promise<{}>;
     }
 }
 declare module "index" {

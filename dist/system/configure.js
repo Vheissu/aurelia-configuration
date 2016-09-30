@@ -1,4 +1,4 @@
-System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader', 'deep-extend'], function(exports_1, context_1) {
+System.register(['aurelia-dependency-injection', 'aurelia-path', 'deep-extend'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var aurelia_dependency_injection_1, aurelia_path_1, aurelia_loader_1, deep_extend_1;
+    var aurelia_dependency_injection_1, aurelia_path_1, deep_extend_1;
     var Configure;
     return {
         setters:[
@@ -20,20 +20,16 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
             function (aurelia_path_1_1) {
                 aurelia_path_1 = aurelia_path_1_1;
             },
-            function (aurelia_loader_1_1) {
-                aurelia_loader_1 = aurelia_loader_1_1;
-            },
             function (deep_extend_1_1) {
                 deep_extend_1 = deep_extend_1_1;
             }],
         execute: function() {
             Configure = (function () {
-                function Configure(loader) {
+                function Configure() {
                     this.environment = 'default';
                     this.directory = 'config';
                     this.config_file = 'config.json';
                     this.cascade_mode = true;
-                    this.loader = loader;
                     this.environment = 'default';
                     this.environments = false;
                     this.directory = 'config';
@@ -178,16 +174,22 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                     });
                 };
                 Configure.prototype.loadConfigFile = function (path, action) {
-                    var pathClosure = path.toString();
-                    return this.loader.loadText(pathClosure)
-                        .then(function (data) {
-                        if (typeof data !== 'object') {
-                            data = JSON.parse(data);
-                        }
-                        action(data);
-                    })
-                        .catch(function () {
-                        console.error("Configuration file could not be found or loaded: " + pathClosure);
+                    return new Promise(function (resolve, reject) {
+                        var pathClosure = path.toString();
+                        var xhr = new XMLHttpRequest();
+                        xhr.overrideMimeType('application/json');
+                        xhr.open('GET', pathClosure, true);
+                        xhr.onreadystatechange = function () {
+                            if (xhr.readyState == 4 && xhr.status == 200) {
+                                var data = JSON.parse(this.responseText);
+                                action(data);
+                                resolve(data);
+                            }
+                        };
+                        xhr.onerror = function () {
+                            reject("Configuration file could not be found or loaded: " + pathClosure);
+                        };
+                        xhr.send(null);
                     });
                 };
                 Configure.prototype.mergeConfigFile = function (path) {
@@ -196,7 +198,7 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'aurelia-loader
                 };
                 Configure = __decorate([
                     aurelia_dependency_injection_1.autoinject, 
-                    __metadata('design:paramtypes', [aurelia_loader_1.Loader])
+                    __metadata('design:paramtypes', [])
                 ], Configure);
                 return Configure;
             }());
