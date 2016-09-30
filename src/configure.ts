@@ -1,12 +1,9 @@
 import {autoinject} from 'aurelia-dependency-injection';
 import {join} from 'aurelia-path';
-import {Loader} from 'aurelia-loader';
 import deepExtend from 'deep-extend';
 
 @autoinject
 export class Configure {
-    loader: Loader;
-
     environment: string = 'default';
     environments;
     directory: string = 'config';
@@ -16,9 +13,7 @@ export class Configure {
     private _config_object;
     private _config_merge_object;
 
-    constructor(loader: Loader) {
-        this.loader = loader;
-
+    constructor() {
         this.environment = 'default';
         this.environments = false;
         this.directory = 'config';
@@ -339,18 +334,27 @@ export class Configure {
      * @returns {Promise}
      */
     loadConfigFile(path, action) {
-        let pathClosure = path.toString();
+        return new Promise((resolve, reject) => {
+            let pathClosure = path.toString();
 
-        return this.loader.loadText(pathClosure)
-            .then(data => {
-                if (typeof data !== 'object') {
-                    data = JSON.parse(data);
+            let xhr = new XMLHttpRequest();
+            xhr.overrideMimeType('application/json');
+            xhr.open('GET', pathClosure, true);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let data = JSON.parse(this.responseText);
+                    action(data);
+                    resolve(data);
                 }
-                action(data);
-            })
-            .catch(() => {
-                console.error(`Configuration file could not be found or loaded: ${pathClosure}`);
-            });
+            };
+
+            xhr.onerror = function() {
+                reject(`Configuration file could not be found or loaded: ${pathClosure}`);
+            };
+
+            xhr.send(null);
+        });
     }
 
     /**
