@@ -60,13 +60,12 @@ gulp.task("watch", () => {
 });
 
 /**
- * Copy the definition file from AMD to the dist
- * folder
+ * Copy the definition file to the dist folder
  * 
  */
 gulp.task("copy-definition-file", () => {
     return gulp
-        .src(['dist/amd/*.d.ts'])
+        .src(['./typings.d.ts'])
         .pipe(concat('index.d.ts'))
         .pipe(gulp.dest('dist'))
 
