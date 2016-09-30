@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",  
     "allowSyntheticDefaultImports": true,
     "outDir": "dist/amd",
     "outFile": "dist/amd/aurelia-configuration.js",

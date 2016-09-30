@@ -1,6 +1,5 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",  
+  "compilerOptions": { 
     "allowSyntheticDefaultImports": true,
     "outDir": "dist/system",
     "sourceMap": true,
