@@ -3,10 +3,6 @@ import {join} from 'aurelia-path';
 import {Loader} from 'aurelia-loader';
 import deepExtend from 'deep-extend';
 
-export interface ConfigInterface {
-
-}
-
 @autoinject
 export class Configure {
     loader: Loader;
@@ -17,7 +13,7 @@ export class Configure {
     config_file: string = 'config.json';
     cascade_mode: boolean = true;
 
-    private _config_object: ConfigInterface;
+    private _config_object;
     private _config_merge_object;
 
     constructor(loader: Loader) {
