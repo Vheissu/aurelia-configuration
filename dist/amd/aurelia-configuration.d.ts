@@ -1,7 +1,5 @@
 declare module "configure" {
     import { Loader } from 'aurelia-loader';
-    export interface ConfigInterface {
-    }
     export class Configure {
         loader: Loader;
         environment: string;
@@ -17,7 +15,7 @@ declare module "configure" {
         setEnvironment(environment: any): void;
         setEnvironments(environments?: boolean): void;
         setCascadeMode(bool?: boolean): void;
-        readonly obj: ConfigInterface;
+        readonly obj: any;
         readonly config: string;
         is(environment: any): boolean;
         check(): void;
@@ -28,7 +26,7 @@ declare module "configure" {
         merge(obj: any): void;
         lazyMerge(obj: any): void;
         setAll(obj: any): void;
-        getAll(): ConfigInterface;
+        getAll(): any;
         loadConfig(): Promise<void>;
         loadConfigFile(path: any, action: any): Promise<void>;
         mergeConfigFile(path: any): Promise<void>;
