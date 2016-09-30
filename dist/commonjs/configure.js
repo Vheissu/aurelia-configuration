@@ -10,15 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var aurelia_dependency_injection_1 = require('aurelia-dependency-injection');
 var aurelia_path_1 = require('aurelia-path');
-var aurelia_loader_1 = require('aurelia-loader');
 var deep_extend_1 = require('deep-extend');
 var Configure = (function () {
-    function Configure(loader) {
+    function Configure() {
         this.environment = 'default';
         this.directory = 'config';
         this.config_file = 'config.json';
         this.cascade_mode = true;
-        this.loader = loader;
         this.environment = 'default';
         this.environments = false;
         this.directory = 'config';
@@ -163,16 +161,22 @@ var Configure = (function () {
         });
     };
     Configure.prototype.loadConfigFile = function (path, action) {
-        var pathClosure = path.toString();
-        return this.loader.loadText(pathClosure)
-            .then(function (data) {
-            if (typeof data !== 'object') {
-                data = JSON.parse(data);
-            }
-            action(data);
-        })
-            .catch(function () {
-            console.error("Configuration file could not be found or loaded: " + pathClosure);
+        return new Promise(function (resolve, reject) {
+            var pathClosure = path.toString();
+            var xhr = new XMLHttpRequest();
+            xhr.overrideMimeType('application/json');
+            xhr.open('GET', pathClosure, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    action(data);
+                    resolve(data);
+                }
+            };
+            xhr.onerror = function () {
+                reject("Configuration file could not be found or loaded: " + pathClosure);
+            };
+            xhr.send(null);
         });
     };
     Configure.prototype.mergeConfigFile = function (path) {
@@ -181,7 +185,7 @@ var Configure = (function () {
     };
     Configure = __decorate([
         aurelia_dependency_injection_1.autoinject, 
-        __metadata('design:paramtypes', [aurelia_loader_1.Loader])
+        __metadata('design:paramtypes', [])
     ], Configure);
     return Configure;
 }());

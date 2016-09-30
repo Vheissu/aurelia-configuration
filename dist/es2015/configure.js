@@ -9,15 +9,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { autoinject } from 'aurelia-dependency-injection';
 import { join } from 'aurelia-path';
-import { Loader } from 'aurelia-loader';
 import deepExtend from 'deep-extend';
 export let Configure = class Configure {
-    constructor(loader) {
+    constructor() {
         this.environment = 'default';
         this.directory = 'config';
         this.config_file = 'config.json';
         this.cascade_mode = true;
-        this.loader = loader;
         this.environment = 'default';
         this.environments = false;
         this.directory = 'config';
@@ -149,16 +147,22 @@ export let Configure = class Configure {
         });
     }
     loadConfigFile(path, action) {
-        let pathClosure = path.toString();
-        return this.loader.loadText(pathClosure)
-            .then(data => {
-            if (typeof data !== 'object') {
-                data = JSON.parse(data);
-            }
-            action(data);
-        })
-            .catch(() => {
-            console.error(`Configuration file could not be found or loaded: ${pathClosure}`);
+        return new Promise((resolve, reject) => {
+            let pathClosure = path.toString();
+            let xhr = new XMLHttpRequest();
+            xhr.overrideMimeType('application/json');
+            xhr.open('GET', pathClosure, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let data = JSON.parse(this.responseText);
+                    action(data);
+                    resolve(data);
+                }
+            };
+            xhr.onerror = function () {
+                reject(`Configuration file could not be found or loaded: ${pathClosure}`);
+            };
+            xhr.send(null);
         });
     }
     mergeConfigFile(path) {
@@ -167,6 +171,6 @@ export let Configure = class Configure {
 };
 Configure = __decorate([
     autoinject, 
-    __metadata('design:paramtypes', [Loader])
+    __metadata('design:paramtypes', [])
 ], Configure);
 //# sourceMappingURL=configure.js.map
