@@ -1,6 +1,5 @@
-System.register(['aurelia-dependency-injection', 'aurelia-path', 'deep-extend'], function(exports_1, context_1) {
+System.register(["aurelia-dependency-injection", "aurelia-path", "deep-extend"], function (exports_1, context_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,10 +9,10 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'deep-extend'],
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var aurelia_dependency_injection_1, aurelia_path_1, deep_extend_1;
-    var Configure;
+    var __moduleName = context_1 && context_1.id;
+    var aurelia_dependency_injection_1, aurelia_path_1, deep_extend_1, Configure;
     return {
-        setters:[
+        setters: [
             function (aurelia_dependency_injection_1_1) {
                 aurelia_dependency_injection_1 = aurelia_dependency_injection_1_1;
             },
@@ -22,8 +21,9 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'deep-extend'],
             },
             function (deep_extend_1_1) {
                 deep_extend_1 = deep_extend_1_1;
-            }],
-        execute: function() {
+            }
+        ],
+        execute: function () {
             Configure = (function () {
                 function Configure() {
                     this.environment = 'default';
@@ -196,14 +196,14 @@ System.register(['aurelia-dependency-injection', 'aurelia-path', 'deep-extend'],
                     var _this = this;
                     return this.loadConfigFile(path, function (data) { return _this.lazyMerge(data); });
                 };
-                Configure = __decorate([
-                    aurelia_dependency_injection_1.autoinject, 
-                    __metadata('design:paramtypes', [])
-                ], Configure);
                 return Configure;
             }());
+            Configure = __decorate([
+                aurelia_dependency_injection_1.autoinject,
+                __metadata("design:paramtypes", [])
+            ], Configure);
             exports_1("Configure", Configure);
         }
-    }
+    };
 });
 //# sourceMappingURL=configure.js.map

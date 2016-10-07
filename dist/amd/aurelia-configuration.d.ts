@@ -32,6 +32,6 @@ declare module "configure" {
 }
 declare module "index" {
     import { Configure } from "configure";
-    export function configure(aurelia: any, configCallback: any): Promise<{}>;
+    export function configure(aurelia: any, configCallback: any): any;
     export { Configure };
 }

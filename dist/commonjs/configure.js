@@ -8,9 +8,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var aurelia_dependency_injection_1 = require('aurelia-dependency-injection');
-var aurelia_path_1 = require('aurelia-path');
-var deep_extend_1 = require('deep-extend');
+var aurelia_dependency_injection_1 = require("aurelia-dependency-injection");
+var aurelia_path_1 = require("aurelia-path");
+var deep_extend_1 = require("deep-extend");
 var Configure = (function () {
     function Configure() {
         this.environment = 'default';
@@ -183,11 +183,11 @@ var Configure = (function () {
         var _this = this;
         return this.loadConfigFile(path, function (data) { return _this.lazyMerge(data); });
     };
-    Configure = __decorate([
-        aurelia_dependency_injection_1.autoinject, 
-        __metadata('design:paramtypes', [])
-    ], Configure);
     return Configure;
 }());
+Configure = __decorate([
+    aurelia_dependency_injection_1.autoinject,
+    __metadata("design:paramtypes", [])
+], Configure);
 exports.Configure = Configure;
 //# sourceMappingURL=configure.js.map
