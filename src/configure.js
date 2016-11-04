@@ -1,18 +1,8 @@
-import {autoinject} from 'aurelia-dependency-injection';
 import {join} from 'aurelia-path';
 import deepExtend from 'deep-extend';
 
-@autoinject
 export class Configure {
-    environment: string = 'default';
-    environments;
-    directory: string = 'config';
-    config_file: string = 'config.json';
-    cascade_mode: boolean = true;
-
-    private _config_object;
-    private _config_merge_object;
-
+    
     constructor() {
         this.environment = 'default';
         this.environments = false;
@@ -21,6 +11,7 @@ export class Configure {
         this.cascade_mode = true;
 
         this._config_object = {};
+        this._config_merge_object = {};
     }
 
     /**

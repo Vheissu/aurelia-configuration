@@ -1,22 +1,27 @@
-"use strict";
-var configure_1 = require("./configure");
-exports.Configure = configure_1.Configure;
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Configure = undefined;
+exports.configure = configure;
+
+var _configure = require('./configure');
+
 function configure(aurelia, configCallback) {
-    var instance = aurelia.container.get(configure_1.Configure);
-    var promise = null;
-    if (configCallback !== undefined && typeof (configCallback) === 'function') {
-        promise = configCallback(instance);
+    var instance = aurelia.container.get(_configure.Configure);
+
+    if (configCallback !== undefined && typeof configCallback === 'function') {
+        configCallback(instance);
     }
-    if (promise == null) {
-        promise = Promise.resolve();
-    }
-    return promise
-        .then(function () {
-        return instance.loadConfig();
-    })
-        .catch(function () {
-        throw new Error('Configuration file could not be loaded.');
+
+    return new Promise(function (resolve, reject) {
+        instance.loadConfig().then(function () {
+            return resolve();
+        }).catch(function () {
+            reject(new Error('Configuration file could not be loaded'));
+        });
     });
 }
-exports.configure = configure;
-//# sourceMappingURL=index.js.map
+
+exports.Configure = _configure.Configure;
