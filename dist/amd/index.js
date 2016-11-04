@@ -1,11 +1,13 @@
-'use strict';
+define(['exports', './configure'], function (exports, _configure) {
+    'use strict';
 
-System.register(['./configure'], function (_export, _context) {
-    "use strict";
-
-    var Configure;
+    Object.defineProperty(exports, "__esModule", {
+        value: true
+    });
+    exports.Configure = undefined;
+    exports.configure = configure;
     function configure(aurelia, configCallback) {
-        var instance = aurelia.container.get(Configure);
+        var instance = aurelia.container.get(_configure.Configure);
 
         if (configCallback !== undefined && typeof configCallback === 'function') {
             configCallback(instance);
@@ -20,14 +22,5 @@ System.register(['./configure'], function (_export, _context) {
         });
     }
 
-    _export('configure', configure);
-
-    return {
-        setters: [function (_configure) {
-            Configure = _configure.Configure;
-        }],
-        execute: function () {
-            _export('Configure', Configure);
-        }
-    };
+    exports.Configure = _configure.Configure;
 });
