@@ -10,7 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 import { autoinject } from 'aurelia-dependency-injection';
 import { join } from 'aurelia-path';
 import deepExtend from 'deep-extend';
-export let Configure = class Configure {
+let Configure = class Configure {
     constructor() {
         this.environment = 'default';
         this.directory = 'config';
@@ -170,7 +170,8 @@ export let Configure = class Configure {
     }
 };
 Configure = __decorate([
-    autoinject, 
-    __metadata('design:paramtypes', [])
+    autoinject,
+    __metadata("design:paramtypes", [])
 ], Configure);
+export { Configure };
 //# sourceMappingURL=configure.js.map

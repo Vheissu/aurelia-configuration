@@ -7,7 +7,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-define("configure", ["require", "exports", 'aurelia-dependency-injection', 'aurelia-path', 'deep-extend'], function (require, exports, aurelia_dependency_injection_1, aurelia_path_1, deep_extend_1) {
+define("configure", ["require", "exports", "aurelia-dependency-injection", "aurelia-path", "deep-extend"], function (require, exports, aurelia_dependency_injection_1, aurelia_path_1, deep_extend_1) {
     "use strict";
     var Configure = (function () {
         function Configure() {
@@ -181,12 +181,12 @@ define("configure", ["require", "exports", 'aurelia-dependency-injection', 'aure
             var _this = this;
             return this.loadConfigFile(path, function (data) { return _this.lazyMerge(data); });
         };
-        Configure = __decorate([
-            aurelia_dependency_injection_1.autoinject, 
-            __metadata('design:paramtypes', [])
-        ], Configure);
         return Configure;
     }());
+    Configure = __decorate([
+        aurelia_dependency_injection_1.autoinject,
+        __metadata("design:paramtypes", [])
+    ], Configure);
     exports.Configure = Configure;
 });
 define("index", ["require", "exports", "configure"], function (require, exports, configure_1) {
@@ -194,15 +194,19 @@ define("index", ["require", "exports", "configure"], function (require, exports,
     exports.Configure = configure_1.Configure;
     function configure(aurelia, configCallback) {
         var instance = aurelia.container.get(configure_1.Configure);
+        var promise = null;
         if (configCallback !== undefined && typeof (configCallback) === 'function') {
-            configCallback(instance);
+            promise = configCallback(instance);
         }
-        return new Promise(function (resolve, reject) {
-            instance.loadConfig()
-                .then(function () { return resolve(); })
-                .catch(function () {
-                reject(new Error('Configuration file could not be loaded'));
-            });
+        if (promise == null) {
+            promise = Promise.resolve();
+        }
+        return promise
+            .then(function () {
+            return instance.loadConfig();
+        })
+            .catch(function () {
+            throw new Error('Configuration file could not be loaded.');
         });
     }
     exports.configure = configure;
