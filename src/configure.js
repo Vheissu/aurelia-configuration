@@ -329,7 +329,9 @@ export class Configure {
             let pathClosure = path.toString();
 
             let xhr = new XMLHttpRequest();
-            xhr.overrideMimeType('application/json');
+            if (xhr.overrideMimeType) {
+                xhr.overrideMimeType('application/json');
+            }
             xhr.open('GET', pathClosure, true);
 
             xhr.onreadystatechange = function() {
