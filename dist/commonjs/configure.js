@@ -213,6 +213,12 @@ var Configure = exports.Configure = function () {
                 }
             };
 
+            xhr.onloadend = function () {
+                if (xhr.status == 404) {
+                    reject('Configuration file could not be found: ' + path);
+                }
+            };
+
             xhr.onerror = function () {
                 reject('Configuration file could not be found or loaded: ' + pathClosure);
             };
@@ -221,11 +227,20 @@ var Configure = exports.Configure = function () {
         });
     };
 
-    Configure.prototype.mergeConfigFile = function mergeConfigFile(path) {
+    Configure.prototype.mergeConfigFile = function mergeConfigFile(path, optional) {
         var _this2 = this;
 
-        return this.loadConfigFile(path, function (data) {
-            return _this2.lazyMerge(data);
+        return new Promise(function (resolve, reject) {
+            _this2.loadConfigFile(path, function (data) {
+                _this2.lazyMerge(data);
+                resolve();
+            }).catch(function (error) {
+                if (optional === true) {
+                    resolve();
+                } else {
+                    reject(error);
+                }
+            });
         });
     };
 

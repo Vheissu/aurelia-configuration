@@ -181,6 +181,12 @@ export let Configure = class Configure {
                 }
             };
 
+            xhr.onloadend = function () {
+                if (xhr.status == 404) {
+                    reject('Configuration file could not be found: ' + path);
+                }
+            };
+
             xhr.onerror = function () {
                 reject(`Configuration file could not be found or loaded: ${ pathClosure }`);
             };
@@ -189,7 +195,18 @@ export let Configure = class Configure {
         });
     }
 
-    mergeConfigFile(path) {
-        return this.loadConfigFile(path, data => this.lazyMerge(data));
+    mergeConfigFile(path, optional) {
+        return new Promise((resolve, reject) => {
+            this.loadConfigFile(path, data => {
+                this.lazyMerge(data);
+                resolve();
+            }).catch(error => {
+                if (optional === true) {
+                    resolve();
+                } else {
+                    reject(error);
+                }
+            });
+        });
     }
 };
