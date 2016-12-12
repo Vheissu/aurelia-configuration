@@ -31,7 +31,7 @@ Firstly, you need to add "deep-extend" as a dependency and "aurelia-configuratio
 {
     "name": "aurelia-configuration",
     "path": "../node_modules/aurelia-configuration/dist/amd",
-    "main": "aurelia-configuration"
+    "main": "index"
 }
 ```
 
