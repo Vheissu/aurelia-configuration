@@ -2,8 +2,8 @@ import {FrameworkConfiguration} from 'aurelia-framework';
 import {AureliaConfiguration} from './aurelia-configuration';
 
 export function configure(aurelia: FrameworkConfiguration, configCallback?: (config: AureliaConfiguration) => Promise<any>) {
-    let instance = aurelia.container.get(AureliaConfiguration);
-    let promise: Promise<any> | any = null;
+    let instance = aurelia.container.get(AureliaConfiguration) as AureliaConfiguration;
+    let promise: Promise<any> | null = null;
 
     // Do we have a callback function?
     if (configCallback !== undefined && typeof(configCallback) === 'function') {

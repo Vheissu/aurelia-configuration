@@ -21,6 +21,20 @@ jspm install aurelia-configuration
 npm install aurelia-configuration --save
 ```
 
+### Using Aurelia CLI?
+You will need to add in some directives to your `aurelia.json` file located in the `aurelia_project` folder.
+
+Firstly, you need to add "deep-extend" as a dependency and "aurelia-configuration" -- at the end of the `dependencies` section add the following so RequireJS is able to map the dependencies appropriately.
+
+```
+"deep-extend",
+{
+    "name": "aurelia-configuration",
+    "path": "../node_modules/aurelia-configuration/dist/amd",
+    "main": "aurelia-configuration"
+}
+```
+
 * Add plugin to your app's main.js:
 
 ```javascript
@@ -37,7 +51,7 @@ export function configure(aurelia) {
 * Use the plugin to **set** configuration in your app's main.js:
 
 ```javascript
-import {Configure} from "aurelia-configuration";
+import {AureliaConfiguration} from "aurelia-configuration";
 // [...]
 aurelia.use
         .standardConfiguration()
@@ -63,9 +77,9 @@ aurelia.use
 
 ```javascript
 import {inject} from 'aurelia-framework';
-import {Configure} from 'aurelia-configuration';
+import {"aurelia-configuration"} from 'aurelia-configuration';
 
-@inject(Configure)
+@inject("aurelia-configuration")
 export class ViewModel {
     constructor(config) {
         this.config = config;
@@ -287,61 +301,6 @@ var myConfigValues = config.getAll();
 * [aurelia-dependency-injection](https://github.com/aurelia/dependency-injection)
 * [aurelia-path](https://github.com/aurelia/path)
 * [aurelia-loader](https://github.com/aurelia/loader)
-
-## Building from src
-
-To build this plugin from the source, follow these steps.
-
-* Ensure that you have [Node.js](http://nodejs.org) installed. This is what our tooling will depend on to compile the plugin.
-
-* Inside of the project folder, execute the following command:
-
-```shell
-npm install
-```
-
-* Ensure that you have Gulp installed globally, using the following command:
-
-```shell
-npm install -g gulp
-```
-
-* Ensure that you have JSPM installed globally, using the following command:
-
-```shell
-npm install -g jspm
-```
-
-* To build the plugin, run:
-
-```shell
-gulp build
-```
-
-* You will then find the compiled code in the 'dist' folder, in three different module formats: AMD, CommonJS and ES6.
-
-## Running The Tests
-
-To run the unit tests (there are none currently), please make sure you follow the above steps and then follow each step below to get the testing environment setup.
-
-* Ensure that the [Karma](http://karma-runner.github.io/) CLI is installed. If it is not installed, then install it using the following command:
-
-  ```shell
-  npm install -g karma-cli
-  ```
-
-* Install the client-side dependencies with JSPM:
-
-  ```shell
-  jspm install
-  ```
-* You can now run the tests with this command:
-
-  ```shell
-  karma start
-  ```
-
-
 
 
 [badge-npm-image]: https://img.shields.io/npm/v/aurelia-configuration.svg?style=flat-square
