@@ -8,7 +8,7 @@
     "configuration"
   ],
   "main": "dist/commonjs/index.js",
-  "typings": "dist/index.d.ts",
+  "typings": "dist/commonjs/index.d.ts",
   "scripts": {
     "lint": "cross-env tslint --project tsconfig.json",
     "pretest": "cross-env npm run lint",
