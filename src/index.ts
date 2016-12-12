@@ -16,9 +16,6 @@ export function configure(aurelia: FrameworkConfiguration, configCallback?: (con
     return promise
         .then(function () {
             return instance.loadConfig();
-        })
-        .catch(function () {
-            throw new Error('Configuration file could not be loaded');
         });
 }
 

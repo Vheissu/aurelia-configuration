@@ -15,9 +15,6 @@ function configure(aurelia, configCallback) {
     return promise
         .then(function () {
         return instance.loadConfig();
-    })
-        .catch(function () {
-        throw new Error('Configuration file could not be loaded');
     });
 }
 exports.configure = configure;

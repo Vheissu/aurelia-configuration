@@ -15,9 +15,6 @@ define(["require", "exports", "./aurelia-configuration"], function (require, exp
         return promise
             .then(function () {
             return instance.loadConfig();
-        })
-            .catch(function () {
-            throw new Error('Configuration file could not be loaded');
         });
     }
     exports.configure = configure;

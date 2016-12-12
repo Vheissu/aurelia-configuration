@@ -15,9 +15,6 @@ System.register(["./aurelia-configuration"], function (exports_1, context_1) {
         return promise
             .then(function () {
             return instance.loadConfig();
-        })
-            .catch(function () {
-            throw new Error('Configuration file could not be loaded');
         });
     }
     exports_1("configure", configure);
