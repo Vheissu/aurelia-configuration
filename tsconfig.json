@@ -7,6 +7,9 @@
       "es2017",
       "dom"
     ],
+    "types": [
+        "jasmine"
+    ],
     "outDir": "dist/test",
     "noImplicitAny": true,
     "noUnusedLocals": true,

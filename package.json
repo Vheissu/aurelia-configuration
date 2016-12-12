@@ -92,6 +92,7 @@
     "deep-extend": "^0.4.1"
   },
   "devDependencies": {
+    "@types/jasmine": "^2.5.38",
     "aurelia-bootstrapper": "^1.0.1",
     "aurelia-pal-browser": "^1.1.0",
     "aurelia-polyfills": "^1.1.1",

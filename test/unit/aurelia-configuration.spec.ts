@@ -1,10 +1,10 @@
-import {Configure} from '../../src/configure';
+import {AureliaConfiguration} from '../../src/aurelia-configuration';
 
 describe('Configuration class', () => {
-    let configInstance;
+    let configInstance: any;
 
     beforeEach(() => {
-        configInstance = new Configure();
+        configInstance = new AureliaConfiguration();
 
         spyOn(configInstance, 'check');
         spyOn(configInstance, 'setEnvironment').and.callThrough();
