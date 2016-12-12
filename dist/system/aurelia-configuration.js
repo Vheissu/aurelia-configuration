@@ -1,4 +1,4 @@
-System.register(["aurelia-path", "deep-extend"], function (exports_1, context_1) {
+System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var aurelia_path_1, deep_extend_1, AureliaConfiguration;

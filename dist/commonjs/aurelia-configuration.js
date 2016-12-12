@@ -1,6 +1,6 @@
 "use strict";
 var aurelia_path_1 = require("aurelia-path");
-var deep_extend_1 = require("deep-extend");
+var deep_extend_1 = require("./deep-extend");
 var AureliaConfiguration = (function () {
     function AureliaConfiguration() {
         this.environment = 'default';

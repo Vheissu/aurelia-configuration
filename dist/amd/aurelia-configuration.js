@@ -1,4 +1,4 @@
-define(["require", "exports", "aurelia-path", "deep-extend"], function (require, exports, aurelia_path_1, deep_extend_1) {
+define(["require", "exports", "aurelia-path", "./deep-extend"], function (require, exports, aurelia_path_1, deep_extend_1) {
     "use strict";
     var AureliaConfiguration = (function () {
         function AureliaConfiguration() {

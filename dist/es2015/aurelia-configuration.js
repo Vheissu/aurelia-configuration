@@ -1,5 +1,5 @@
 import { join } from 'aurelia-path';
-import deepExtend from 'deep-extend';
+import deepExtend from './deep-extend';
 var AureliaConfiguration = (function () {
     function AureliaConfiguration() {
         this.environment = 'default';

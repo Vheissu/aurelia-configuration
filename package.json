@@ -58,8 +58,7 @@
       "aurelia-path": "^1.1.1",
       "aurelia-task-queue": "^1.1.0",
       "aurelia-templating": "^1.1.4",
-      "aurelia-templating-binding": "^1.1.0",
-      "deep-extend": "^0.4.1"
+      "aurelia-templating-binding": "^1.1.0"
     },
     "dependencies": {
       "aurelia-binding": "^1.1.0",
@@ -72,8 +71,7 @@
       "aurelia-path": "^1.1.1",
       "aurelia-task-queue": "^1.1.0",
       "aurelia-templating": "^1.1.4",
-      "aurelia-templating-binding": "^1.1.0",
-      "deep-extend": "^0.4.1"
+      "aurelia-templating-binding": "^1.1.0"
     },
     "devDependencies": {}
   },
@@ -88,8 +86,7 @@
     "aurelia-path": "^1.1.1",
     "aurelia-task-queue": "^1.1.0",
     "aurelia-templating": "^1.1.4",
-    "aurelia-templating-binding": "^1.1.0",
-    "deep-extend": "^0.4.1"
+    "aurelia-templating-binding": "^1.1.0"
   },
   "devDependencies": {
     "@types/jasmine": "^2.5.38",
@@ -119,7 +116,8 @@
   "aurelia": {
     "build": {
       "resources": [
-        "aurelia-configuration/configure",
+        "aurelia-configuration/aurelia-configuration",
+        "aurelia-configuration/deep-extend",
         "aurelia-configuration/index"
       ]
     }
