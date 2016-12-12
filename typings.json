@@ -1,4 +1,4 @@
 {
-  "name": "aurelia-typescript-plugin",
-  "main": "dist/amd/aurelia-typescript-plugin.d.ts"
+  "name": "aurelia-configuration",
+  "main": "dist/amd/aurelia-configuration.d.ts"
 }
