@@ -8,6 +8,9 @@ define(["require", "exports", "./aurelia-configuration"], function (require, exp
         if (configCallback !== undefined && typeof (configCallback) === 'function') {
             promise = Promise.resolve(configCallback(instance));
         }
+        else {
+            promise = Promise.resolve();
+        }
         // Don't load the config until the configCallback has completed.
         return promise
             .then(function () {
