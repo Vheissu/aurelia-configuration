@@ -1,32 +1,32 @@
-'use strict';
-
-System.register(['./configure'], function (_export, _context) {
+System.register(["./aurelia-configuration"], function (exports_1, context_1) {
     "use strict";
-
-    var Configure;
+    var __moduleName = context_1 && context_1.id;
     function configure(aurelia, configCallback) {
-        var instance = aurelia.container.get(Configure);
+        var instance = aurelia.container.get(aurelia_configuration_1.AureliaConfiguration);
         var promise = null;
-
-        if (configCallback !== undefined && typeof configCallback === 'function') {
+        // Do we have a callback function?
+        if (configCallback !== undefined && typeof (configCallback) === 'function') {
             promise = Promise.resolve(configCallback(instance));
         }
-
-        return promise.then(function () {
+        // Don't load the config until the configCallback has completed.
+        return promise
+            .then(function () {
             return instance.loadConfig();
-        }).catch(function () {
+        })
+            .catch(function () {
             throw new Error('Configuration file could not be loaded');
         });
     }
-
-    _export('configure', configure);
-
+    exports_1("configure", configure);
+    var aurelia_configuration_1;
     return {
-        setters: [function (_configure) {
-            Configure = _configure.Configure;
-        }],
+        setters: [
+            function (aurelia_configuration_1_1) {
+                aurelia_configuration_1 = aurelia_configuration_1_1;
+            }
+        ],
         execute: function () {
-            _export('Configure', Configure);
+            exports_1("AureliaConfiguration", aurelia_configuration_1.AureliaConfiguration);
         }
     };
 });

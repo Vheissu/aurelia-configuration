@@ -1,5 +1,2 @@
-.idea
-*.iml
-build/reports
 node_modules
-jspm_packages
+_BACKUP/

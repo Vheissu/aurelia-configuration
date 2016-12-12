@@ -1,25 +1,21 @@
-define(['exports', './configure'], function (exports, _configure) {
-    'use strict';
-
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
-    exports.Configure = undefined;
-    exports.configure = configure;
+define(["require", "exports", "./aurelia-configuration"], function (require, exports, aurelia_configuration_1) {
+    "use strict";
+    exports.AureliaConfiguration = aurelia_configuration_1.AureliaConfiguration;
     function configure(aurelia, configCallback) {
-        var instance = aurelia.container.get(_configure.Configure);
+        var instance = aurelia.container.get(aurelia_configuration_1.AureliaConfiguration);
         var promise = null;
-
-        if (configCallback !== undefined && typeof configCallback === 'function') {
+        // Do we have a callback function?
+        if (configCallback !== undefined && typeof (configCallback) === 'function') {
             promise = Promise.resolve(configCallback(instance));
         }
-
-        return promise.then(function () {
+        // Don't load the config until the configCallback has completed.
+        return promise
+            .then(function () {
             return instance.loadConfig();
-        }).catch(function () {
+        })
+            .catch(function () {
             throw new Error('Configuration file could not be loaded');
         });
     }
-
-    exports.Configure = _configure.Configure;
+    exports.configure = configure;
 });
