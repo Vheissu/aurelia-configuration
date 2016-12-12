@@ -24,10 +24,9 @@ npm install aurelia-configuration --save
 ### Using Aurelia CLI?
 You will need to add in some directives to your `aurelia.json` file located in the `aurelia_project` folder.
 
-Firstly, you need to add "deep-extend" as a dependency and "aurelia-configuration" -- at the end of the `dependencies` section add the following so RequireJS is able to map the dependencies appropriately.
+You need to add "aurelia-configuration" at the end of the `dependencies` section add the following so RequireJS is able to map the dependencies appropriately.
 
 ```
-"deep-extend",
 {
     "name": "aurelia-configuration",
     "path": "../node_modules/aurelia-configuration/dist/amd",
