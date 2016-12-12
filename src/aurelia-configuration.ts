@@ -380,4 +380,5 @@ export class AureliaConfiguration {
                     }
                 });
         });
+    }
 }
