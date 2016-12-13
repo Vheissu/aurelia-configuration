@@ -5,6 +5,37 @@
 
 A smart configuration plugin and singleton service layer for your Aurelia applications.
 
+## 1.0.15 Breaking Changes
+I stupidly made a breaking change for 1.0.15 instead of creating a new major version (my bad). If you're reading this and having issues, then here is what you need to do to get Aurelia Configuration working again.
+
+Previously you imported `Configure` from `aurelia-configuration` like this:
+
+```
+import {Configure} from 'aurelia-configuration';
+```
+
+**This has now changed to the following:**
+
+```
+import {AureliaConfiguration} from 'aurelia-configuration';
+```
+
+You might have also added in `deep-extend` to your `aurelia.json` project file if you use the CLI, this is no longer required, so simply remove that and keep the existing one.
+
+If you were manually importing typings, you might have previously had the following:
+
+```
+/// <reference path="../node_modules/aurelia-configuration/typescript-definition.d.ts" />
+```
+
+**This should be now:**
+
+```
+/// <reference path="../node_modules/aurelia-configuration/dist/commonjs/index.d.ts" />
+```
+
+Keep in mind that unless you're dealing with Jspm issues, you shouldn't need to manually import the typings in the above manner.
+
 ## Get Started
 
 * Install aurelia-configuration
@@ -34,7 +65,7 @@ You need to add "aurelia-configuration" at the end of the `dependencies` section
 }
 ```
 
-* Add plugin to your app's main.js:
+* Add plugin to your app's main.js or main.ts file:
 
 ```javascript
 export function configure(aurelia) {
@@ -47,7 +78,7 @@ export function configure(aurelia) {
 }
 ```
 
-* Use the plugin to **set** configuration in your app's main.js:
+* Use the plugin to **set** configuration in your app's main.js or main.ts file:
 
 ```javascript
 import {AureliaConfiguration} from "aurelia-configuration";
@@ -55,7 +86,7 @@ import {AureliaConfiguration} from "aurelia-configuration";
 aurelia.use
         .standardConfiguration()
         .plugin('aurelia-i18n', (instance) => {
-                let configInstance = aurelia.container.get(Configure);
+                let configInstance = aurelia.container.get(AureliaConfiguration);
                 let apiEndpoint = configInstance.get('api.endpoint');
 ```
 
@@ -76,9 +107,9 @@ aurelia.use
 
 ```javascript
 import {inject} from 'aurelia-framework';
-import {"aurelia-configuration"} from 'aurelia-configuration';
+import {AureliaConfiguration} from 'aurelia-configuration';
 
-@inject("aurelia-configuration")
+@inject(AureliaConfiguration)
 export class ViewModel {
     constructor(config) {
         this.config = config;
