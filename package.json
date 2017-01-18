@@ -48,74 +48,71 @@
       "dist": "dist/amd"
     },
     "peerDependencies": {
-      "aurelia-binding": "^1.1.0",
-      "aurelia-dependency-injection": "^1.2.0",
-      "aurelia-framework": "^1.0.7",
+      "aurelia-binding": "^1.1.1",
+      "aurelia-dependency-injection": "^1.3.0",
+      "aurelia-framework": "^1.0.8",
       "aurelia-loader": "^1.0.0",
       "aurelia-logging": "^1.2.0",
-      "aurelia-metadata": "^1.0.2",
-      "aurelia-pal": "^1.1.1",
+      "aurelia-metadata": "^1.0.3",
+      "aurelia-pal": "^1.2.0",
       "aurelia-path": "^1.1.1",
       "aurelia-task-queue": "^1.1.0",
-      "aurelia-templating": "^1.1.4",
-      "aurelia-templating-binding": "^1.1.0"
+      "aurelia-templating": "^1.2.0",
+      "aurelia-templating-binding": "^1.2.0"
     },
     "dependencies": {
-      "aurelia-binding": "^1.1.0",
-      "aurelia-dependency-injection": "^1.2.0",
-      "aurelia-framework": "^1.0.7",
+      "aurelia-binding": "^1.1.1",
+      "aurelia-dependency-injection": "^1.3.0",
+      "aurelia-framework": "^1.0.8",
       "aurelia-loader": "^1.0.0",
       "aurelia-logging": "^1.2.0",
-      "aurelia-metadata": "^1.0.2",
-      "aurelia-pal": "^1.1.1",
+      "aurelia-metadata": "^1.0.3",
+      "aurelia-pal": "^1.2.0",
       "aurelia-path": "^1.1.1",
       "aurelia-task-queue": "^1.1.0",
-      "aurelia-templating": "^1.1.4",
-      "aurelia-templating-binding": "^1.1.0"
+      "aurelia-templating": "^1.2.0",
+      "aurelia-templating-binding": "^1.2.0"
     },
     "devDependencies": {}
   },
   "dependencies": {
-    "aurelia-binding": "^1.1.0",
-    "aurelia-dependency-injection": "^1.2.0",
-    "aurelia-framework": "^1.0.7",
+    "aurelia-binding": "^1.1.1",
+    "aurelia-dependency-injection": "^1.3.0",
+    "aurelia-framework": "^1.0.8",
     "aurelia-loader": "^1.0.0",
     "aurelia-logging": "^1.2.0",
-    "aurelia-metadata": "^1.0.2",
-    "aurelia-pal": "^1.1.1",
+    "aurelia-metadata": "^1.0.3",
+    "aurelia-pal": "^1.2.0",
     "aurelia-path": "^1.1.1",
     "aurelia-task-queue": "^1.1.0",
-    "aurelia-templating": "^1.1.4",
-    "aurelia-templating-binding": "^1.1.0"
+    "aurelia-templating": "^1.2.0",
+    "aurelia-templating-binding": "^1.2.0"
   },
   "devDependencies": {
-    "@types/jasmine": "^2.5.38",
+    "@types/jasmine": "^2.5.40",
+    "@types/node": "^7.0.0",
     "aurelia-bootstrapper": "^1.0.1",
     "aurelia-pal-browser": "^1.1.0",
     "aurelia-polyfills": "^1.1.1",
-    "aurelia-testing": "^1.0.0-beta.2.0.0",
-    "babel-polyfill": "^6.20.0",
+    "aurelia-testing": "^1.0.0-beta.2.0.1",
     "concurrently": "^2.2.0",
     "copyfiles": "^1.0.0",
     "cross-env": "^2.0.1",
     "jasmine-core": "^2.5.2",
-    "karma": "^1.3.0",
+    "karma": "^1.4.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-jasmine": "^1.1.0",
     "karma-requirejs": "^1.1.0",
     "requirejs": "^2.3.2",
-    "requirejs-text": "^2.0.12",
+    "requirejs-text": "^2.0.15",
     "rimraf": "^2.5.4",
     "tslint": "^3.15.1",
-    "typescript": "^2.1.4"
+    "typescript": "^2.1.5"
   },
   "aurelia": {
     "build": {
       "resources": [
-        "aurelia-configuration/aurelia-configuration",
-        "aurelia-configuration/deep-extend",
-        "aurelia-configuration/index"
       ]
     }
   }
