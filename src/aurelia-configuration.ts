@@ -3,13 +3,13 @@ import deepExtend from './deep-extend';
 
 export class AureliaConfiguration {
 
-    private environment: string = 'default';
+    private environment: string           = 'default';
     private environments: string[] | null = null;
-    private directory: string = 'config';
-    private config_file: string = 'config.json';
-    private cascade_mode: boolean = true;
+    private directory: string             = 'config';
+    private config_file: string           = 'config.json';
+    private cascade_mode: boolean         = true;
 
-    private _config_object: {} | any = {};
+    private _config_object: {} | any       = {};
     private _config_merge_object: {} | any = {};
 
     /**
@@ -119,24 +119,26 @@ export class AureliaConfiguration {
     check() {
         let hostname = window.location.hostname;
 
-        // Check we have environments we can loop
-        if (this.environments) {
-            // Loop over supplied environments
-            for (let env in this.environments) {
-                // Get environment hostnames
-                let hostnames = this.environments[env];
+        if (!this.environments) {
+            return;
+        }
 
-                // Make sure we have hostnames
-                if (hostnames) {
-                    // Loop the hostnames
-                    for (let host of hostnames) {
-                        if (hostname.search(host) !== -1) {
-                            this.setEnvironment(env);
+        // Loop over supplied environments
+        for (let env in this.environments) {
+            // Get environment hostnames
+            let hostnames = this.environments[env];
 
-                            // We have successfully found an environment, stop searching
-                            return;
-                        }
-                    }
+            if (!hostnames) {
+                return;
+            }
+
+            // Loop the hostnames
+            for (let host of hostnames) {
+                if (hostname == host) {
+                    this.setEnvironment(env);
+
+                    // We have successfully found an environment, stop searching
+                    return;
                 }
             }
         }
@@ -199,8 +201,8 @@ export class AureliaConfiguration {
 
         if (key.indexOf('.') !== -1) {
             let splitKey = key.split('.');
-            let parent = splitKey[0];
-            let child = splitKey[1];
+            let parent   = splitKey[0];
+            let child    = splitKey[1];
 
             if (!this.environmentEnabled()) {
                 if (this.obj[parent]) {
@@ -232,8 +234,8 @@ export class AureliaConfiguration {
             this.obj[key] = val;
         } else {
             let splitKey = key.split('.');
-            let parent = splitKey[0];
-            let child = splitKey[1];
+            let parent   = splitKey[0];
+            let child    = splitKey[1];
 
             if (this.obj[parent] === undefined) {
                 this.obj[parent] = {};
@@ -332,7 +334,7 @@ export class AureliaConfiguration {
             }
             xhr.open('GET', pathClosure, true);
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     let data = JSON.parse(this.responseText);
                     action(data);
@@ -346,7 +348,7 @@ export class AureliaConfiguration {
                 }
             };
 
-            xhr.onerror = function() {
+            xhr.onerror = function () {
                 reject(`Configuration file could not be found or loaded: ${pathClosure}`);
             };
 
