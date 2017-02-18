@@ -48,9 +48,6 @@ System.register([], function (exports_1, context_1) {
             throw new Error('Unexpected situation');
         }
     }
-    /**
-     * Recursive cloning array.
-     */
     function deepCloneArray(arr) {
         var clone = [];
         arr.forEach(function (item, index) {
@@ -109,18 +106,15 @@ System.register([], function (exports_1, context_1) {
                     return arguments[0];
                 }
                 var target = arguments[0];
-                // convert arguments to array and cut off target object
                 var args = Array.prototype.slice.call(arguments, 1);
                 var val, src;
                 args.forEach(function (obj) {
-                    // skip argument if it is array or isn't object
                     if (typeof obj !== 'object' || Array.isArray(obj)) {
                         return;
                     }
                     Object.keys(obj).forEach(function (key) {
-                        src = target[key]; // source value
-                        val = obj[key]; // new value
-                        // recursion prevention
+                        src = target[key];
+                        val = obj[key];
                         if (val === target) {
                             return;
                         }
@@ -151,3 +145,4 @@ System.register([], function (exports_1, context_1) {
         }
     };
 });
+//# sourceMappingURL=deep-extend.js.map

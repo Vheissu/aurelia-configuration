@@ -48,9 +48,6 @@ define(["require", "exports"], function (require, exports) {
             throw new Error('Unexpected situation');
         }
     }
-    /**
-     * Recursive cloning array.
-     */
     function deepCloneArray(arr) {
         var clone = [];
         arr.forEach(function (item, index) {
@@ -71,15 +68,6 @@ define(["require", "exports"], function (require, exports) {
         });
         return clone;
     }
-    /**
-     * Extening object that entered in first argument.
-     *
-     * Returns extended object or false if have no target object or incorrect type.
-     *
-     * If you wish to clone source object (without modify it), just use empty new
-     * object as first argument, like this:
-     *   deepExtend({}, yourObj_1, [yourObj_N]);
-     */
     var deepExtend;
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = deepExtend = function () {
@@ -90,18 +78,15 @@ define(["require", "exports"], function (require, exports) {
             return arguments[0];
         }
         var target = arguments[0];
-        // convert arguments to array and cut off target object
         var args = Array.prototype.slice.call(arguments, 1);
         var val, src;
         args.forEach(function (obj) {
-            // skip argument if it is array or isn't object
             if (typeof obj !== 'object' || Array.isArray(obj)) {
                 return;
             }
             Object.keys(obj).forEach(function (key) {
-                src = target[key]; // source value
-                val = obj[key]; // new value
-                // recursion prevention
+                src = target[key];
+                val = obj[key];
                 if (val === target) {
                     return;
                 }
@@ -130,3 +115,4 @@ define(["require", "exports"], function (require, exports) {
         return target;
     };
 });
+//# sourceMappingURL=deep-extend.js.map
