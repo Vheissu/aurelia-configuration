@@ -3,28 +3,27 @@
     "module": "amd",
     "moduleResolution": "node",
     "target": "es5",
-    "lib": [
-      "es2017",
-      "dom"
-    ],
-    "types": [
-        "jasmine"
-    ],
+    "allowSyntheticDefaultImports": true,
     "outDir": "dist/test",
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "strictNullChecks": true,
+    "sourceMap": true,
     "declaration": true,
-    "forceConsistentCasingInFileNames": true,
+    "stripInternal": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noEmitOnError": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noEmitHelpers": false
+    "preserveConstEnums": true,
+    "lib": ["es2017", "dom"]
   },
   "exclude": [
     ".vscode",
+    "node_modules",
     "dist",
-    "doc",
-    "node_modules"
-  ]
+    "examples"
+  ],
+  "compileOnSave": false,
+  "atom": {
+    "rewriteTsconfig": false
+  }
 }

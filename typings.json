@@ -1,4 +1,4 @@
 {
   "name": "aurelia-configuration",
-  "main": "dist/amd/aurelia-configuration.d.ts"
+  "main": "dist/commonjs/index.d.ts"
 }
