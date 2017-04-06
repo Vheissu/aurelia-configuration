@@ -25,6 +25,7 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 'use strict';
 function isSpecificValue(val) {
     return (val instanceof Buffer
@@ -68,7 +69,6 @@ function deepCloneArray(arr) {
     return clone;
 }
 var deepExtend;
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = deepExtend = function () {
     if (arguments.length < 1 || typeof arguments[0] !== 'object') {
         return false;

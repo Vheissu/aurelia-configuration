@@ -5,8 +5,6 @@ describe('Configuration class', () => {
 
     beforeEach(() => {
         configInstance = new AureliaConfiguration();
-
-        spyOn(configInstance, 'check');
         spyOn(configInstance, 'setEnvironment').and.callThrough();
     });
 
@@ -41,6 +39,7 @@ describe('Configuration class', () => {
             staging: ['staging.website.com', 'test.staging.website.com'],
             production: ['website.com']
         };
+        spyOn(configInstance, 'check');
         configInstance.setEnvironments(environments);
 
         expect(configInstance.environments).toEqual(environments);
@@ -81,5 +80,28 @@ describe('Configuration class', () => {
         configInstance.check();
 
         //expect(configInstance.setEnvironment).toHaveBeenCalled();
+    });
+
+    it('works with the same url but different port (using Karma port)', () => {
+        let environments = {
+            dev1: ['localhost'],
+            dev2: ['localhost:9876'],
+        };
+        
+        configInstance.setAll({
+            'test': 'fallback',
+            'dev1': {
+                'test': 'dev1'
+            },
+            'dev2': {
+                'test': 'dev2'
+            }
+        });
+        
+        configInstance.setEnvironments(environments);
+        
+        configInstance.check();
+        const test = configInstance.get('test');
+        expect(test).toEqual('dev2');
     });
 });

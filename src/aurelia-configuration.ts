@@ -118,7 +118,9 @@ export class AureliaConfiguration {
      */
     check() {
         let hostname = window.location.hostname;
-
+        if (window.location.port != '')
+            hostname += ':' + window.location.port;
+            
         // Check we have environments we can loop
         if (this.environments) {
             // Loop over supplied environments
@@ -130,7 +132,7 @@ export class AureliaConfiguration {
                 if (hostnames) {
                     // Loop the hostnames
                     for (let host of hostnames) {
-                        if (hostname.search(host) !== -1) {
+                        if (hostname.search('(?:^|\W)' + host + '(?:$|\W)') !== -1) {
                             this.setEnvironment(env);
 
                             // We have successfully found an environment, stop searching
