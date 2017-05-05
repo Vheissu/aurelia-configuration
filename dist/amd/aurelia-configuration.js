@@ -1,5 +1,6 @@
 define(["require", "exports", "aurelia-path", "./deep-extend"], function (require, exports, aurelia_path_1, deep_extend_1) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     var AureliaConfiguration = (function () {
         function AureliaConfiguration() {
             this.environment = 'default';

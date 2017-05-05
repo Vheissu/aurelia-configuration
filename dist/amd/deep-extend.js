@@ -26,6 +26,7 @@
  */
 define(["require", "exports"], function (require, exports) {
     "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
     'use strict';
     function isSpecificValue(val) {
         return (val instanceof Buffer
@@ -69,7 +70,6 @@ define(["require", "exports"], function (require, exports) {
         return clone;
     }
     var deepExtend;
-    Object.defineProperty(exports, "__esModule", { value: true });
     exports.default = deepExtend = function () {
         if (arguments.length < 1 || typeof arguments[0] !== 'object') {
             return false;

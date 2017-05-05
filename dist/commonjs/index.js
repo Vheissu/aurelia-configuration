@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_configuration_1 = require("./aurelia-configuration");
 exports.AureliaConfiguration = aurelia_configuration_1.AureliaConfiguration;
 function configure(aurelia, configCallback) {

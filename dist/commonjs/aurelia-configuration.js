@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var aurelia_path_1 = require("aurelia-path");
 var deep_extend_1 = require("./deep-extend");
 var AureliaConfiguration = (function () {
