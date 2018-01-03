@@ -104,4 +104,100 @@ describe('Configuration class', () => {
         const test = configInstance.get('test');
         expect(test).toEqual('dev2');
     });
+
+    it('should get nested values from dicts', () => {
+        let nestedDict = {
+            'level1': 'level1',
+            'nested1': {
+                'nested12': 'nested12',
+                'nested2': {
+                    'nested21': 'nested21'
+                }
+            }
+        };
+        configInstance.setAll(nestedDict);
+
+        expect(configInstance.getDictValue(nestedDict, 'level1')).toEqual('level1');
+        expect(configInstance.getDictValue(nestedDict, 'nested1.nested12')).toEqual('nested12');
+        expect(configInstance.getDictValue(nestedDict, 'nested1.nested2.nested21')).toEqual('nested21');
+
+        expect(
+            configInstance.getDictValue(nestedDict['nested1'], 'nested2.nested21'),
+        ).toEqual('nested21');
+
+        expect(
+            configInstance.getDictValue(nestedDict['nested1']['nested2'], 'nested21'),
+        ).toEqual('nested21');
+
+        expect(
+            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
+        ).toThrow();
+    });
+
+    it('should get nested values from configs', () => {
+        let nestedDict = {
+            'level1': 'level1',
+            'nested1': {
+                'nested12': 'nested12',
+                'nested2': {
+                    'nested21': 'nested21'
+                }
+            }
+        };
+        configInstance.setAll(nestedDict);
+
+        expect(configInstance.get('level1')).toEqual('level1');
+        expect(configInstance.get('nested1.nested12')).toEqual('nested12');
+        expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21');
+        expect(
+            configInstance.get('nested1.nested2')
+        ).toEqual({'nested21': 'nested21'});
+        expect(
+            configInstance.get('nested1.nested2.nested21')
+        ).toEqual('nested21');
+        expect(
+            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
+        ).toThrow();
+    });
+
+    it('should prefer environment values from configs', () => {
+        let nestedDict = {
+            'level1': 'level1',
+            'nested1': {
+                'nested12': 'nested12',
+                'nested2': {
+                    'nested21': 'nested21'
+                },
+                'nested13': 'nested13'
+            },
+            'dev2': {
+                'level1': 'level1e',
+                'nested1': {
+                    'nested12': 'nested12e',
+                    'nested2': {
+                        'nested21': 'nested21e'
+                    }
+                }
+            }
+        };
+        configInstance.setAll(nestedDict);
+        configInstance.setEnvironment('dev2');
+
+        expect(configInstance.get('level1')).toEqual('level1e');
+        expect(configInstance.get('nested1.nested12')).toEqual('nested12e');
+        expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21e');
+        expect(
+            configInstance.get('nested1.nested2')
+        ).toEqual({'nested21': 'nested21e'});
+        expect(
+            configInstance.get('nested1.nested2.nested21')
+        ).toEqual('nested21e');
+        expect(
+            configInstance.get('nested1.nested13')
+        ).toEqual('nested13');
+        expect(configInstance.get('nonExisting', 'default')).toEqual('default');
+        expect(
+            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
+        ).toThrow();
+    });
 });
