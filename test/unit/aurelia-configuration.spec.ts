@@ -130,7 +130,7 @@ describe('Configuration class', () => {
         // Test to see if our local dev config works
         let window = new WindowInfo();
         window.hostName = 'localhost';
-        window.pathName = '';
+        window.pathName = '/';
         window.port = '9000';
         configInstance.setWindow(window);
         configInstance.check();
@@ -188,7 +188,7 @@ describe('Configuration class', () => {
         // Test to see if we don't set basePathMode=true that everything works as expected
         let window = new WindowInfo();
         window.hostName = 'localhost';
-        window.pathName = '';
+        window.pathName = '/';
         window.port = '';
         configInstance.setWindow(window);
         configInstance.check();
@@ -205,17 +205,8 @@ describe('Configuration class', () => {
 
         // Test to see if our qa config works with a base path for application
         configInstance.setBasePathMode(true);
-        // Sets the default base for window.location.pathname
-        window.pathName = '/';
-        configInstance.setWindow(window);
         configInstance.check();
         let testQa = configInstance.get('test');
-        expect(testQa).toEqual('qa');
-
-        window.pathName = '/master';
-        configInstance.setWindow(window);
-        configInstance.check();
-        testQa = configInstance.get('test');
         expect(testQa).toEqual('qaMaster');
 
         window.pathName = '/feature1';
@@ -236,7 +227,7 @@ describe('Configuration class', () => {
         testQa = configInstance.get('test');
         expect(testQa).toEqual('qaFeature1SubFeature2');
     });
-    
+
     it('should get nested values from dicts', () => {
         let nestedDict = {
             'level1': 'level1',

@@ -20,7 +20,10 @@ export class AureliaConfiguration {
         this.window = new WindowInfo();
         this.window.hostName = window.location.hostname;
         this.window.port = window.location.port;
-        this.window.pathName = window.location.pathname;
+        // Only sets the pathname when its not '' or '/'
+        if (window.location.pathname && window.location.pathname.length > 1) {
+            this.window.pathName = window.location.pathname;
+        }
     }
     /**
      * Set Directory
