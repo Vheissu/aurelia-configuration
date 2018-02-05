@@ -205,6 +205,29 @@ export class AureliaConfiguration {
     }
 
     /**
+     * GetDictValue
+     * Gets a value from a dict in an arbitrary depth or throws
+     * an error, if the key does not exist
+     *
+     * @param baseObject
+     * @param key
+     * @returns {*}
+     */
+    getDictValue(baseObject: {} | any, key: string) {
+        let splitKey = key.split('.');
+        let currentObject = baseObject;
+
+        splitKey.forEach((key) => {
+            if (currentObject[key]) {
+                currentObject = currentObject[key];
+            } else {
+                throw 'Key ' + key + ' not found';
+            }
+        });
+        return currentObject;
+    }
+
+    /**
      * Get
      * Gets a configuration value from the main config object
      * with support for a default value if nothing found
@@ -235,25 +258,25 @@ export class AureliaConfiguration {
 
                 return returnVal;
             }
-        }
-
-        if (key.indexOf('.') !== -1) {
-            let splitKey = key.split('.');
-            let parent = splitKey[0];
-            let child = splitKey[1];
-
-            if (!this.environmentEnabled()) {
-                if (this.obj[parent]) {
-                    return this.obj[parent][child] ? this.obj[parent][child] : defaultValue;
+        } else {
+            // nested key and environment is enabled
+            if (this.environmentEnabled()) {
+                if (this.environmentExists()) {
+                    try {
+                        return this.getDictValue(this.obj[this.environment], key);
+                    } catch {
+                        // nested key, env exists, key is not in environment
+                        if (this.cascade_mode) {
+                            try {
+                                return this.getDictValue(this.obj, key);
+                            } catch {}
+                        }
+                    }
                 }
             } else {
-                if (this.environmentExists() && this.obj[this.environment][parent] && this.obj[this.environment][parent][child]) {
-                    returnVal = this.obj[this.environment][parent][child];
-                } else if (this.cascade_mode && this.obj[parent] && this.obj[parent][child]) {
-                    returnVal = this.obj[parent][child];
-                }
-
-                return returnVal;
+                try {
+                    return this.getDictValue(this.obj, key);
+                } catch {}
             }
         }
 
