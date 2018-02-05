@@ -16,7 +16,9 @@ var AureliaConfiguration = (function () {
         this.window = new window_info_1.WindowInfo();
         this.window.hostName = window.location.hostname;
         this.window.port = window.location.port;
-        this.window.pathName = window.location.pathname;
+        if (window.location.pathname && window.location.pathname.length > 1) {
+            this.window.pathName = window.location.pathname;
+        }
     }
     AureliaConfiguration.prototype.setDirectory = function (path) {
         this.directory = path;
