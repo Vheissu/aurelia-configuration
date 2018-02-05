@@ -1,5 +1,6 @@
 import {join} from 'aurelia-path';
 import deepExtend from './deep-extend';
+import { WindowInfo } from './window-info';
 
 export class AureliaConfiguration {
 
@@ -8,10 +9,22 @@ export class AureliaConfiguration {
     private directory: string = 'config';
     private config_file: string = 'config.json';
     private cascade_mode: boolean = true;
+    private base_path_mode: boolean = false;
+    private window: WindowInfo;
 
     private _config_object: {} | any = {};
     private _config_merge_object: {} | any = {};
 
+    constructor() {
+        // Setup the window object with the current browser window information
+        this.window = new WindowInfo();
+        this.window.hostName = window.location.hostname;
+        this.window.port = window.location.port;
+        // Only sets the pathname when its not '' or '/'
+        if (window.location.pathname && window.location.pathname.length > 1) {
+            this.window.pathName = window.location.pathname;
+        }
+    }
     /**
      * Set Directory
      *
@@ -75,6 +88,32 @@ export class AureliaConfiguration {
     setCascadeMode(bool: boolean = true) {
         this.cascade_mode = bool;
     }
+    
+    /**
+     * Used to override default window information during contruction.
+     * Should only be used during unit testing, no need to set it up in normal
+     * operation
+     *
+     * @param bool
+     */
+    setWindow(window: WindowInfo) {
+        this.window = window;
+    }
+
+    /**
+     * Set Path Base Mode
+     *
+     * If you have several app on the same domain, you can emable base path mode to
+     * use window.location.pathname to help determine your environment. This would
+     * help a lot in scenarios where you have :
+     * http://mydomain.com/dev/, http://mydomain.com/qa/, http://mydomain.com/prod/
+     * That was you can have different config depending where your app is deployed.
+     *
+     * @param bool
+     */
+    setBasePathMode(bool: boolean = true) {
+        this.base_path_mode = bool;
+    }
 
     /**
      * Get Config
@@ -117,10 +156,12 @@ export class AureliaConfiguration {
      *
      */
     check() {
-        let hostname = window.location.hostname;
-        if (window.location.port != '')
-            hostname += ':' + window.location.port;
-            
+        let hostname = this.window.hostName;
+        if (this.window.port != '')
+            hostname += ':' + this.window.port;
+        if (this.base_path_mode)
+            hostname += this.window.pathName;
+
         // Check we have environments we can loop
         if (this.environments) {
             // Loop over supplied environments

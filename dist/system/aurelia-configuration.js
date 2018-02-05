@@ -1,7 +1,7 @@
-System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_1) {
+System.register(["aurelia-path", "./deep-extend", "./window-info"], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
-    var aurelia_path_1, deep_extend_1, AureliaConfiguration;
+    var aurelia_path_1, deep_extend_1, window_info_1, AureliaConfiguration;
     return {
         setters: [
             function (aurelia_path_1_1) {
@@ -9,6 +9,9 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
             },
             function (deep_extend_1_1) {
                 deep_extend_1 = deep_extend_1_1;
+            },
+            function (window_info_1_1) {
+                window_info_1 = window_info_1_1;
             }
         ],
         execute: function () {
@@ -19,8 +22,15 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                     this.directory = 'config';
                     this.config_file = 'config.json';
                     this.cascade_mode = true;
+                    this.base_path_mode = false;
                     this._config_object = {};
                     this._config_merge_object = {};
+                    this.window = new window_info_1.WindowInfo();
+                    this.window.hostName = window.location.hostname;
+                    this.window.port = window.location.port;
+                    if (window.location.pathname && window.location.pathname.length > 1) {
+                        this.window.pathName = window.location.pathname;
+                    }
                 }
                 AureliaConfiguration.prototype.setDirectory = function (path) {
                     this.directory = path;
@@ -42,6 +52,13 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                     if (bool === void 0) { bool = true; }
                     this.cascade_mode = bool;
                 };
+                AureliaConfiguration.prototype.setWindow = function (window) {
+                    this.window = window;
+                };
+                AureliaConfiguration.prototype.setBasePathMode = function (bool) {
+                    if (bool === void 0) { bool = true; }
+                    this.base_path_mode = bool;
+                };
                 Object.defineProperty(AureliaConfiguration.prototype, "obj", {
                     get: function () {
                         return this._config_object;
@@ -60,14 +77,18 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                     return (environment === this.environment);
                 };
                 AureliaConfiguration.prototype.check = function () {
-                    var hostname = window.location.hostname;
+                    var hostname = this.window.hostName;
+                    if (this.window.port != '')
+                        hostname += ':' + this.window.port;
+                    if (this.base_path_mode)
+                        hostname += this.window.pathName;
                     if (this.environments) {
                         for (var env in this.environments) {
                             var hostnames = this.environments[env];
                             if (hostnames) {
                                 for (var _i = 0, hostnames_1 = hostnames; _i < hostnames_1.length; _i++) {
                                     var host = hostnames_1[_i];
-                                    if (hostname.search(host) !== -1) {
+                                    if (hostname.search('(?:^|\W)' + host + '(?:$|\W)') !== -1) {
                                         this.setEnvironment(env);
                                         return;
                                     }
@@ -81,6 +102,19 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                 };
                 AureliaConfiguration.prototype.environmentExists = function () {
                     return this.environment in this.obj;
+                };
+                AureliaConfiguration.prototype.getDictValue = function (baseObject, key) {
+                    var splitKey = key.split('.');
+                    var currentObject = baseObject;
+                    splitKey.forEach(function (key) {
+                        if (currentObject[key]) {
+                            currentObject = currentObject[key];
+                        }
+                        else {
+                            throw 'Key ' + key + ' not found';
+                        }
+                    });
+                    return currentObject;
                 };
                 AureliaConfiguration.prototype.get = function (key, defaultValue) {
                     if (defaultValue === void 0) { defaultValue = null; }
@@ -99,23 +133,27 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                             return returnVal;
                         }
                     }
-                    if (key.indexOf('.') !== -1) {
-                        var splitKey = key.split('.');
-                        var parent_1 = splitKey[0];
-                        var child = splitKey[1];
-                        if (!this.environmentEnabled()) {
-                            if (this.obj[parent_1]) {
-                                return this.obj[parent_1][child] ? this.obj[parent_1][child] : defaultValue;
+                    else {
+                        if (this.environmentEnabled()) {
+                            if (this.environmentExists()) {
+                                try {
+                                    return this.getDictValue(this.obj[this.environment], key);
+                                }
+                                catch (_a) {
+                                    if (this.cascade_mode) {
+                                        try {
+                                            return this.getDictValue(this.obj, key);
+                                        }
+                                        catch (_b) { }
+                                    }
+                                }
                             }
                         }
                         else {
-                            if (this.environmentExists() && this.obj[this.environment][parent_1] && this.obj[this.environment][parent_1][child]) {
-                                returnVal = this.obj[this.environment][parent_1][child];
+                            try {
+                                return this.getDictValue(this.obj, key);
                             }
-                            else if (this.cascade_mode && this.obj[parent_1] && this.obj[parent_1][child]) {
-                                returnVal = this.obj[parent_1][child];
-                            }
-                            return returnVal;
+                            catch (_c) { }
                         }
                     }
                     return returnVal;
@@ -126,12 +164,12 @@ System.register(["aurelia-path", "./deep-extend"], function (exports_1, context_
                     }
                     else {
                         var splitKey = key.split('.');
-                        var parent_2 = splitKey[0];
+                        var parent_1 = splitKey[0];
                         var child = splitKey[1];
-                        if (this.obj[parent_2] === undefined) {
-                            this.obj[parent_2] = {};
+                        if (this.obj[parent_1] === undefined) {
+                            this.obj[parent_1] = {};
                         }
-                        this.obj[parent_2][child] = val;
+                        this.obj[parent_1][child] = val;
                     }
                 };
                 AureliaConfiguration.prototype.merge = function (obj) {

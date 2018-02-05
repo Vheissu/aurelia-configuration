@@ -1,4 +1,5 @@
-import {AureliaConfiguration} from '../../src/aurelia-configuration';
+import { AureliaConfiguration } from '../../src/aurelia-configuration';
+import { WindowInfo } from '../../src/window-info';
 
 describe('Configuration class', () => {
     let configInstance: any;
@@ -103,6 +104,128 @@ describe('Configuration class', () => {
         configInstance.check();
         const test = configInstance.get('test');
         expect(test).toEqual('dev2');
+    });
+    
+    it('works with the different url but same ports', () => {
+        let environments = {
+            local: ['localhost:9000'],
+            qa: ['www.qa.com:9000'],
+            prod: ['www.prod.com:9000'],
+        };
+        
+        configInstance.setAll({
+            'test': 'fallback',
+            'local': {
+                'test': 'local'
+            },
+            'qa': {
+                'test': 'qa'
+            },
+            'prod': {
+                'test': 'prod'
+            }
+        });
+        
+        configInstance.setEnvironments(environments);
+        // Test to see if our local dev config works
+        let window = new WindowInfo();
+        window.hostName = 'localhost';
+        window.pathName = '/';
+        window.port = '9000';
+        configInstance.setWindow(window);
+        configInstance.check();
+        const testLocal = configInstance.get('test');
+        expect(testLocal).toEqual('local');
+        
+        // Test to see if our qa config works
+        window.hostName = 'www.qa.com';
+        configInstance.setWindow(window);
+        configInstance.check();
+        const testQa = configInstance.get('test');
+        expect(testQa).toEqual('qa');
+
+        // Test to see if our prod config works
+        window.hostName = 'www.prod.com';
+        configInstance.setWindow(window);
+        configInstance.check();
+        const testProd = configInstance.get('test');
+        expect(testProd).toEqual('prod');
+    });
+
+    it('works with a base path', () => {
+        let environments = {
+            local: ['localhost'],
+            qa: ['www.qa.com'],
+            qaMaster: ['www.qa.com/master'],
+            qaFeature1: ['www.qa.com/feature1'],
+            qaFeature1SubFeature1: ['www.qa.com/feature1/subfeature1'],
+            qaFeature1SubFeature2: ['www.qa.com/feature1/subfeature2'],
+        };
+        
+        configInstance.setAll({
+            'test': 'fallback',
+            'local': {
+                'test': 'local'
+            },
+            'qa': {
+                'test': 'qa'
+            },
+            'qaMaster': {
+                'test': 'qaMaster'
+            },
+            'qaFeature1': {
+                'test': 'qaFeature1'
+            },
+            'qaFeature1SubFeature1': {
+                'test': 'qaFeature1SubFeature1'
+            },
+            'qaFeature1SubFeature2': {
+                'test': 'qaFeature1SubFeature2'
+            }
+        });
+        
+        configInstance.setEnvironments(environments);
+        // Test to see if we don't set basePathMode=true that everything works as expected
+        let window = new WindowInfo();
+        window.hostName = 'localhost';
+        window.pathName = '/';
+        window.port = '';
+        configInstance.setWindow(window);
+        configInstance.check();
+        let testNonBasePathMode = configInstance.get('test');
+        expect(testNonBasePathMode).toEqual('local');
+        
+        window.hostName = 'www.qa.com';
+        window.pathName = '/master';
+        window.port = '';
+        configInstance.setWindow(window);
+        configInstance.check();
+        testNonBasePathMode = configInstance.get('test');
+        expect(testNonBasePathMode).toEqual('qa');
+
+        // Test to see if our qa config works with a base path for application
+        configInstance.setBasePathMode(true);
+        configInstance.check();
+        let testQa = configInstance.get('test');
+        expect(testQa).toEqual('qaMaster');
+
+        window.pathName = '/feature1';
+        configInstance.setWindow(window);
+        configInstance.check();
+        testQa = configInstance.get('test');
+        expect(testQa).toEqual('qaFeature1');
+
+        window.pathName = '/feature1/subfeature1';
+        configInstance.setWindow(window);
+        configInstance.check();
+        testQa = configInstance.get('test');
+        expect(testQa).toEqual('qaFeature1SubFeature1');
+
+        window.pathName = '/feature1/subfeature2';
+        configInstance.setWindow(window);
+        configInstance.check();
+        testQa = configInstance.get('test');
+        expect(testQa).toEqual('qaFeature1SubFeature2');
     });
 
     it('should get nested values from dicts', () => {
