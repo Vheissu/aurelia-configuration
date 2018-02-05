@@ -1,4 +1,4 @@
-import {join} from 'aurelia-path';
+import { join } from 'aurelia-path';
 import deepExtend from './deep-extend';
 import { WindowInfo } from './window-info';
 
@@ -88,7 +88,7 @@ export class AureliaConfiguration {
     setCascadeMode(bool: boolean = true) {
         this.cascade_mode = bool;
     }
-    
+
     /**
      * Used to override default window information during contruction.
      * Should only be used during unit testing, no need to set it up in normal
@@ -167,7 +167,7 @@ export class AureliaConfiguration {
             // Loop over supplied environments
             for (let env in this.environments) {
                 // Get environment hostnames
-                let hostnames = this.environments[env];
+                let hostnames = this.environments[ env ];
 
                 // Make sure we have hostnames
                 if (hostnames) {
@@ -221,8 +221,8 @@ export class AureliaConfiguration {
         let currentObject = baseObject;
 
         splitKey.forEach((key) => {
-            if (currentObject[key]) {
-                currentObject = currentObject[key];
+            if (currentObject[ key ]) {
+                currentObject = currentObject[ key ];
             } else {
                 throw 'Key ' + key + ' not found';
             }
@@ -247,16 +247,16 @@ export class AureliaConfiguration {
         if (key.indexOf('.') === -1) {
             // Using default environment
             if (!this.environmentEnabled()) {
-                return this.obj[key] ? this.obj[key] : defaultValue;
+                return this.obj[ key ] ? this.obj[ key ] : defaultValue;
             }
 
             if (this.environmentEnabled()) {
                 // Value exists in environment
-                if (this.environmentExists() && this.obj[this.environment][key]) {
-                    returnVal = this.obj[this.environment][key];
+                if (this.environmentExists() && this.obj[ this.environment ][ key ]) {
+                    returnVal = this.obj[ this.environment ][ key ];
                     // Get default value from non-namespaced section if enabled
-                } else if (this.cascade_mode && this.obj[key]) {
-                    returnVal = this.obj[key];
+                } else if (this.cascade_mode && this.obj[ key ]) {
+                    returnVal = this.obj[ key ];
                 }
 
                 return returnVal;
@@ -266,20 +266,20 @@ export class AureliaConfiguration {
             if (this.environmentEnabled()) {
                 if (this.environmentExists()) {
                     try {
-                        return this.getDictValue(this.obj[this.environment], key);
+                        return this.getDictValue(this.obj[ this.environment ], key);
                     } catch {
                         // nested key, env exists, key is not in environment
                         if (this.cascade_mode) {
                             try {
                                 return this.getDictValue(this.obj, key);
-                            } catch {}
+                            } catch { }
                         }
                     }
                 }
             } else {
                 try {
                     return this.getDictValue(this.obj, key);
-                } catch {}
+                } catch { }
             }
         }
 
@@ -295,17 +295,17 @@ export class AureliaConfiguration {
      */
     set(key: string, val: string) {
         if (key.indexOf('.') === -1) {
-            this.obj[key] = val;
+            this.obj[ key ] = val;
         } else {
             let splitKey = key.split('.');
-            let parent = splitKey[0];
-            let child = splitKey[1];
+            let parent = splitKey[ 0 ];
+            let child = splitKey[ 1 ];
 
-            if (this.obj[parent] === undefined) {
-                this.obj[parent] = {};
+            if (this.obj[ parent ] === undefined) {
+                this.obj[ parent ] = {};
             }
 
-            this.obj[parent][child] = val;
+            this.obj[ parent ][ child ] = val;
         }
     }
 
@@ -398,7 +398,7 @@ export class AureliaConfiguration {
             }
             xhr.open('GET', pathClosure, true);
 
-            xhr.onreadystatechange = function() {
+            xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     let data = JSON.parse(this.responseText);
                     action(data);
@@ -412,7 +412,7 @@ export class AureliaConfiguration {
                 }
             };
 
-            xhr.onerror = function() {
+            xhr.onerror = function () {
                 reject(`Configuration file could not be found or loaded: ${pathClosure}`);
             };
 

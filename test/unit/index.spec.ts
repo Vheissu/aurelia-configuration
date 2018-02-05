@@ -1,5 +1,5 @@
-import {configure} from '../../src/index';
-import {AureliaConfiguration} from '../../src/aurelia-configuration';
+import { configure } from '../../src/index';
+import { AureliaConfiguration } from '../../src/aurelia-configuration';
 
 let AureliaStub = {
     container: {
@@ -9,7 +9,7 @@ let AureliaStub = {
     }
 };
 
-(<any>window).callback = function(config: any) {
+(<any>window).callback = function (config: any) {
     return config;
 }
 
@@ -22,9 +22,9 @@ describe('Index', () => {
 
     it('expect callback to be called', () => {
         configure(AureliaStub as any, (<any>window).callback);
-        
+
         // expect((<any>window).callback).toHaveBeenCalledWith(new AureliaConfiguration);
         expect((<any>window).callback(new AureliaConfiguration)).toEqual(new AureliaConfiguration);
     });
-    
+
 });

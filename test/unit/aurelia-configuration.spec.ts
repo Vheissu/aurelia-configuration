@@ -36,9 +36,9 @@ describe('Configuration class', () => {
 
     it('set multiple environments', () => {
         let environments = {
-            development: ['localhost', 'dev.local'],
-            staging: ['staging.website.com', 'test.staging.website.com'],
-            production: ['website.com']
+            development: [ 'localhost', 'dev.local' ],
+            staging: [ 'staging.website.com', 'test.staging.website.com' ],
+            production: [ 'website.com' ]
         };
         spyOn(configInstance, 'check');
         configInstance.setEnvironments(environments);
@@ -71,11 +71,11 @@ describe('Configuration class', () => {
 
     it('environment check function', () => {
         let environments = {
-            development: ['localhost', 'dev.local'],
-            staging: ['staging.website.com', 'test.staging.website.com'],
-            production: ['website.com']
+            development: [ 'localhost', 'dev.local' ],
+            staging: [ 'staging.website.com', 'test.staging.website.com' ],
+            production: [ 'website.com' ]
         };
-        
+
         configInstance.setEnvironments(environments);
 
         configInstance.check();
@@ -85,10 +85,10 @@ describe('Configuration class', () => {
 
     it('works with the same url but different port (using Karma port)', () => {
         let environments = {
-            dev1: ['localhost'],
-            dev2: ['localhost:9876'],
+            dev1: [ 'localhost' ],
+            dev2: [ 'localhost:9876' ],
         };
-        
+
         configInstance.setAll({
             'test': 'fallback',
             'dev1': {
@@ -98,21 +98,21 @@ describe('Configuration class', () => {
                 'test': 'dev2'
             }
         });
-        
+
         configInstance.setEnvironments(environments);
-        
+
         configInstance.check();
         const test = configInstance.get('test');
         expect(test).toEqual('dev2');
     });
-    
+
     it('works with the different url but same ports', () => {
         let environments = {
-            local: ['localhost:9000'],
-            qa: ['www.qa.com:9000'],
-            prod: ['www.prod.com:9000'],
+            local: [ 'localhost:9000' ],
+            qa: [ 'www.qa.com:9000' ],
+            prod: [ 'www.prod.com:9000' ],
         };
-        
+
         configInstance.setAll({
             'test': 'fallback',
             'local': {
@@ -125,7 +125,7 @@ describe('Configuration class', () => {
                 'test': 'prod'
             }
         });
-        
+
         configInstance.setEnvironments(environments);
         // Test to see if our local dev config works
         let window = new WindowInfo();
@@ -136,7 +136,7 @@ describe('Configuration class', () => {
         configInstance.check();
         const testLocal = configInstance.get('test');
         expect(testLocal).toEqual('local');
-        
+
         // Test to see if our qa config works
         window.hostName = 'www.qa.com';
         configInstance.setWindow(window);
@@ -154,14 +154,14 @@ describe('Configuration class', () => {
 
     it('works with a base path', () => {
         let environments = {
-            local: ['localhost'],
-            qa: ['www.qa.com'],
-            qaMaster: ['www.qa.com/master'],
-            qaFeature1: ['www.qa.com/feature1'],
-            qaFeature1SubFeature1: ['www.qa.com/feature1/subfeature1'],
-            qaFeature1SubFeature2: ['www.qa.com/feature1/subfeature2'],
+            local: [ 'localhost' ],
+            qa: [ 'www.qa.com' ],
+            qaMaster: [ 'www.qa.com/master' ],
+            qaFeature1: [ 'www.qa.com/feature1' ],
+            qaFeature1SubFeature1: [ 'www.qa.com/feature1/subfeature1' ],
+            qaFeature1SubFeature2: [ 'www.qa.com/feature1/subfeature2' ],
         };
-        
+
         configInstance.setAll({
             'test': 'fallback',
             'local': {
@@ -183,7 +183,7 @@ describe('Configuration class', () => {
                 'test': 'qaFeature1SubFeature2'
             }
         });
-        
+
         configInstance.setEnvironments(environments);
         // Test to see if we don't set basePathMode=true that everything works as expected
         let window = new WindowInfo();
@@ -194,7 +194,7 @@ describe('Configuration class', () => {
         configInstance.check();
         let testNonBasePathMode = configInstance.get('test');
         expect(testNonBasePathMode).toEqual('local');
-        
+
         window.hostName = 'www.qa.com';
         window.pathName = '/master';
         window.port = '';
@@ -245,11 +245,11 @@ describe('Configuration class', () => {
         expect(configInstance.getDictValue(nestedDict, 'nested1.nested2.nested21')).toEqual('nested21');
 
         expect(
-            configInstance.getDictValue(nestedDict['nested1'], 'nested2.nested21'),
+            configInstance.getDictValue(nestedDict[ 'nested1' ], 'nested2.nested21'),
         ).toEqual('nested21');
 
         expect(
-            configInstance.getDictValue(nestedDict['nested1']['nested2'], 'nested21'),
+            configInstance.getDictValue(nestedDict[ 'nested1' ][ 'nested2' ], 'nested21'),
         ).toEqual('nested21');
 
         expect(
@@ -274,7 +274,7 @@ describe('Configuration class', () => {
         expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21');
         expect(
             configInstance.get('nested1.nested2')
-        ).toEqual({'nested21': 'nested21'});
+        ).toEqual({ 'nested21': 'nested21' });
         expect(
             configInstance.get('nested1.nested2.nested21')
         ).toEqual('nested21');
@@ -311,7 +311,7 @@ describe('Configuration class', () => {
         expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21e');
         expect(
             configInstance.get('nested1.nested2')
-        ).toEqual({'nested21': 'nested21e'});
+        ).toEqual({ 'nested21': 'nested21e' });
         expect(
             configInstance.get('nested1.nested2.nested21')
         ).toEqual('nested21e');
