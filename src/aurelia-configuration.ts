@@ -1,9 +1,9 @@
 import { join } from 'aurelia-path';
+import { PLATFORM } from 'aurelia-pal';
 import deepExtend from './deep-extend';
 import { WindowInfo } from './window-info';
 
-export class AureliaConfiguration {
-
+export class Configuration {
     private environment: string = 'default';
     private environments: string[] | null = null;
     private directory: string = 'config';
@@ -18,11 +18,12 @@ export class AureliaConfiguration {
     constructor() {
         // Setup the window object with the current browser window information
         this.window = new WindowInfo();
-        this.window.hostName = window.location.hostname;
-        this.window.port = window.location.port;
+        this.window.hostName = PLATFORM.location.hostname;
+        this.window.port = PLATFORM.location.port;
+
         // Only sets the pathname when its not '' or '/'
-        if (window.location.pathname && window.location.pathname.length > 1) {
-            this.window.pathName = window.location.pathname;
+        if (PLATFORM.location.pathname && PLATFORM.location.pathname.length > 1) {
+            this.window.pathName = PLATFORM.location.pathname;
         }
     }
     /**
@@ -145,7 +146,7 @@ export class AureliaConfiguration {
      * @returns {boolean}
      */
     is(environment: string) {
-        return (environment === this.environment);
+        return environment === this.environment;
     }
 
     /**
@@ -157,23 +158,27 @@ export class AureliaConfiguration {
      */
     check() {
         let hostname = this.window.hostName;
-        if (this.window.port != '')
+
+        if (this.window.port != '') {
             hostname += ':' + this.window.port;
-        if (this.base_path_mode)
+        }
+
+        if (this.base_path_mode) {
             hostname += this.window.pathName;
+        }
 
         // Check we have environments we can loop
         if (this.environments) {
             // Loop over supplied environments
             for (let env in this.environments) {
                 // Get environment hostnames
-                let hostnames = this.environments[ env ];
+                let hostnames = this.environments[env];
 
                 // Make sure we have hostnames
                 if (hostnames) {
                     // Loop the hostnames
                     for (let host of hostnames) {
-                        if (hostname.search('(?:^|\W)' + host + '(?:$|\W)') !== -1) {
+                        if (hostname.search('(?:^|W)' + host + '(?:$|W)') !== -1) {
                             this.setEnvironment(env);
 
                             // We have successfully found an environment, stop searching
@@ -193,7 +198,7 @@ export class AureliaConfiguration {
      * @returns {boolean}
      */
     environmentEnabled() {
-        return (!(this.environment === 'default' || this.environment === '' || !this.environment));
+        return !(this.environment === 'default' || this.environment === '' || !this.environment);
     }
 
     /**
@@ -220,9 +225,9 @@ export class AureliaConfiguration {
         let splitKey = key.split('.');
         let currentObject = baseObject;
 
-        splitKey.forEach((key) => {
-            if (currentObject[ key ]) {
-                currentObject = currentObject[ key ];
+        splitKey.forEach(key => {
+            if (currentObject[key]) {
+                currentObject = currentObject[key];
             } else {
                 throw 'Key ' + key + ' not found';
             }
@@ -247,16 +252,16 @@ export class AureliaConfiguration {
         if (key.indexOf('.') === -1) {
             // Using default environment
             if (!this.environmentEnabled()) {
-                return this.obj[ key ] ? this.obj[ key ] : defaultValue;
+                return this.obj[key] ? this.obj[key] : defaultValue;
             }
 
             if (this.environmentEnabled()) {
                 // Value exists in environment
-                if (this.environmentExists() && this.obj[ this.environment ][ key ]) {
-                    returnVal = this.obj[ this.environment ][ key ];
+                if (this.environmentExists() && this.obj[this.environment][key]) {
+                    returnVal = this.obj[this.environment][key];
                     // Get default value from non-namespaced section if enabled
-                } else if (this.cascade_mode && this.obj[ key ]) {
-                    returnVal = this.obj[ key ];
+                } else if (this.cascade_mode && this.obj[key]) {
+                    returnVal = this.obj[key];
                 }
 
                 return returnVal;
@@ -266,20 +271,20 @@ export class AureliaConfiguration {
             if (this.environmentEnabled()) {
                 if (this.environmentExists()) {
                     try {
-                        return this.getDictValue(this.obj[ this.environment ], key);
+                        return this.getDictValue(this.obj[this.environment], key);
                     } catch {
                         // nested key, env exists, key is not in environment
                         if (this.cascade_mode) {
                             try {
                                 return this.getDictValue(this.obj, key);
-                            } catch { }
+                            } catch {}
                         }
                     }
                 }
             } else {
                 try {
                     return this.getDictValue(this.obj, key);
-                } catch { }
+                } catch {}
             }
         }
 
@@ -295,17 +300,17 @@ export class AureliaConfiguration {
      */
     set(key: string, val: string) {
         if (key.indexOf('.') === -1) {
-            this.obj[ key ] = val;
+            this.obj[key] = val;
         } else {
             let splitKey = key.split('.');
-            let parent = splitKey[ 0 ];
-            let child = splitKey[ 1 ];
+            let parent = splitKey[0];
+            let child = splitKey[1];
 
-            if (this.obj[ parent ] === undefined) {
-                this.obj[ parent ] = {};
+            if (this.obj[parent] === undefined) {
+                this.obj[parent] = {};
             }
 
-            this.obj[ parent ][ child ] = val;
+            this.obj[parent][child] = val;
         }
     }
 
@@ -337,7 +342,7 @@ export class AureliaConfiguration {
      *
      */
     lazyMerge(obj: {} | any) {
-        let currentMergeConfig = (this._config_merge_object || {});
+        let currentMergeConfig = this._config_merge_object || {};
 
         this._config_merge_object = deepExtend(currentMergeConfig, obj);
     }
@@ -372,13 +377,14 @@ export class AureliaConfiguration {
      * @returns {Promise}
      */
     loadConfig() {
-        return this.loadConfigFile(join(this.directory, this.config), (data: string) => this.setAll(data))
-            .then(() => {
-                if (this._config_merge_object) {
-                    this.merge(this._config_merge_object);
-                    this._config_merge_object = null;
-                }
-            });
+        return this.loadConfigFile(join(this.directory, this.config), (data: string) =>
+            this.setAll(data),
+        ).then(() => {
+            if (this._config_merge_object) {
+                this.merge(this._config_merge_object);
+                this._config_merge_object = null;
+            }
+        });
     }
 
     /**
@@ -398,7 +404,7 @@ export class AureliaConfiguration {
             }
             xhr.open('GET', pathClosure, true);
 
-            xhr.onreadystatechange = function () {
+            xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
                     let data = JSON.parse(this.responseText);
                     action(data);
@@ -406,13 +412,13 @@ export class AureliaConfiguration {
                 }
             };
 
-            xhr.onloadend = function () {
+            xhr.onloadend = function() {
                 if (xhr.status == 404) {
                     reject('Configuration file could not be found: ' + path);
                 }
             };
 
-            xhr.onerror = function () {
+            xhr.onerror = function() {
                 reject(`Configuration file could not be found or loaded: ${pathClosure}`);
             };
 
@@ -433,18 +439,16 @@ export class AureliaConfiguration {
      */
     mergeConfigFile(path: string, optional: boolean) {
         return new Promise((resolve, reject) => {
-            this
-                .loadConfigFile(path, (data: {} | any) => {
-                    this.lazyMerge(data);
+            this.loadConfigFile(path, (data: {} | any) => {
+                this.lazyMerge(data);
+                resolve();
+            }).catch(error => {
+                if (optional === true) {
                     resolve();
-                })
-                .catch(error => {
-                    if (optional === true) {
-                        resolve();
-                    } else {
-                        reject(error);
-                    }
-                });
+                } else {
+                    reject(error);
+                }
+            });
         });
     }
 }

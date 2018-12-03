@@ -1,11 +1,11 @@
-import { AureliaConfiguration } from '../../src/aurelia-configuration';
+import { Configuration } from '../../src/aurelia-configuration';
 import { WindowInfo } from '../../src/window-info';
 
 describe('Configuration class', () => {
     let configInstance: any;
 
     beforeEach(() => {
-        configInstance = new AureliaConfiguration();
+        configInstance = new Configuration();
         spyOn(configInstance, 'setEnvironment').and.callThrough();
     });
 
@@ -36,9 +36,9 @@ describe('Configuration class', () => {
 
     it('set multiple environments', () => {
         let environments = {
-            development: [ 'localhost', 'dev.local' ],
-            staging: [ 'staging.website.com', 'test.staging.website.com' ],
-            production: [ 'website.com' ]
+            development: ['localhost', 'dev.local'],
+            staging: ['staging.website.com', 'test.staging.website.com'],
+            production: ['website.com'],
         };
         spyOn(configInstance, 'check');
         configInstance.setEnvironments(environments);
@@ -71,9 +71,9 @@ describe('Configuration class', () => {
 
     it('environment check function', () => {
         let environments = {
-            development: [ 'localhost', 'dev.local' ],
-            staging: [ 'staging.website.com', 'test.staging.website.com' ],
-            production: [ 'website.com' ]
+            development: ['localhost', 'dev.local'],
+            staging: ['staging.website.com', 'test.staging.website.com'],
+            production: ['website.com'],
         };
 
         configInstance.setEnvironments(environments);
@@ -85,18 +85,18 @@ describe('Configuration class', () => {
 
     it('works with the same url but different port (using Karma port)', () => {
         let environments = {
-            dev1: [ 'localhost' ],
-            dev2: [ 'localhost:9876' ],
+            dev1: ['localhost'],
+            dev2: ['localhost:9876'],
         };
 
         configInstance.setAll({
-            'test': 'fallback',
-            'dev1': {
-                'test': 'dev1'
+            test: 'fallback',
+            dev1: {
+                test: 'dev1',
             },
-            'dev2': {
-                'test': 'dev2'
-            }
+            dev2: {
+                test: 'dev2',
+            },
         });
 
         configInstance.setEnvironments(environments);
@@ -108,22 +108,22 @@ describe('Configuration class', () => {
 
     it('works with the different url but same ports', () => {
         let environments = {
-            local: [ 'localhost:9000' ],
-            qa: [ 'www.qa.com:9000' ],
-            prod: [ 'www.prod.com:9000' ],
+            local: ['localhost:9000'],
+            qa: ['www.qa.com:9000'],
+            prod: ['www.prod.com:9000'],
         };
 
         configInstance.setAll({
-            'test': 'fallback',
-            'local': {
-                'test': 'local'
+            test: 'fallback',
+            local: {
+                test: 'local',
             },
-            'qa': {
-                'test': 'qa'
+            qa: {
+                test: 'qa',
             },
-            'prod': {
-                'test': 'prod'
-            }
+            prod: {
+                test: 'prod',
+            },
         });
 
         configInstance.setEnvironments(environments);
@@ -154,34 +154,34 @@ describe('Configuration class', () => {
 
     it('works with a base path', () => {
         let environments = {
-            local: [ 'localhost' ],
-            qa: [ 'www.qa.com' ],
-            qaMaster: [ 'www.qa.com/master' ],
-            qaFeature1: [ 'www.qa.com/feature1' ],
-            qaFeature1SubFeature1: [ 'www.qa.com/feature1/subfeature1' ],
-            qaFeature1SubFeature2: [ 'www.qa.com/feature1/subfeature2' ],
+            local: ['localhost'],
+            qa: ['www.qa.com'],
+            qaMaster: ['www.qa.com/master'],
+            qaFeature1: ['www.qa.com/feature1'],
+            qaFeature1SubFeature1: ['www.qa.com/feature1/subfeature1'],
+            qaFeature1SubFeature2: ['www.qa.com/feature1/subfeature2'],
         };
 
         configInstance.setAll({
-            'test': 'fallback',
-            'local': {
-                'test': 'local'
+            test: 'fallback',
+            local: {
+                test: 'local',
             },
-            'qa': {
-                'test': 'qa'
+            qa: {
+                test: 'qa',
             },
-            'qaMaster': {
-                'test': 'qaMaster'
+            qaMaster: {
+                test: 'qaMaster',
             },
-            'qaFeature1': {
-                'test': 'qaFeature1'
+            qaFeature1: {
+                test: 'qaFeature1',
             },
-            'qaFeature1SubFeature1': {
-                'test': 'qaFeature1SubFeature1'
+            qaFeature1SubFeature1: {
+                test: 'qaFeature1SubFeature1',
             },
-            'qaFeature1SubFeature2': {
-                'test': 'qaFeature1SubFeature2'
-            }
+            qaFeature1SubFeature2: {
+                test: 'qaFeature1SubFeature2',
+            },
         });
 
         configInstance.setEnvironments(environments);
@@ -230,78 +230,76 @@ describe('Configuration class', () => {
 
     it('should get nested values from dicts', () => {
         let nestedDict = {
-            'level1': 'level1',
-            'nested1': {
-                'nested12': 'nested12',
-                'nested2': {
-                    'nested21': 'nested21'
-                }
-            }
+            level1: 'level1',
+            nested1: {
+                nested12: 'nested12',
+                nested2: {
+                    nested21: 'nested21',
+                },
+            },
         };
         configInstance.setAll(nestedDict);
 
         expect(configInstance.getDictValue(nestedDict, 'level1')).toEqual('level1');
         expect(configInstance.getDictValue(nestedDict, 'nested1.nested12')).toEqual('nested12');
-        expect(configInstance.getDictValue(nestedDict, 'nested1.nested2.nested21')).toEqual('nested21');
+        expect(configInstance.getDictValue(nestedDict, 'nested1.nested2.nested21')).toEqual(
+            'nested21',
+        );
 
-        expect(
-            configInstance.getDictValue(nestedDict[ 'nested1' ], 'nested2.nested21'),
-        ).toEqual('nested21');
+        expect(configInstance.getDictValue(nestedDict['nested1'], 'nested2.nested21')).toEqual(
+            'nested21',
+        );
 
-        expect(
-            configInstance.getDictValue(nestedDict[ 'nested1' ][ 'nested2' ], 'nested21'),
-        ).toEqual('nested21');
+        expect(configInstance.getDictValue(nestedDict['nested1']['nested2'], 'nested21')).toEqual(
+            'nested21',
+        );
 
-        expect(
-            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
-        ).toThrow();
+        expect(function() {
+            configInstance.getDictValue(nestedDict, 'nonExisting');
+        }).toThrow();
     });
 
     it('should get nested values from configs', () => {
         let nestedDict = {
-            'level1': 'level1',
-            'nested1': {
-                'nested12': 'nested12',
-                'nested2': {
-                    'nested21': 'nested21'
-                }
-            }
+            level1: 'level1',
+            nested1: {
+                nested12: 'nested12',
+                nested2: {
+                    nested21: 'nested21',
+                },
+            },
         };
         configInstance.setAll(nestedDict);
 
         expect(configInstance.get('level1')).toEqual('level1');
         expect(configInstance.get('nested1.nested12')).toEqual('nested12');
         expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21');
-        expect(
-            configInstance.get('nested1.nested2')
-        ).toEqual({ 'nested21': 'nested21' });
-        expect(
-            configInstance.get('nested1.nested2.nested21')
-        ).toEqual('nested21');
-        expect(
-            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
-        ).toThrow();
+        expect(configInstance.get('nested1.nested2')).toEqual({ nested21: 'nested21' });
+        expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21');
+        expect(function() {
+            configInstance.getDictValue(nestedDict, 'nonExisting');
+        }).toThrow();
     });
 
     it('should prefer environment values from configs', () => {
         let nestedDict = {
-            'level1': 'level1',
-            'nested1': {
-                'nested12': 'nested12',
-                'nested2': {
-                    'nested21': 'nested21'
+            level1: 'level1',
+            nested1: {
+                nested12: 'nested12',
+                nested2: {
+                    nested21: 'nested21',
                 },
-                'nested13': 'nested13'
+                nested13: 'nested13',
             },
-            'dev2': {
-                'level1': 'level1e',
-                'nested1': {
-                    'nested12': 'nested12e',
-                    'nested2': {
-                        'nested21': 'nested21e'
-                    }
-                }
-            }
+            dev2: {
+                level1: 'level1e',
+                nested1: {
+                    nested12: 'nested12e',
+                    nested2: {
+                        nested21: 'nested21e',
+                    },
+                },
+            },
         };
         configInstance.setAll(nestedDict);
         configInstance.setEnvironment('dev2');
@@ -309,18 +307,12 @@ describe('Configuration class', () => {
         expect(configInstance.get('level1')).toEqual('level1e');
         expect(configInstance.get('nested1.nested12')).toEqual('nested12e');
         expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21e');
-        expect(
-            configInstance.get('nested1.nested2')
-        ).toEqual({ 'nested21': 'nested21e' });
-        expect(
-            configInstance.get('nested1.nested2.nested21')
-        ).toEqual('nested21e');
-        expect(
-            configInstance.get('nested1.nested13')
-        ).toEqual('nested13');
+        expect(configInstance.get('nested1.nested2')).toEqual({ nested21: 'nested21e' });
+        expect(configInstance.get('nested1.nested2.nested21')).toEqual('nested21e');
+        expect(configInstance.get('nested1.nested13')).toEqual('nested13');
         expect(configInstance.get('nonExisting', 'default')).toEqual('default');
-        expect(
-            function () { configInstance.getDictValue(nestedDict, 'nonExisting') }
-        ).toThrow();
+        expect(function() {
+            configInstance.getDictValue(nestedDict, 'nonExisting');
+        }).toThrow();
     });
 });
