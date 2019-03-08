@@ -69,7 +69,7 @@ export function configure(aurelia) {
 -   Use the plugin to **set** configuration in your app's main.js or main.ts file:
 
 ```javascript
-import { Configuration } from 'aurelia-configuration';
+import { AureliaConfiguration } from "aurelia-configuration";
 // [...]
 aurelia.use
         .standardConfiguration()
