@@ -30,7 +30,7 @@ You need to add 'aurelia-configuration' at the end of the `dependencies` section
 
 ```
 {
-    "name": 'aurelia-configuration',
+    "name": "aurelia-configuration",
     "path": "../node_modules/aurelia-configuration/dist/amd",
     "main": "index"
 }
