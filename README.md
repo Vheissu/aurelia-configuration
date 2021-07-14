@@ -1,4 +1,4 @@
-# Aurelia-Configuration
+# Aurelia-Configuration (for Aurelia 1)
 
 [![Join the chat at https://gitter.im/Vheissu/Aurelia-Configuration][badge-gitter-image]][badge-gitter-ref]
 
