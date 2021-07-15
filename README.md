@@ -30,7 +30,7 @@ You need to add 'aurelia-configuration' at the end of the `dependencies` section
 
 ```
 {
-    "name": 'aurelia-configuration',
+    "name": "aurelia-configuration",
     "path": "../node_modules/aurelia-configuration/dist/amd",
     "main": "index"
 }
@@ -69,7 +69,7 @@ export function configure(aurelia) {
 -   Use the plugin to **set** configuration in your app's main.js or main.ts file:
 
 ```javascript
-import { Configuration } from 'aurelia-configuration';
+import { AureliaConfiguration } from "aurelia-configuration";
 // [...]
 aurelia.use
         .standardConfiguration()
